@@ -63,8 +63,8 @@ education:
       url: 'https://example.com'
   - area: MSc Electrical Engineering
     institution: University of Pennsylvania
-    date_start: 2021-8-22
-    date_end: 2023-5-15
+    date_start: 2021-08-22
+    date_end: 2023-05-15
     summary: |
       GPA: 3.8/4.0
 
