@@ -52,7 +52,7 @@ interests:
   - Augmented/Mixed/Virtual Reality
 
 education:
-  - area: PhD in Electrical and Computer Engineering
+  - area: PhD Electrical Engineering
     institution: George Washington University
     date_start: 2024-09-01
     date_end: 
@@ -61,10 +61,10 @@ education:
     button:
       text: 'Read Thesis'
       url: 'https://example.com'
-  - area: MEng Artificial Intelligence
-    institution: Massachusetts Institute of Technology
-    date_start: 2016-01-01
-    date_end: 2020-12-31
+  - area: MSc Electrical Engineering
+    institution: University of Pennsylvania
+    date_start: 2021-8-22
+    date_end: 2023-5-15
     summary: |
       GPA: 3.8/4.0
 
@@ -72,12 +72,12 @@ education:
       - lorem ipsum dolor sit amet, consectetur adipiscing elit
       - lorem ipsum dolor sit amet, consectetur adipiscing elit
       - lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - area: BSc Artificial Intelligence
-    institution: Massachusetts Institute of Technology
-    date_start: 2016-01-01
-    date_end: 2020-12-31
+  - area: BSc Automation
+    institution: Southwest Jiaotong University
+    date_start: 2017-09-01
+    date_end: 2021-06-15
     summary: |
-      GPA: 3.4/4.0
+      GPA: 3.5/4.0
       
       Courses included:
       - lorem ipsum dolor sit amet, consectetur adipiscing elit
