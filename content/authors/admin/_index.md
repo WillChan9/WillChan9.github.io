@@ -55,7 +55,7 @@ education:
   - area: PhD in Electrical and Computer Engineering
     institution: George Washington University
     date_start: 2024-09-01
-    date_end: present
+    date_end: 
     summary: |
       Thesis on _Why LLMs are awesome_. Supervised by [Prof Joe Smith](https://example.com). Presented papers at 5 IEEE conferences with the contributions being published in 2 Springer journals.
     button:
