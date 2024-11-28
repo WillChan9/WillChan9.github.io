@@ -1,9 +1,9 @@
 ---
 # Display name
-title: 陈荣千
+title: Rongqian (Will) Chen
 
 # Name pronunciation (optional)
-name_pronunciation: Rongqian Chen
+name_pronunciation:
 
 # Full name (for SEO)
 first_name: Rongqian(Will)
