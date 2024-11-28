@@ -72,7 +72,7 @@ education:
       - lorem ipsum dolor sit amet, consectetur adipiscing elit
       - lorem ipsum dolor sit amet, consectetur adipiscing elit
       - lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - area: BSc Automation
+  - area: BEng Automation
     institution: Southwest Jiaotong University
     date_start: 2017-09-01
     date_end: 2021-06-15
@@ -183,4 +183,4 @@ awards:
 
 ## About Me
 
-Rongqian Chen is a PhD student at the GWU AI Lab. His research interests include artificial intelligence, robotics and AR/VR technology. 
+I'm a PhD student at the GWU AI Lab. His research interests include artificial intelligence, robotics and AR/VR technology. 
