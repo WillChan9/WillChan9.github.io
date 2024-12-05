@@ -36,7 +36,7 @@ featured: false
 # links:
 # - name: ""
 #   url: ""
-url_pdf: ''
+url_pdf: 'uploads/Stability_Improvement_of_Pulse_Power_Supply_With_Dual-Inductance_Active_Storage_Unit_Using_Hysteresis_Current_Control.pdf'
 url_code: 'https://ieeexplore.ieee.org/abstract/document/9312129'
 url_dataset: ''
 url_poster: ''
