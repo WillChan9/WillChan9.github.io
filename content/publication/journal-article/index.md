@@ -1,12 +1,12 @@
 ---
 title: "Stability improvement of pulse power supply with dual-inductance active storage unit using hysteresis current control"
 authors:
-- Yang, Ping
-- Chen, Xi
-- Chen, Rongqian
-- Peng, Yusheng
-- Wu, Songrong
-- Xu, Jianping
+- Ping Yang
+- Xi Chen
+- admin
+- Yusheng Peng
+- Songrong Wu
+- Jianping Xu
 # author_notes:
 # - "Equal contribution"
 # - "Equal contribution"
