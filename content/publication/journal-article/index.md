@@ -28,8 +28,7 @@ publication_short: ""
 abstract: The output power of the pulsed power supply (PPS) pulsates at the pulse repetition frequency (PRF) of pulse load. The pulsating power will result in a large bus voltage ripple. To balance the instantaneous power difference, a single or dual-inductance active storage unit (ASU) is usually connected in parallel with the output terminal of the PPS. Poor compensating current tracking accuracy of ASU will lead to the output current of PPS suffered from serious current spikes, which affects the stability of the bus voltage. A hysteresis current control (HCC) is proposed to achieve an excellent pulse current compensation performance. Compared with the current mode control (CMC), the small-signal modeling of dual-inductance with HCC is established to illustrate good compensation performance. Besides, a valley voltage loop is introduced to regulate the storage capacitor voltage in dual-inductance ASU to reduce the power loss at any pulse duty cycle. An experimental prototype is built to verify the spikes in output current can be eliminated effectively, the bus voltage keeps smooth and stable, and the output capacitor of the per-stage DC/DC converter is reduced significantly.
 
 # Summary. An optional shortened abstract.
-summary: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis posuere tellus ac convallis placerat. Proin tincidunt magna sed ex sollicitudin condimentum.
-
+summary: A hysteresis current control (HCC) method is proposed for dual-inductance active storage units (ASUs) to eliminate current spikes, stabilize bus voltage, and reduce power loss in pulsed power supplies.
 tags:
 - Source Themes
 featured: false
@@ -37,8 +36,8 @@ featured: false
 # links:
 # - name: ""
 #   url: ""
-url_pdf: http://arxiv.org/pdf/1512.04133v1
-url_code: 'https://github.com/HugoBlox/hugo-blox-builder'
+url_pdf: ''
+url_code: 'https://ieeexplore.ieee.org/abstract/document/9312129'
 url_dataset: ''
 url_poster: ''
 url_project: ''
