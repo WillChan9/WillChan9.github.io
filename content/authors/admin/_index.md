@@ -1,6 +1,6 @@
 ---
 # Display name
-title: Rongqian (Will) Chen
+title: Rongqian Chen
 
 # Name pronunciation (optional)
 name_pronunciation:
