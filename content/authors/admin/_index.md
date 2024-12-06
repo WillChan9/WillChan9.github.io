@@ -45,7 +45,7 @@ profiles:
     url: https://scholar.google.com/citations?hl=en&user=P-yin_AAAAAJ
   - icon: academicons/orcid
     url: https://orcid.org/
-  - icon: custom/csdn
+  - icon: custom/csdn copy
     url: https://blog.csdn.net/weixin_42121843?type=blog
 
 interests:
