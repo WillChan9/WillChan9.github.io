@@ -35,8 +35,8 @@ profiles:
     label: E-mail Me
   - icon: brands/x
     url: https://twitter.com/GetResearchDev
-  - icon: brands/instagram
-    url: https://www.instagram.com/
+  # - icon: brands/instagram
+  #   url: https://www.instagram.com/
   - icon: brands/github
     url: https://github.com/WillChan9
   - icon: brands/linkedin
@@ -45,7 +45,7 @@ profiles:
     url: https://scholar.google.com/citations?hl=en&user=P-yin_AAAAAJ
   - icon: academicons/orcid
     url: https://orcid.org/
-  - icon: assets/media/icons/CSDN.svg
+  - icon: assets/media/icons/csdn.svg
     url: https://blog.csdn.net/weixin_42121843?type=blog
 
 interests:
