@@ -1,5 +1,5 @@
 ---
-title: Learn JavaScript
+title: 'AR project: Assembly King'
 summary: Easily learn JavaScript in 10 minutes!
 date: 2023-10-24
 type: docs
@@ -34,7 +34,7 @@ Teach your course by sharing videos with your students. Choose from one of the f
 
 Videos may be added to a page by either placing them in your `assets/media/` media library or in your [page's folder](https://gohugo.io/content-management/page-bundles/), and then embedding them with the _video_ shortcode:
 
-    {{</* video src="my_video.mp4" controls="yes" */>}}
+    {{</* video src="AssemblyKing.mov" controls="yes" */>}}
 
 ## Podcast
 
