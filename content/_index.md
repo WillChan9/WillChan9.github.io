@@ -39,6 +39,16 @@ sections:
     design:
       columns: '1'
   - block: collection
+    id: project
+    content:
+      title: Projects
+      filters:
+        folders:
+          - project
+    design:
+      view: article-grid
+      columns: 3
+  - block: collection
     id: papers
     content:
       title: Featured Publications
@@ -59,16 +69,7 @@ sections:
         exclude_featured: false
     design:
       view: citation
-  - block: collection
-    id: project
-    content:
-      title: Projects
-      filters:
-        folders:
-          - project
-    design:
-      view: article-grid
-      columns: 3
+  
   # - block: collection
   #   id: news
   #   content:
