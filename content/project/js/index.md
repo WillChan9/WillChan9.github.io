@@ -1,11 +1,12 @@
 ---
 title: 'AR project: Assembly King'
-summary: Easily learn JavaScript in 10 minutes!
-date: 2023-10-24
+summary: A mechanical parts assembly guiding system.
+date: 2024-12-07
 type: docs
 math: false
 tags:
-  - JavaScript
+  - AR/VR
+  - AI
 image:
   caption: 'Embed rich media such as videos and LaTeX math'
 ---
