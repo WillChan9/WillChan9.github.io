@@ -47,7 +47,7 @@ featured: true
 # - name: Custom Link
 #   url: http://example.org
 
-url_pdf: 'uploads/A Cluster-Based Weighted Feature Similarity Moving Target Tracking Algorithm for Automotive FMCW Radar.pdf'
+url_pdf: 'uploads/A_Cluster_Based_Weighted_Feature_Similarity_Moving_Target_Tracking_Algorithm_for_Automotive_FMCW_Radar.pdf'
 links:
 - name: Link
   url: https://ieeexplore.ieee.org/abstract/document/9860614

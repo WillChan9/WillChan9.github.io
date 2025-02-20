@@ -1,25 +1,25 @@
 ---
-title: 'A Cluster-Based Weighted Feature Similarity Moving Target Tracking Algorithm for Automotive FMCW Radar'
+title: 'Design and Control of a Tunable-Stiffness Coiled-Spring Actuator'
 
 # Authors
 # If you created a profile for a user (e.g. the default `admin` user), write the username (folder name) here
 # and it will be replaced with their full name and linked to their profile.
 authors:
+  - Shivangi Misra
+  - Mason Mitchell
   - admin
-  - Yingquan Zou
-  - Anyong Gao
-  - Leshi Chen
+  - Cynthia Sung
 
 # Author notes (optional)
 # author_notes:
 #   - 'Equal contribution'
 #   - 'Equal contribution'
 
-date: '2021-07-01T00:00:00Z'
+date: '2022-08-30T00:00:00Z'
 # doi: '10.1109/VTC2022-Spring54318.2022.9860614'
 
 # Schedule page publish date (NOT publication's date).
-publishDate: '2022-01-01T00:00:00Z'
+publishDate: '2023-07-01T00:00:00Z'
 
 # Publication type.
 # Accepts a single type but formatted as a YAML list (for Hugo requirements).
@@ -27,17 +27,17 @@ publishDate: '2022-01-01T00:00:00Z'
 publication_types: ['paper-conference']
 
 # Publication name and optional abbreviated publication name.
-publication: In *2022 IEEE 95th Vehicular Technology Conference*
-publication_short: In *IEEE VTC 2022*
+publication: In *2023 IEEE International Conference on Robotics and Automation (ICRA2023)*
+publication_short: In *ICRA2023*
 
-abstract: We studied a target tracking algorithm based on millimeter-wave (MMW) radar in an autonomous driving environment. Aiming at the cluster matching in the target tracking stage, a new weighted feature similarity algorithm is proposed, which increases the matching rate of the same target in adjacent frames under strong environmental noise and multiple interference targets. For autonomous driving scenarios, we constructed a method that uses its motion parameters to extract and correct the trajectory of a moving target, which solves the problem of moving target detection and trajectory correction during vehicle movement. Finally, the feasibility of the proposed method was verified by a series of experiments in autonomous driving environments. The results verify the high recognition accuracy and low positional error of the method.
+abstract: We propose a novel design for a lightweight and compact tunable stiffness actuator capable of stiffness changes up to 20x. The design is based on the concept of a coiled spring, where changes in the number of layers in the spring change the bulk stiffness in a near linear fashion. We present an elastica nested rings model for the deformation of the proposed actuator and empirically verify that the designed stiffness-changing spring abides by this model. Using the resulting model, we design a physical prototype of the tunable-stiffness coiled-spring actuator and discuss the effect of design choices on the resulting achievable stiffness range and resolution. In the future, this actuator design could be useful in a wide variety of soft robotics applications, where fast, controllable, and local stiffness change is required over a large range of stiffnesses.
 
 # Summary. An optional shortened abstract.
-summary: We developed a target tracking algorithm for automotive mmWave radar. Due to radar image low resolution, it’s hard to classify objects by data points.  To make the targets more distinguishable, our algorithm merges the points into a bigger cluster, extract features for later classification and tracking tasks. 
+summary: Soft robots have many advantages compared to rigid robots, including the ability to deform continuously and compliantly, adapt to unknown situations, and so on. In this research project, we design and build a new kind of manipulator using tunable stiffness springs.
 
 tags:
-  - mmWave Radar
-  - Object Tracking
+  - Soft Robotics
+  - Actuator Design
 
 # Display this page in the Featured widget?
 featured: true
@@ -47,10 +47,10 @@ featured: true
 # - name: Custom Link
 #   url: http://example.org
 
-url_pdf: 'uploads/A Cluster-Based Weighted Feature Similarity Moving Target Tracking Algorithm for Automotive FMCW Radar.pdf'
+url_pdf: 'uploads/Design_and_Control_of_a_Tunable-Stiffness_Coiled-Spring_Actuator.pdf'
 links:
 - name: Link
-  url: https://ieeexplore.ieee.org/abstract/document/9860614
+  url: https://ieeexplore.ieee.org/document/10161218
 url_code: ''
 url_dataset: ''
 url_poster: ''
@@ -62,7 +62,7 @@ url_video: ''
 # Featured image
 # To use, add an image named `featured.jpg/png` to your page's folder.
 image:
-  caption: 'Automotive mmWave radar TI AWR1642'
+  caption: ''
   focal_point: ''
   preview_only: false
 
