@@ -46,7 +46,7 @@ featured: true
 # - name: Custom Link
 #   url: http://example.org
 
-url_pdf: ''
+url_pdf: 'upload/ICRA25_4327_MS.pdf'
 # links:
 # - name: Link
 #   url: https://ieeexplore.ieee.org/document/10521916
