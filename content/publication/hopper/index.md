@@ -1,14 +1,13 @@
 ---
-title: 'Design and Characterization of a Pneumatic Tunable-Stiffness Bellows Actuator'
-
+title: 'Tunable Stiffness for Energy-Efficient Vertical Hopping in a Monopedal Robot Across Varying Ground Profiles'
 # Authors
 # If you created a profile for a user (e.g. the default `admin` user), write the username (folder name) here
 # and it will be replaced with their full name and linked to their profile.
 authors:
   - admin
   - Jun Kwon
+  - Kefan Wu
   - Wei-Hsi Chen
-  - Cynthia Sung
 
 # Author notes (optional)
 # author_notes:
@@ -27,13 +26,13 @@ publishDate: '2025-07-01T00:00:00Z'
 publication_types: ['paper-conference']
 
 # Publication name and optional abbreviated publication name.
-publication: In *2024 IEEE 7th International Conference on Soft Robotics (RoboSoft)*
-publication_short: In *RoboSoft 2024*
+publication: In *2025 IEEE International Conference on Robotics and Automation (ICRA)*
+publication_short: In *ICRA 2025*
 
-abstract: We introduce a self-contained pneumatic actuator capable of 1.43 times stiffness gain from 1332 N/m to 1913 N/m without needing an external air source or valve. The design incorporates an air chamber bellows and a spring bellows, connected and sealed. Stiffness modulation is achieved by altering the air chamber volume. We present an approach for computing the volume, pressurized force, and stiffness of a single bellows component, as well as methods for composing single bellows models to predict the change in stiffness of the dual bellows actuator as a function of air chamber compression. We detail the fabrication of the actuator and verify the models on the fabricated prototype. This actuator holds promise for future integration in tunable stiffness robots demanding high strength and adaptability in dynamic scenarios.
+abstract: We present the design and implementation of HASTA (Hopper with Adjustable Stiffness for Terrain Adap- tion), a vertical hopping robot with real-time tunable leg stiffness, aimed at optimizing energy efficiency across various ground profiles (a pair of ground stiffness and damping conditions). By adjusting leg stiffness, we aim to maximize apex hopping height, a key metric for energy-efficient vertical hopping. We hypothesize that softer legs perform better on soft, damped ground by minimizing penetration and energy loss, while stiffer legs excel on hard, less damped ground by reducing limb deformation and energy dissipation. Through experimental tests and simulations, we find the best leg stiffness within our selection for each combination of ground stiffness and damping, enabling the robot to achieve maximum steady- state hopping height with a constant energy input. These results validate our hypothesis and show that tunable stiffness enhances energy-efficient locomotion in dynamic environments. In addition, simulations offer a valuable tool for guiding future controllers in selecting the optimal leg stiffness.
 
 # Summary. An optional shortened abstract.
-summary: we are aiming to build a pneumatic actuator that is free of air compress source and valves. We are also trying to find an precise model to characterize its output including position, volume, pressure and force.
+summary: Some studies show that animals will adjust their leg behavior while in different environments. So in this research, we are aiming to find energy loss reduction strategies by studying how the leg makes contact with the ground.
 
 tags:
   - Locomotion
