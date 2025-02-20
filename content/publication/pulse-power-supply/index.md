@@ -30,7 +30,9 @@ abstract: The output power of the pulsed power supply (PPS) pulsates at the puls
 # Summary. An optional shortened abstract.
 summary: A hysteresis current control (HCC) method is proposed for dual-inductance active storage units (ASUs) to eliminate current spikes, stabilize bus voltage, and reduce power loss in pulsed power supplies.
 tags:
-- Source Themes
+- Power Electronics
+- Hareware
+- Control
 featured: True
 
 # links:
