@@ -11,9 +11,8 @@ image:
   caption: 'Assembly King demo on the class'
 ---
 
-<!-- [PDF](assembly-king.pdf)
+<mark>[PDF](WillChan9.github.io/static/uploads/assembly-king.pdf)</mark>
 
-url_pdf: 'uploads/Design_and_Control_of_a_Tunable-Stiffness_Coiled-Spring_Actuator.pdf' -->
 
 ## Video
 
