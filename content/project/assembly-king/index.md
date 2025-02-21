@@ -9,6 +9,7 @@ tags:
   - AI
 image:
   caption: ''
+url_pdf: 'uploads/Design_and_Control_of_a_Tunable-Stiffness_Coiled-Spring_Actuator.pdf'
 ---
 
 [Hugo Blox Builder](https://hugoblox.com) is designed to give technical content creators a seamless experience. You can focus on the content and the Hugo Blox Builder which this template is built upon handles the rest.
