@@ -11,8 +11,6 @@ image:
   caption: 'Assembly King demo on the class'
 ---
 
-<!-- {{% staticref "uploads/AR_project_final_report.pdf" "newtab" %}}Download my CV{{% /staticref %}} -->
-
 [PDF](uploads/AR_project_final_report.pdf)
 
 ---
