@@ -47,7 +47,7 @@ featured: true
 # - name: Custom Link
 #   url: http://example.org
 
-url_pdf: 'uploads/Design_and_Characterization_of_a_Pneumatic_Tunable_Stiffness_Bellows_Actuator.pdf'
+url_pdf: 'uploads/pneumatic_actuator.pdf'
 links:
 - name: Link
   url: https://ieeexplore.ieee.org/document/10521916
