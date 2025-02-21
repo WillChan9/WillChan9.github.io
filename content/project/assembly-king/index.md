@@ -11,7 +11,7 @@ image:
   caption: 'Assembly King demo on the class'
 ---
 
-<mark>[PDF](WillChan9.github.io/static/uploads/AR_project_final_report.pdf)</mark>
+<mark>[PDF](assembly-king.pdf)</mark>
 
 
 ## Video
