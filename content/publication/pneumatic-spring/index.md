@@ -38,6 +38,7 @@ summary: we are aiming to build a pneumatic actuator that is free of air compres
 tags:
   - Soft Robotics
   - Actuator Design
+  - Computational Design
 
 # Display this page in the Featured widget?
 featured: true

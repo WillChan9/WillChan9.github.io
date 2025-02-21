@@ -38,6 +38,7 @@ summary: Soft robots have many advantages compared to rigid robots, including th
 tags:
   - Soft Robotics
   - Actuator Design
+  - Computational Design
 
 # Display this page in the Featured widget?
 featured: false
