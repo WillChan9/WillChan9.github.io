@@ -33,8 +33,8 @@ profiles:
   - icon: at-symbol
     url: 'mailto:rongqianc@gwu.edu'
     label: E-mail Me
-  - icon: brands/x
-    url: https://twitter.com/GetResearchDev
+  # - icon: brands/x
+  #   url: https://twitter.com/GetResearchDev
   # - icon: brands/instagram
   #   url: https://www.instagram.com/
   - icon: brands/github
@@ -43,8 +43,8 @@ profiles:
     url: https://www.linkedin.com/
   - icon: academicons/google-scholar
     url: https://scholar.google.com/citations?hl=en&user=P-yin_AAAAAJ
-  - icon: academicons/orcid
-    url: https://orcid.org/
+  # - icon: academicons/orcid
+  #   url: https://orcid.org/
   - icon: custom/csdn copy
     url: https://blog.csdn.net/weixin_42121843?type=blog
 
