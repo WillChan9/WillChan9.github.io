@@ -11,11 +11,6 @@ image:
   caption: 'Assembly King demo on the class'
 ---
 
-[PDF](uploads/AR_project_final_report.pdf)
-
----
-url_pdf: 'uploads/Design_and_Control_of_a_Tunable-Stiffness_Coiled-Spring_Actuator.pdf'
----
 
 ## Video
 
