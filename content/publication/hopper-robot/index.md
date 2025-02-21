@@ -33,7 +33,7 @@ publication_short: In *ICRA 2025*
 abstract: We present the design and implementation of HASTA (Hopper with Adjustable Stiffness for Terrain Adap- tion), a vertical hopping robot with real-time tunable leg stiffness, aimed at optimizing energy efficiency across various ground profiles (a pair of ground stiffness and damping conditions). By adjusting leg stiffness, we aim to maximize apex hopping height, a key metric for energy-efficient vertical hopping. We hypothesize that softer legs perform better on soft, damped ground by minimizing penetration and energy loss, while stiffer legs excel on hard, less damped ground by reducing limb deformation and energy dissipation. Through experimental tests and simulations, we find the best leg stiffness within our selection for each combination of ground stiffness and damping, enabling the robot to achieve maximum steady- state hopping height with a constant energy input. These results validate our hypothesis and show that tunable stiffness enhances energy-efficient locomotion in dynamic environments. In addition, simulations offer a valuable tool for guiding future controllers in selecting the optimal leg stiffness.
 
 # Summary. An optional shortened abstract.
-summary: 
+summary: Some studies show that animals will adjust their leg behavior while in different environments. So in this research, we are aiming to find energy loss reduction strategies by studying how the leg makes contact with the ground.
 
 tags:
   - Legged Robot
@@ -46,10 +46,10 @@ featured: true
 # - name: Custom Link
 #   url: http://example.org
 
-url_pdf: 'uploads/A_Cluster_Based_Weighted_Feature_Similarity_Moving_Target_Tracking_Algorithm_for_Automotive_FMCW_Radar.pdf'
-links:
-- name: Link
-  url: https://ieeexplore.ieee.org/abstract/document/9860614
+url_pdf: 'uploads/ICRA25_4327_MS.pdf'
+# links:
+# - name: Link
+#   url: https://ieeexplore.ieee.org/abstract/document/9860614
 url_code: ''
 url_dataset: ''
 url_poster: ''
@@ -61,7 +61,7 @@ url_video: ''
 # Featured image
 # To use, add an image named `featured.jpg/png` to your page's folder.
 image:
-  caption: 'Automotive mmWave radar TI AWR1642'
+  caption: 'Hopper robot and ground emulator'
   focal_point: ''
   preview_only: false
 
