@@ -19,7 +19,7 @@ date: '2024-02-01T00:00:00Z'
 # doi: '10.1109/VTC2022-Spring54318.2022.9860614'
 
 # Schedule page publish date (NOT publication's date).
-publishDate: '2024-05-13T00:00:00Z'
+publishDate: '2023-10-13T00:00:00Z'
 
 # Publication type.
 # Accepts a single type but formatted as a YAML list (for Hugo requirements).
