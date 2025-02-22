@@ -1,21 +1,15 @@
 ---
-title: 'AR project: Assembly King'
-summary: A mechanical parts assembly guiding system. 
-date: 2024-12-07
+title: 'Macro Economics Bot'
+summary: A RAG chatbot base on web scrapers. 
+date: 2024-09-01
 type: docs
 math: false
 tags:
-  - AR/VR
-  - AI
+  - LLM
+  - Fintech
 image:
-  caption: 'Assembly King demo on the class'
+  caption: ''
 ---
 
-button:
 
-## Video
-
-Teach your course by sharing videos with your students. Choose from one of the following approaches:
-
-{{< youtube e0zONt5E8Tk >}}
 
