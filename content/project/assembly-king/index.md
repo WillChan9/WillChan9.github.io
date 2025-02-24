@@ -9,6 +9,15 @@ tags:
   - AI
 image:
   caption: 'Assembly King demo on the class'
+links:
+  - icon_pack: fab
+    icon: twitter
+    name: Follow
+    url: 'https://twitter.com/Twitter'
+  - icon_pack: fab
+    icon: medium
+    name: Originally published on Medium
+    url: 'https://medium.com'
 ---
 
 ## Project Intro
@@ -17,6 +26,7 @@ I developed a AR-Guided Real-Time Tutoring System: Assembly King, the applicatio
 to facilitate intuitive and real-time interactions between coaches and trainees in application domains such as cooking, scientific experiments, and equipment repair. Please refer to the following documents and code if you are interested in the detailed implementation.
 
 **Project report of Assembly King:**<mark>[AssemblyKing.pdf](assembly-king.pdf)</mark>
+
 **GitHub repo:**<mark>[GitHub](https://github.com/WillChan9/AssemblyKing_project)</mark>
 
 This system aims to help trainees do assembly work with real-time reference from the coach. For mechanical part assembly work, due to the massive amount of parts involves in the product and the complexity of the assembly work, people usually need to follow a manual instruction book.
