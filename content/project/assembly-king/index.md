@@ -13,21 +13,41 @@ image:
 
 ## Project Intro
 
-<!-- <div style="text-align: center">
-  <a href="your-link">
-    <button style="background-color: #a4d61e; margin-top: 6px; margin-bottom: 16px; border-radius: 4px; font-size: 1.6em; padding: 8px 20px;">
-      Click Here
-    </button>
-  </a>
-</div> -->
-
-
 I developed a AR-Guided Real-Time Tutoring System: Assembly King, the application runs on Meta Quest 3 and PC. AssemblyKing aims
 to facilitate intuitive and real-time interactions between coaches and trainees in application domains such as cooking, scientific experiments, and equipment repair. Please refer to the following documents and code if you are interested in the detailed implementation.
 
+<p><strong>Project report of Assembly King:</strong> 
+  <a href="assembly-king.pdf" class="btn-link" target="_blank" rel="noopener noreferrer">Download PDF</a>
+</p>
+
+<p><strong>GitHub repo:</strong> 
+  <a href="https://github.com/WillChan9/AssemblyKing_project" class="btn-link" target="_blank" rel="noopener noreferrer">GitHub</a>
+</p>
+
+<style>
+  .btn-link {
+    display: inline-block;
+    background-color: #4da6ff; /* Light blue */
+    color: white !important; /* Ensures white text */
+    font-size: 1em;
+    font-weight: bold;
+    padding: 8px 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background-color 0.2s ease-in-out, text-decoration 0.2s ease-in-out;
+  }
+
+  .btn-link:hover {
+    background-color: #3399ff; /* Darker blue on hover */
+    color: white !important; /* Prevents green color */
+    text-decoration: underline;
+  }
+</style>
+
+<!-- 
 **Project report of Assembly King:**<mark>[AssemblyKing.pdf](assembly-king.pdf)</mark>
 
-**GitHub repo:**<mark>[GitHub](https://github.com/WillChan9/AssemblyKing_project)</mark>
+**GitHub repo:**<mark>[GitHub](https://github.com/WillChan9/AssemblyKing_project)</mark> -->
 
 This system aims to help trainees do assembly work with real-time reference from the coach. For mechanical part assembly work, due to the massive amount of parts involves in the product and the complexity of the assembly work, people usually need to follow a manual instruction book.
 
