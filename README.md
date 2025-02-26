@@ -1,3 +1,3 @@
 Personal website of Rongqian Chen.
 
- Please visit: [chenrongqian.com](chenrongqian.com) for more info.
+ Please visit: [chenrongqian.com](https://www.chenrongqian.com) for more info.
