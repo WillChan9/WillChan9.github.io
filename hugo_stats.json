@@ -2,6 +2,7 @@
   "htmlElements": {
     "tags": [
       "--",
+      "?xml",
       "a",
       "article",
       "aside",
@@ -14,6 +15,8 @@
       "details",
       "div",
       "em",
+      "figcaption",
+      "figure",
       "footer",
       "g",
       "h1",
@@ -535,10 +538,11 @@
     ],
     "ids": [
       "-click-here-to-become-a-sponsor-and-help-support-hugo-blox",
+      "Layer_1",
       "TableOfContents",
       "about-me",
       "callouts",
-      "chart-672549831",
+      "chart-391764258",
       "charts",
       "code",
       "crowd-funded-open-source-software",

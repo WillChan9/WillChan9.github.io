@@ -17,7 +17,7 @@ I developed a AR-Guided Real-Time Tutoring System: Assembly King, the applicatio
 to facilitate intuitive and real-time interactions between coaches and trainees in application domains such as cooking, scientific experiments, and equipment repair. Please refer to the following documents and code if you are interested in the detailed implementation.
 
 <p><strong>Project report of Assembly King:</strong> 
-  <a href="assembly-king.pdf" class="btn-link" target="_blank" rel="noopener noreferrer">Download PDF</a>
+  <a href="assembly-king.pdf" class="btn-link" target="_blank" rel="noopener noreferrer">PDF</a>
 </p>
 
 <p><strong>GitHub repo:</strong> 

@@ -18,17 +18,37 @@
       <pubDate>Sat, 07 Dec 2024 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/project/assembly-king/</guid>
       <description>&lt;h2 id=&#34;project-intro&#34;&gt;Project Intro&lt;/h2&gt;
-&lt;!-- &lt;div style=&#34;text-align: center&#34;&gt;
-  &lt;a href=&#34;your-link&#34;&gt;
-    &lt;button style=&#34;background-color: #a4d61e; margin-top: 6px; margin-bottom: 16px; border-radius: 4px; font-size: 1.6em; padding: 8px 20px;&#34;&gt;
-      Click Here
-    &lt;/button&gt;
-  &lt;/a&gt;
-&lt;/div&gt; --&gt;
 &lt;p&gt;I developed a AR-Guided Real-Time Tutoring System: Assembly King, the application runs on Meta Quest 3 and PC. AssemblyKing aims
 to facilitate intuitive and real-time interactions between coaches and trainees in application domains such as cooking, scientific experiments, and equipment repair. Please refer to the following documents and code if you are interested in the detailed implementation.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Project report of Assembly King:&lt;/strong&gt;&lt;mark&gt;&lt;a href=&#34;assembly-king.pdf&#34;&gt;AssemblyKing.pdf&lt;/a&gt;&lt;/mark&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;GitHub repo:&lt;/strong&gt;&lt;mark&gt;&lt;a href=&#34;https://github.com/WillChan9/AssemblyKing_project&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;GitHub&lt;/a&gt;&lt;/mark&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Project report of Assembly King:&lt;/strong&gt; 
+  &lt;a href=&#34;assembly-king.pdf&#34; class=&#34;btn-link&#34; target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;PDF&lt;/a&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;GitHub repo:&lt;/strong&gt; 
+  &lt;a href=&#34;https://github.com/WillChan9/AssemblyKing_project&#34; class=&#34;btn-link&#34; target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;GitHub&lt;/a&gt;
+&lt;/p&gt;
+&lt;style&gt;
+  .btn-link {
+    display: inline-block;
+    background-color: #4da6ff; /* Light blue */
+    color: white !important; /* Ensures white text */
+    font-size: 1em;
+    font-weight: bold;
+    padding: 8px 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background-color 0.2s ease-in-out, text-decoration 0.2s ease-in-out;
+  }
+
+  .btn-link:hover {
+    background-color: #3399ff; /* Darker blue on hover */
+    color: white !important; /* Prevents green color */
+    text-decoration: underline;
+  }
+&lt;/style&gt;
+&lt;!-- 
+**Project report of Assembly King:**&lt;mark&gt;[AssemblyKing.pdf](assembly-king.pdf)&lt;/mark&gt;
+
+**GitHub repo:**&lt;mark&gt;[GitHub](https://github.com/WillChan9/AssemblyKing_project)&lt;/mark&gt; --&gt;
 &lt;p&gt;This system aims to help trainees do assembly work with real-time reference from the coach. For mechanical part assembly work, due to the massive amount of parts involves in the product and the complexity of the assembly work, people usually need to follow a manual instruction book.&lt;/p&gt;
 &lt;p&gt;However, such traditional method require professional knowledge because they require users to understand the principles of how parts work together. The limitation of a manual interaction is the way it interacts with users: it shows the parts in 2D and fixed instructions for tutoring without knowing the current situations users might have. This might cause misunderstandings and mistakes in assembly works.&lt;/p&gt;
 &lt;p&gt;Thus, in our case, we design a real-time tutoring system. Enhanced with expert experience, Vision Language Model, and Computer Vision techniques, AssemblyKing is able to perform accurate and fast-response feedback for users. It can recognize the parts and understand assembly steps, based on user’s current progress, it highlights the parts they need and provide tutoring instructions for users. User can follow coach assembly steps and learn the tasks in a relative short time.&lt;/p&gt;
@@ -47,6 +67,80 @@ to facilitate intuitive and real-time interactions between coaches and trainees 
       <pubDate>Sun, 01 Sep 2024 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/project/rag-bot/</guid>
       <description></description>
+    </item>
+    
+    <item>
+      <title>Legged Hopping Robot and Ground Emulator</title>
+      <link>http://localhost:1313/project/hopper-robot/</link>
+      <pubDate>Wed, 01 May 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/project/hopper-robot/</guid>
+      <description>&lt;h2 id=&#34;project-intro&#34;&gt;Project Intro&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;ICRA 2025 Paper:&lt;/strong&gt; 
+  &lt;a href=&#34;ICRA25_4327_MS.pdf&#34; class=&#34;btn-link&#34; target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;PDF&lt;/a&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;GitHub repo:&lt;/strong&gt; 
+  &lt;a href=&#34;https://github.com/WillChan9/kodlab_mjbots_sdk&#34; class=&#34;btn-link&#34; target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;GitHub&lt;/a&gt;
+&lt;/p&gt;
+&lt;p&gt;Demo video of HASTA project:&lt;/p&gt;
+&lt;div style=&#34;position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;&#34;&gt;
+      &lt;iframe allow=&#34;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&#34; allowfullscreen=&#34;allowfullscreen&#34; loading=&#34;eager&#34; referrerpolicy=&#34;strict-origin-when-cross-origin&#34; src=&#34;https://www.youtube.com/embed/-FwuncAdoNc?autoplay=0&amp;amp;controls=1&amp;amp;end=0&amp;amp;loop=0&amp;amp;mute=0&amp;amp;start=0&#34; style=&#34;position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;&#34; title=&#34;YouTube video&#34;&gt;&lt;/iframe&gt;
+    &lt;/div&gt;
+
+&lt;style&gt;
+  .btn-link {
+    display: inline-block;
+    background-color: #4da6ff; /* Light blue */
+    color: white !important; /* Ensures white text */
+    font-size: 1em;
+    font-weight: bold;
+    padding: 8px 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background-color 0.2s ease-in-out, text-decoration 0.2s ease-in-out;
+  }
+
+  .btn-link:hover {
+    background-color: #3399ff; /* Darker blue on hover */
+    color: white !important; /* Prevents green color */
+    text-decoration: underline;
+  }
+&lt;/style&gt;
+&lt;p&gt;Legged robots are inspired by natural creatures, which offers unique advantages over wheeled robots in complex environments. Some studies show that animals will adjust their leg behavior while in different environments. So in this research, we are aiming to find energy loss reduction strategies by studying how the leg makes contact with the ground.&lt;/p&gt;
+&lt;p&gt;So in this study, we built a monopedal legged hopper robot and ground emulator, modeled the leg and hopper behavior, and characterized them with experiments. We also proposed a ground adaptation strategy for saving energy during the stance phase, based on the stiffness and damping coefficient of the system.&lt;/p&gt;
+&lt;div style=&#34;display: flex; justify-content: center; align-items: flex-end; gap: 10px;&#34;&gt;
+    &lt;img src=&#34;hopper_running.gif&#34; width=&#34;200&#34;&gt;
+    &lt;img src=&#34;hopper_running2.gif&#34; width=&#34;300&#34;&gt;
+&lt;/div&gt;
+&lt;p&gt;The gif above demonstrate the functionality of the hopper and the ground emulator. The ground emulator has the capability to adjust its platform&amp;rsquo;s stiffness and damping. Meanwhile, the hopper&amp;rsquo;s leg can modify its stiffness using pneumatic tunable-stiffness bellows actuators, powered by a central tendon which is managed by a brushless motor.&lt;/p&gt;
+&lt;p&gt;Through simulations, it&amp;rsquo;s observed that by adjusting the leg stiffness, the hopper can minimize energy use for particular ground conditions. Hence, it&amp;rsquo;s crucial to develop a mathematical model to grasp the impact of various hopper parameters on its dynamic behaviors. For sustained hopping on the surface, the hopper has to replenish energy to offset the energy lost due to damping. In this process, the hopper pre-compresses its leg mid-air and releases it upon detecting ground contact. With consistent pre-compression, the hopping height converges and its dynamic state converges to a limit cycle, as depicted in the subsequent illustration.&lt;/p&gt;
+&lt;figure style=&#34;text-align: center;&#34;&gt;
+    &lt;img src=&#34;new_model.gif&#34;&gt;
+    &lt;figcaption&gt;The hopper state will converge to a limit cycle in the phase portrait&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;p&gt;In our prototyping phase, our team dedicated a significant amount of time to the design and development of the mechanical structure, electrical framework, and software system. We employed a diverse array of fabrication techniques to construct the prototype, such as molding, 3D printing, laser cutting, turning, and milling. We also opted for varied materials to suit different components. For instance, silicone rubber was used for the actuator, nylon for the guide rods, wood for the base plates, aluminum for motor standoffs, carbon fiber for the pulley systems, and Ultra-High Molecular Weight Polyethylene (UHMWPE) for the central tendon. This strategic selection of materials ensured that our system was not only efficient and durable but also lightweight and sturdy. For a deeper dive into the design specifics, please refer my master&amp;rsquo;s thesis or our ICRA papers.&lt;/p&gt;
+&lt;figure style=&#34;text-align: center;&#34;&gt;
+    &lt;img src=&#34;hopper CAD.png&#34;&gt;
+    &lt;figcaption&gt;Hopper mechanism overview&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;p&gt;The hardware and software components represent a significant portion of our work. Our system comprises four microcontrollers, with each responsible for a distinct role:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Raspberry Pi 3B+ acts as the primary controller, undertaking most of the mathematical computations.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Arduino Nano is utilized for actuator stiffness control, specifically chosen for its abundance of external interrupt pins.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;ESP32 monitors the system&amp;rsquo;s power usage and communicates this data to the user via Bluetooth.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Raspberry Pi Pico gauges the hopper toe force and the pressure within the leg bellows. We also envision deploying machine learning models on this microcontroller in the future.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure style=&#34;text-align: center;&#34;&gt;
+    &lt;img src=&#34;infra.png&#34;&gt;
+    &lt;figcaption&gt;Hopper electronic system overview&lt;/figcaption&gt;
+&lt;/figure&gt;</description>
     </item>
     
   </channel>
