@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Locomotion | Rongqian&#39;s website</title>
-    <link>http://localhost:1313/tags/locomotion/</link>
-      <atom:link href="http://localhost:1313/tags/locomotion/index.xml" rel="self" type="application/rss+xml" />
+    <link>https://example.com/tags/locomotion/</link>
+      <atom:link href="https://example.com/tags/locomotion/index.xml" rel="self" type="application/rss+xml" />
     <description>Locomotion</description>
     <generator>Hugo Blox Builder (https://hugoblox.com)</generator><language>en-us</language><lastBuildDate>Wed, 01 May 2024 00:00:00 +0000</lastBuildDate>
     <image>
-      <url>http://localhost:1313/media/icon_hu_645fa481986063ef.png</url>
+      <url>https://example.com/media/icon_hu_645fa481986063ef.png</url>
       <title>Locomotion</title>
-      <link>http://localhost:1313/tags/locomotion/</link>
+      <link>https://example.com/tags/locomotion/</link>
     </image>
     
     <item>
       <title>Legged Hopping Robot and Ground Emulator</title>
-      <link>http://localhost:1313/project/hopper-robot/</link>
+      <link>https://example.com/project/hopper-robot/</link>
       <pubDate>Wed, 01 May 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/project/hopper-robot/</guid>
+      <guid>https://example.com/project/hopper-robot/</guid>
       <description>&lt;p&gt;&lt;strong&gt;ICRA 2025 Paper:&lt;/strong&gt; 
   &lt;a href=&#34;ICRA25_4327_MS.pdf&#34; class=&#34;btn-link&#34; target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;PDF&lt;/a&gt;
 &lt;/p&gt;

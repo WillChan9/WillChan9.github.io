@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Control | Rongqian&#39;s website</title>
-    <link>http://localhost:1313/tags/control/</link>
-      <atom:link href="http://localhost:1313/tags/control/index.xml" rel="self" type="application/rss+xml" />
+    <link>https://example.com/tags/control/</link>
+      <atom:link href="https://example.com/tags/control/index.xml" rel="self" type="application/rss+xml" />
     <description>Control</description>
     <generator>Hugo Blox Builder (https://hugoblox.com)</generator><language>en-us</language><lastBuildDate>Tue, 01 Sep 2020 00:00:00 +0000</lastBuildDate>
     <image>
-      <url>http://localhost:1313/media/icon_hu_645fa481986063ef.png</url>
+      <url>https://example.com/media/icon_hu_645fa481986063ef.png</url>
       <title>Control</title>
-      <link>http://localhost:1313/tags/control/</link>
+      <link>https://example.com/tags/control/</link>
     </image>
     
     <item>
       <title>Stability improvement of pulse power supply with dual-inductance active storage unit using hysteresis current control</title>
-      <link>http://localhost:1313/publication/pulse-power-supply/</link>
+      <link>https://example.com/publication/pulse-power-supply/</link>
       <pubDate>Tue, 01 Sep 2020 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/publication/pulse-power-supply/</guid>
+      <guid>https://example.com/publication/pulse-power-supply/</guid>
       <description>&lt;!-- 
 
 

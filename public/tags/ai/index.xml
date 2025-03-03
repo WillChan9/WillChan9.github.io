@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>AI | Rongqian&#39;s website</title>
-    <link>http://localhost:1313/tags/ai/</link>
-      <atom:link href="http://localhost:1313/tags/ai/index.xml" rel="self" type="application/rss+xml" />
+    <link>https://example.com/tags/ai/</link>
+      <atom:link href="https://example.com/tags/ai/index.xml" rel="self" type="application/rss+xml" />
     <description>AI</description>
     <generator>Hugo Blox Builder (https://hugoblox.com)</generator><language>en-us</language><lastBuildDate>Sat, 07 Dec 2024 00:00:00 +0000</lastBuildDate>
     <image>
-      <url>http://localhost:1313/media/icon_hu_645fa481986063ef.png</url>
+      <url>https://example.com/media/icon_hu_645fa481986063ef.png</url>
       <title>AI</title>
-      <link>http://localhost:1313/tags/ai/</link>
+      <link>https://example.com/tags/ai/</link>
     </image>
     
     <item>
       <title>AR project: Assembly King</title>
-      <link>http://localhost:1313/project/assembly-king/</link>
+      <link>https://example.com/project/assembly-king/</link>
       <pubDate>Sat, 07 Dec 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/project/assembly-king/</guid>
+      <guid>https://example.com/project/assembly-king/</guid>
       <description>&lt;h2 id=&#34;project-intro&#34;&gt;Project Intro&lt;/h2&gt;
 &lt;p&gt;I developed a AR-Guided Real-Time Tutoring System: Assembly King, the application runs on Meta Quest 3 and PC. AssemblyKing aims
 to facilitate intuitive and real-time interactions between coaches and trainees in application domains such as cooking, scientific experiments, and equipment repair. Please refer to the following documents and code if you are interested in the detailed implementation.&lt;/p&gt;

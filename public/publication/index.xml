@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Publications | Rongqian&#39;s website</title>
-    <link>http://localhost:1313/publication/</link>
-      <atom:link href="http://localhost:1313/publication/index.xml" rel="self" type="application/rss+xml" />
+    <link>https://example.com/publication/</link>
+      <atom:link href="https://example.com/publication/index.xml" rel="self" type="application/rss+xml" />
     <description>Publications</description>
     <generator>Hugo Blox Builder (https://hugoblox.com)</generator><language>en-us</language><lastBuildDate>Mon, 01 Jul 2024 00:00:00 +0000</lastBuildDate>
     <image>
-      <url>http://localhost:1313/media/icon_hu_645fa481986063ef.png</url>
+      <url>https://example.com/media/icon_hu_645fa481986063ef.png</url>
       <title>Publications</title>
-      <link>http://localhost:1313/publication/</link>
+      <link>https://example.com/publication/</link>
     </image>
     
     <item>
       <title>Tunable Stiffness for Energy-Efficient Vertical Hopping in a Monopedal Robot Across Varying Ground Profiles</title>
-      <link>http://localhost:1313/publication/hopper-robot/</link>
+      <link>https://example.com/publication/hopper-robot/</link>
       <pubDate>Mon, 01 Jul 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/publication/hopper-robot/</guid>
+      <guid>https://example.com/publication/hopper-robot/</guid>
       <description>&lt;!-- 
 
 
@@ -54,9 +54,9 @@
     
     <item>
       <title>Design and Characterization of a Pneumatic Tunable-Stiffness Bellows Actuator</title>
-      <link>http://localhost:1313/publication/pneumatic-spring/</link>
+      <link>https://example.com/publication/pneumatic-spring/</link>
       <pubDate>Thu, 01 Feb 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/publication/pneumatic-spring/</guid>
+      <guid>https://example.com/publication/pneumatic-spring/</guid>
       <description>&lt;!-- 
 
 
@@ -94,9 +94,9 @@
     
     <item>
       <title>Design and Control of a Tunable-Stiffness Coiled-Spring Actuator</title>
-      <link>http://localhost:1313/publication/coil-spring/</link>
+      <link>https://example.com/publication/coil-spring/</link>
       <pubDate>Tue, 30 Aug 2022 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/publication/coil-spring/</guid>
+      <guid>https://example.com/publication/coil-spring/</guid>
       <description>&lt;!-- 
 
 
@@ -134,9 +134,9 @@
     
     <item>
       <title>A Cluster-Based Weighted Feature Similarity Moving Target Tracking Algorithm for Automotive FMCW Radar</title>
-      <link>http://localhost:1313/publication/mmwave-radar/</link>
+      <link>https://example.com/publication/mmwave-radar/</link>
       <pubDate>Thu, 01 Jul 2021 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/publication/mmwave-radar/</guid>
+      <guid>https://example.com/publication/mmwave-radar/</guid>
       <description>&lt;!-- 
 
 
@@ -174,9 +174,9 @@
     
     <item>
       <title>Stability improvement of pulse power supply with dual-inductance active storage unit using hysteresis current control</title>
-      <link>http://localhost:1313/publication/pulse-power-supply/</link>
+      <link>https://example.com/publication/pulse-power-supply/</link>
       <pubDate>Tue, 01 Sep 2020 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/publication/pulse-power-supply/</guid>
+      <guid>https://example.com/publication/pulse-power-supply/</guid>
       <description>&lt;!-- 
 
 

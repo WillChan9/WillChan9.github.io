@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Computational Design | Rongqian&#39;s website</title>
-    <link>http://localhost:1313/tags/computational-design/</link>
-      <atom:link href="http://localhost:1313/tags/computational-design/index.xml" rel="self" type="application/rss+xml" />
+    <link>https://example.com/tags/computational-design/</link>
+      <atom:link href="https://example.com/tags/computational-design/index.xml" rel="self" type="application/rss+xml" />
     <description>Computational Design</description>
     <generator>Hugo Blox Builder (https://hugoblox.com)</generator><language>en-us</language><lastBuildDate>Thu, 01 Feb 2024 00:00:00 +0000</lastBuildDate>
     <image>
-      <url>http://localhost:1313/media/icon_hu_645fa481986063ef.png</url>
+      <url>https://example.com/media/icon_hu_645fa481986063ef.png</url>
       <title>Computational Design</title>
-      <link>http://localhost:1313/tags/computational-design/</link>
+      <link>https://example.com/tags/computational-design/</link>
     </image>
     
     <item>
       <title>Design and Characterization of a Pneumatic Tunable-Stiffness Bellows Actuator</title>
-      <link>http://localhost:1313/publication/pneumatic-spring/</link>
+      <link>https://example.com/publication/pneumatic-spring/</link>
       <pubDate>Thu, 01 Feb 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/publication/pneumatic-spring/</guid>
+      <guid>https://example.com/publication/pneumatic-spring/</guid>
       <description>&lt;!-- 
 
 
@@ -54,9 +54,9 @@
     
     <item>
       <title>Design and Control of a Tunable-Stiffness Coiled-Spring Actuator</title>
-      <link>http://localhost:1313/publication/coil-spring/</link>
+      <link>https://example.com/publication/coil-spring/</link>
       <pubDate>Tue, 30 Aug 2022 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/publication/coil-spring/</guid>
+      <guid>https://example.com/publication/coil-spring/</guid>
       <description>&lt;!-- 
 
 

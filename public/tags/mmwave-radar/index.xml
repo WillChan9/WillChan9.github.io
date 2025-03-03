@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>MmWave Radar | Rongqian&#39;s website</title>
-    <link>http://localhost:1313/tags/mmwave-radar/</link>
-      <atom:link href="http://localhost:1313/tags/mmwave-radar/index.xml" rel="self" type="application/rss+xml" />
+    <link>https://example.com/tags/mmwave-radar/</link>
+      <atom:link href="https://example.com/tags/mmwave-radar/index.xml" rel="self" type="application/rss+xml" />
     <description>MmWave Radar</description>
     <generator>Hugo Blox Builder (https://hugoblox.com)</generator><language>en-us</language><lastBuildDate>Thu, 01 Jul 2021 00:00:00 +0000</lastBuildDate>
     <image>
-      <url>http://localhost:1313/media/icon_hu_645fa481986063ef.png</url>
+      <url>https://example.com/media/icon_hu_645fa481986063ef.png</url>
       <title>MmWave Radar</title>
-      <link>http://localhost:1313/tags/mmwave-radar/</link>
+      <link>https://example.com/tags/mmwave-radar/</link>
     </image>
     
     <item>
       <title>A Cluster-Based Weighted Feature Similarity Moving Target Tracking Algorithm for Automotive FMCW Radar</title>
-      <link>http://localhost:1313/publication/mmwave-radar/</link>
+      <link>https://example.com/publication/mmwave-radar/</link>
       <pubDate>Thu, 01 Jul 2021 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/publication/mmwave-radar/</guid>
+      <guid>https://example.com/publication/mmwave-radar/</guid>
       <description>&lt;!-- 
 
 
