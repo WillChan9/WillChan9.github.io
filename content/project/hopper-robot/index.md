@@ -1,6 +1,6 @@
 ---
 title: 'Legged Hopping Robot and Ground Emulator'
-summary: HASTA, Hopper with Adjustable Stiffness for Terrain Adaption.
+summary: HASTA, Hopper with Adjustable Stiffness for Terrain Adaption. Underneath it is a ground emulator.
 date: 2024-05-01
 type: docs
 math: false

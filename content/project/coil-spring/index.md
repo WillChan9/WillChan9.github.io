@@ -1,7 +1,7 @@
 ---
-title: 'Pneumatic Bellows Tunable Stiffness Actuator'
-summary: An innovative pneumatically-driven tunable stiffness actuator, that can operate without an external air source and valves.
-date: 2023-11-20
+title: 'Tunable-Stiffness Coil-Spring manipulator'
+summary: Design of a pneumatic actuator.
+date: 2022-08-01
 type: docs
 math: false
 tags:
