@@ -8,10 +8,10 @@ tags:
   - Legged Robot
   - Locomotion
 image:
-  caption: 'Assembly King demo on the class'
+  caption: ''
 ---
 
-<p><strong>ICRA 2025 Paper:</strong> 
+<p><strong>ICRA 2025 Accepted Paper:</strong> 
   <a href="ICRA25_4327_MS.pdf" class="btn-link" target="_blank" rel="noopener noreferrer">PDF</a>
 </p>
 

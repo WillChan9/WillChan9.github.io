@@ -1,5 +1,5 @@
 ---
-title: 'Tunable Stiffness for Energy-Efficient Vertical Hopping in a Monopedal Robot Across Varying Ground Profiles'
+title: 'Adaptive Leg Stiffness in a Monopedal Hopper: Achieving Energy-Efficient Vertical Hopping Across Varying Ground Profiles'
 
 # Authors
 # If you created a profile for a user (e.g. the default `admin` user), write the username (folder name) here
@@ -46,7 +46,7 @@ featured: true
 # - name: Custom Link
 #   url: http://example.org
 
-url_pdf: 'uploads/ICRA25_4327_MS.pdf'
+url_pdf: 'uploads/ICRA2025_HASTA_Robot.pdf'
 # links:
 # - name: Link
 #   url: https://ieeexplore.ieee.org/abstract/document/9860614
