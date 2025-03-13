@@ -165,4 +165,4 @@ languages:
 
 ## About Me
 
-I'm a PhD student at the GWU AI Lab, my current research directions include artificial intelligence, robotics and AR/VR technology. 
+I'm a PhD student at the GWU, supervised by [Dr. Tian Lan](https://www2.seas.gwu.edu/~tlan/), my current research directions include artificial intelligence, robotics and AR/VR technology. 

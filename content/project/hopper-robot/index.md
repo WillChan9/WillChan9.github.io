@@ -12,7 +12,7 @@ image:
 ---
 
 <p><strong>ICRA 2025 Accepted Paper:</strong> 
-  <a href="ICRA25_4327_MS.pdf" class="btn-link" target="_blank" rel="noopener noreferrer">PDF</a>
+  <a href="ICRA2025_HASTA_Robot.pdf" class="btn-link" target="_blank" rel="noopener noreferrer">PDF</a>
 </p>
 
 <p><strong>My Master Thesis:</strong> 
