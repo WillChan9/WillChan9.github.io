@@ -58,45 +58,36 @@ education:
     institution: George Washington University
     date_start: 2024-09-01
     date_end: 
-    summary: |
-      Test Test Test
-    button:
-      text: 'Read Thesis'
-      url: 'https://example.com'
+    # summary: |
+    #   Test Test Test
+    # button:
+    #   text: 'Read Thesis'
+    #   url: 'https://example.com'
   - area: MSc Electrical Engineering
     institution: University of Pennsylvania
     date_start: 2021-08-22
     date_end: 2023-05-15
     summary: |
       GPA: 3.8/4.0
-
-      Courses included:
-      - lorem ipsum dolor sit amet, consectetur adipiscing elit
-      - lorem ipsum dolor sit amet, consectetur adipiscing elit
-      - lorem ipsum dolor sit amet, consectetur adipiscing elit
   - area: BEng Automation
     institution: Southwest Jiaotong University
     date_start: 2017-09-01
     date_end: 2021-06-15
     summary: |
       GPA: 3.5/4.0
-      
-      Courses included:
-      - lorem ipsum dolor sit amet, consectetur adipiscing elit
-      - lorem ipsum dolor sit amet, consectetur adipiscing elit
-      - lorem ipsum dolor sit amet, consectetur adipiscing elit
-work:
-  - position: Director of Cloud Infrastructure
-    company_name: GenCoin
-    company_url: ''
-    company_logo: ''
-    date_start: 2021-01-01
-    date_end: ''
-    summary: |2-
-      Responsibilities include:
-      - lorem ipsum dolor sit amet, consectetur adipiscing elit
-      - lorem ipsum dolor sit amet, consectetur adipiscing elit
-      - lorem ipsum dolor sit amet, consectetur adipiscing elit
+
+# work:
+#   - position: Research Assistant
+#     company_name: GenCoin
+#     company_url: ''
+#     company_logo: ''
+#     date_start: 2021-01-01
+#     date_end: ''
+#     summary: |2-
+#       Responsibilities include:
+#       - lorem ipsum dolor sit amet, consectetur adipiscing elit
+#       - lorem ipsum dolor sit amet, consectetur adipiscing elit
+#       - lorem ipsum dolor sit amet, consectetur adipiscing elit
 
 # Skills
 # Add your own SVG icons to `assets/media/icons/`

@@ -15,7 +15,7 @@ authors:
 #   - 'Equal contribution'
 #   - 'Equal contribution'
 
-date: '2022-08-30T00:00:00Z'
+date: '2023-08-30T00:00:00Z'
 # doi: '10.1109/VTC2022-Spring54318.2022.9860614'
 
 # Schedule page publish date (NOT publication's date).
