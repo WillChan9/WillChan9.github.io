@@ -47,6 +47,7 @@ sections:
       filters:
         folders:
           - project
+      count: 10
     design:
       view: article-grid
       columns: 3
