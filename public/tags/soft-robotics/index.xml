@@ -193,6 +193,11 @@
 &lt;p&gt;&lt;strong&gt;ICRA 2023 Paper:&lt;/strong&gt; 
   &lt;a href=&#34;Design_and_Control_of_a_Tunable-Stiffness_Coiled-Spring_Actuator.pdf&#34; class=&#34;btn-link&#34; target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;PDF&lt;/a&gt;
 &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Demo video of Coil Spring:&lt;/strong&gt;&lt;/p&gt;
+&lt;div style=&#34;position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;&#34;&gt;
+      &lt;iframe allow=&#34;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&#34; allowfullscreen=&#34;allowfullscreen&#34; loading=&#34;eager&#34; referrerpolicy=&#34;strict-origin-when-cross-origin&#34; src=&#34;https://www.youtube.com/embed/_OzyXiTubnA?autoplay=0&amp;amp;controls=1&amp;amp;end=0&amp;amp;loop=0&amp;amp;mute=0&amp;amp;start=0&#34; style=&#34;position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;&#34; title=&#34;YouTube video&#34;&gt;&lt;/iframe&gt;
+    &lt;/div&gt;
+
 &lt;p&gt;Soft robots have many advantages compared to rigid robots, including the ability to deform continuously and compliantly, adapt to unknown situations, and so on. In this research project, we design and build a new kind of manipulator using tunable stiffness springs.&lt;/p&gt;
 &lt;figure style=&#34;text-align: center;&#34;&gt;
     &lt;img src=&#34;mplmodel.png&#34; width=&#34;150&#34; style=&#34;display: block; margin: 0 auto;&#34;&gt;

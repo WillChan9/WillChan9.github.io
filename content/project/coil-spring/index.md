@@ -42,6 +42,10 @@ image:
   <a href="Design_and_Control_of_a_Tunable-Stiffness_Coiled-Spring_Actuator.pdf" class="btn-link" target="_blank" rel="noopener noreferrer">PDF</a>
 </p>
 
+**Demo video of Coil Spring:**
+
+{{< youtube _OzyXiTubnA >}}
+
 Soft robots have many advantages compared to rigid robots, including the ability to deform continuously and compliantly, adapt to unknown situations, and so on. In this research project, we design and build a new kind of manipulator using tunable stiffness springs.
 
 <figure style="text-align: center;">

@@ -245,6 +245,11 @@
 &lt;p&gt;&lt;strong&gt;ICRA 2023 Paper:&lt;/strong&gt; 
   &lt;a href=&#34;Design_and_Control_of_a_Tunable-Stiffness_Coiled-Spring_Actuator.pdf&#34; class=&#34;btn-link&#34; target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;PDF&lt;/a&gt;
 &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Demo video of Coil Spring:&lt;/strong&gt;&lt;/p&gt;
+&lt;div style=&#34;position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;&#34;&gt;
+      &lt;iframe allow=&#34;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&#34; allowfullscreen=&#34;allowfullscreen&#34; loading=&#34;eager&#34; referrerpolicy=&#34;strict-origin-when-cross-origin&#34; src=&#34;https://www.youtube.com/embed/_OzyXiTubnA?autoplay=0&amp;amp;controls=1&amp;amp;end=0&amp;amp;loop=0&amp;amp;mute=0&amp;amp;start=0&#34; style=&#34;position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;&#34; title=&#34;YouTube video&#34;&gt;&lt;/iframe&gt;
+    &lt;/div&gt;
+
 &lt;p&gt;Soft robots have many advantages compared to rigid robots, including the ability to deform continuously and compliantly, adapt to unknown situations, and so on. In this research project, we design and build a new kind of manipulator using tunable stiffness springs.&lt;/p&gt;
 &lt;figure style=&#34;text-align: center;&#34;&gt;
     &lt;img src=&#34;mplmodel.png&#34; width=&#34;150&#34; style=&#34;display: block; margin: 0 auto;&#34;&gt;
@@ -283,6 +288,21 @@
     </item>
     
     <item>
+      <title>Pick and Place Challenge for Robotic Arm</title>
+      <link>http://localhost:1313/project/robot-arm/</link>
+      <pubDate>Tue, 12 Apr 2022 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/project/robot-arm/</guid>
+      <description>&lt;p&gt;The challenge was for the final project of MEAM 520(Intro to Robotics) at UPenn. The robotic arm needed to pick up and stack the blocks placed on the static table and rotating turntable. The final score was determined by the block&amp;rsquo;s direction(white surface face up), tower height, and block type(dynamic one is twice than static one). Here is the simulation scenario in ROS and experimental setup.&lt;/p&gt;
+&lt;figure style=&#34;text-align: center;&#34;&gt;
+    &lt;img src=&#34;simulation scen_edited.jpg&#34; width=&#34;400&#34; style=&#34;display: block; margin: 0 auto;&#34;&gt;
+    &lt;img src=&#34;robot arm.jpg&#34; width=&#34;400&#34; style=&#34;display: block; margin: 0 auto;&#34;&gt;
+&lt;/figure&gt;
+&lt;p&gt;We then developed a robust and reliable solution for acquiring and stacking blocks, and our proposed algorithm was tested in simulation and evaluated in experimental setups. Moreover, we used some new strategies to improve the algorithm’s performance, which greatly reduced the time cost and sped up the movement.&lt;/p&gt;
+&lt;p&gt;For path planning, we used RRT(rapid exploring random tree) Algorithm for searching the potential paths and avoiding obstacles. In order to reduce the computation time, we use hard-coded paths in fixed setpoints and trajectories(while it still depends on the tower height) and only apply the path planning computation in the pick-up stage.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>FPGA based Accelerated CNN</title>
       <link>http://localhost:1313/project/fpga-cnn/</link>
       <pubDate>Wed, 01 Sep 2021 00:00:00 +0000</pubDate>
@@ -313,16 +333,41 @@
 }
 
 &lt;/style&gt;
-&lt;p&gt;&lt;strong&gt;IEEE JETCAS Paper:&lt;/strong&gt; 
-  &lt;a href=&#34;Stability_Improvement_of_Pulse_Power_Supply_With_Dual-Inductance_Active_Storage_Unit_Using_Hysteresis_Current_Control.pdf&#34; class=&#34;btn-link&#34; target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;PDF&lt;/a&gt;
+&lt;p&gt;&lt;strong&gt;Project Final Report:&lt;/strong&gt; 
+  &lt;a href=&#34;ESE539.pdf&#34; class=&#34;btn-link&#34; target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;PDF&lt;/a&gt;
 &lt;/p&gt;
 &lt;p&gt;This project, completed as part of the ESE539 course at UPenn, explores the co-design of software and hardware for machine learning by applying the advantages of FPGAs over traditional CPUs. Given that matrix multiplication—the core operation in convolutional layers—is computationally intensive, FPGAs’ superior parallel processing and specialized architecture can drastically reduce computation time.&lt;/p&gt;
 &lt;p&gt;In our work, we adapted the VGG16 model using the PyTorch framework by replacing standard convolutional layers with custom FPGA-accelerated layers. The FPGA accelerator, deployed via Amazon Web Services and programmed in C, is leveraged to execute these computationally demanding operations more efficiently.&lt;/p&gt;
 &lt;p&gt;The FPGA customization process can be summarized as follows:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Flattening: Both the filters and the input image are transformed into one-dimensional row and column arrays, effectively converting the convolution operation into a matrix multiplication problem.&lt;/li&gt;
+&lt;/ul&gt;
 &lt;figure style=&#34;text-align: center;&#34;&gt;
-    &lt;img src=&#34;ASU.png&#34; width=&#34;800&#34; style=&#34;display: block; margin: 0 auto;&#34;&gt;
-    &lt;figcaption&gt;System Diagram&lt;/figcaption&gt;
+    &lt;img src=&#34;split1.png&#34; width=&#34;300&#34; style=&#34;display: block; margin: 0 auto;&#34;&gt;
+    &lt;figcaption&gt;Flattening&lt;/figcaption&gt;
 &lt;/figure&gt;
+&lt;ul&gt;
+&lt;li&gt;Partitioning: The resulting matrix is divided into several submatrices to ensure they fit within the FPGA’s buffer constraints.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure style=&#34;text-align: center;&#34;&gt;
+    &lt;img src=&#34;split2.png&#34; width=&#34;500&#34; style=&#34;display: block; margin: 0 auto;&#34;&gt;
+    &lt;figcaption&gt;Partitioning&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;ul&gt;
+&lt;li&gt;Computation: Each submatrix undergoes a multiply-and-accumulate process to build the overall result matrix.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure style=&#34;text-align: center;&#34;&gt;
+    &lt;img src=&#34;split3.png&#34; width=&#34;800&#34; style=&#34;display: block; margin: 0 auto;&#34;&gt;
+    &lt;figcaption&gt;Computation&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;ul&gt;
+&lt;li&gt;Reshaping: Finally, the result matrix is reconstructed into multi-layer images, restoring the original spatial structure.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure style=&#34;text-align: center;&#34;&gt;
+    &lt;img src=&#34;split4.png&#34; width=&#34;400&#34; style=&#34;display: block; margin: 0 auto;&#34;&gt;
+    &lt;figcaption&gt;Reshaping&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;p&gt;Our experiments demonstrated a speedup of over &lt;strong&gt;7 times&lt;/strong&gt; compared to traditional CPU-based methods. Although the current solution is not fully optimal and leaves room for further improvement, the findings clearly indicate that FPGA-based architectures hold significant potential for accelerating deep learning computations.&lt;/p&gt;
 </description>
     </item>
     

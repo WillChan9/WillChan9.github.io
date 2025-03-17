@@ -533,7 +533,7 @@
 
 
 
-&lt;div id=&#34;chart-714592368&#34; class=&#34;chart&#34;&gt;&lt;/div&gt;
+&lt;div id=&#34;chart-912653478&#34; class=&#34;chart&#34;&gt;&lt;/div&gt;
 &lt;script&gt;
   async function fetchChartJSON() {
     console.debug(&#39;Hugo Blox fetching chart JSON...&#39;)
@@ -551,7 +551,7 @@
 
       fetchChartJSON().then(chart =&gt; {
         console.debug(&#39;Plotting chart...&#39;)
-        window.Plotly.newPlot(&#39;chart-714592368&#39;, chart.data, chart.layout, {responsive: true});
+        window.Plotly.newPlot(&#39;chart-912653478&#39;, chart.data, chart.layout, {responsive: true});
       });
     }, 500 );
   })();
@@ -1239,6 +1239,11 @@ Parallel 4   :         des6, after des4, 1d
 &lt;p&gt;&lt;strong&gt;ICRA 2023 Paper:&lt;/strong&gt; 
   &lt;a href=&#34;Design_and_Control_of_a_Tunable-Stiffness_Coiled-Spring_Actuator.pdf&#34; class=&#34;btn-link&#34; target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;PDF&lt;/a&gt;
 &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Demo video of Coil Spring:&lt;/strong&gt;&lt;/p&gt;
+&lt;div style=&#34;position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;&#34;&gt;
+      &lt;iframe allow=&#34;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&#34; allowfullscreen=&#34;allowfullscreen&#34; loading=&#34;eager&#34; referrerpolicy=&#34;strict-origin-when-cross-origin&#34; src=&#34;https://www.youtube.com/embed/_OzyXiTubnA?autoplay=0&amp;amp;controls=1&amp;amp;end=0&amp;amp;loop=0&amp;amp;mute=0&amp;amp;start=0&#34; style=&#34;position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;&#34; title=&#34;YouTube video&#34;&gt;&lt;/iframe&gt;
+    &lt;/div&gt;
+
 &lt;p&gt;Soft robots have many advantages compared to rigid robots, including the ability to deform continuously and compliantly, adapt to unknown situations, and so on. In this research project, we design and build a new kind of manipulator using tunable stiffness springs.&lt;/p&gt;
 &lt;figure style=&#34;text-align: center;&#34;&gt;
     &lt;img src=&#34;mplmodel.png&#34; width=&#34;150&#34; style=&#34;display: block; margin: 0 auto;&#34;&gt;
@@ -1314,6 +1319,32 @@ Parallel 4   :         des6, after des4, 1d
 &lt;/div&gt; --&gt;
 &lt;!-- Add the publication&#39;s **full text** or **supplementary notes** here. You can use rich formatting such as including [code, math, and images](https://docs.hugoblox.com/content/writing-markdown-latex/). --&gt;
 </description>
+    </item>
+    
+    <item>
+      <title>Pick and Place Challenge for Robotic Arm</title>
+      <link>http://localhost:1313/project/robot-arm/</link>
+      <pubDate>Tue, 12 Apr 2022 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/project/robot-arm/</guid>
+      <description>&lt;p&gt;The challenge was for the final project of MEAM 520(Intro to Robotics) at UPenn. The robotic arm needed to pick up and stack the blocks placed on the static table and rotating turntable. The final score was determined by the block&amp;rsquo;s direction(white surface face up), tower height, and block type(dynamic one is twice than static one). Here is the simulation scenario in ROS and experimental setup.&lt;/p&gt;
+&lt;figure style=&#34;text-align: center;&#34;&gt;
+    &lt;img src=&#34;simulation scen_edited.jpg&#34; width=&#34;400&#34; style=&#34;display: block; margin: 0 auto;&#34;&gt;
+    &lt;img src=&#34;robot arm.jpg&#34; width=&#34;400&#34; style=&#34;display: block; margin: 0 auto;&#34;&gt;
+&lt;/figure&gt;
+&lt;p&gt;We then developed a robust and reliable solution for acquiring and stacking blocks, and our proposed algorithm was tested in simulation and evaluated in experimental setups. Moreover, we used some new strategies to improve the algorithm’s performance, which greatly reduced the time cost and sped up the movement.&lt;/p&gt;
+&lt;p&gt;For path planning, we used RRT(rapid exploring random tree) Algorithm for searching the potential paths and avoiding obstacles. In order to reduce the computation time, we use hard-coded paths in fixed setpoints and trajectories(while it still depends on the tower height) and only apply the path planning computation in the pick-up stage.&lt;/p&gt;
+&lt;div style=&#34;display: flex; justify-content: center; align-items: flex-end; gap: 10px;&#34;&gt;
+    &lt;img src=&#34;path1.png&#34; width=&#34;300&#34;&gt;
+    &lt;img src=&#34;path2.png&#34; width=&#34;400&#34;&gt;
+&lt;/div&gt;
+&lt;figure style=&#34;text-align: center;&#34;&gt;
+    &lt;img src=&#34;competition.gif&#34; width=&#34;600&#34; style=&#34;display: block; margin: 0 auto;&#34;&gt;
+&lt;/figure&gt;
+&lt;p&gt;Here is the process of how it works: First, the blocks&amp;rsquo; location and direction were recognized by computer vision models. Then the arm computes the shortest way with the least rotating angle to the goal block. Once the block got grabbed, the arm will follow the path between fixed setpoints. Since computer vision is not allowed in dynamic blocks, we used a scooping pose to blindly grab the blocks, which proved to be an effective way. Finally, we developed several grabbing plans for different situations to maximize our score. Since on the battlefield, your opponent could steal your blocks in advance!&lt;/p&gt;
+&lt;figure style=&#34;text-align: center;&#34;&gt;
+    &lt;img src=&#34;IMG_0160.jpg&#34; width=&#34;600&#34; style=&#34;display: block; margin: 0 auto;&#34;&gt;
+    &lt;figcaption&gt;Final Battle&lt;/figcaption&gt;
+&lt;/figure&gt;</description>
     </item>
     
     <item>
