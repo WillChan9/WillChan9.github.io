@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Hardware Accele | Rongqian&#39;s website</title>
+    <link>http://localhost:1313/tags/hardware-accele/</link>
+      <atom:link href="http://localhost:1313/tags/hardware-accele/index.xml" rel="self" type="application/rss+xml" />
+    <description>Hardware Accele</description>
+    <generator>Hugo Blox Builder (https://hugoblox.com)</generator><language>en-us</language><lastBuildDate>Wed, 01 Sep 2021 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>http://localhost:1313/media/icon_hu_645fa481986063ef.png</url>
+      <title>Hardware Accele</title>
+      <link>http://localhost:1313/tags/hardware-accele/</link>
+    </image>
+    
+    <item>
+      <title>FPGA based Accelerated CNN</title>
+      <link>http://localhost:1313/project/fpga-cnn/</link>
+      <pubDate>Wed, 01 Sep 2021 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/project/fpga-cnn/</guid>
+      <description>&lt;p&gt;This project, completed as part of the ESE539 course at UPenn, explores the co-design of software and hardware for machine learning by applying the advantages of FPGAs over traditional CPUs. Given that matrix multiplication—the core operation in convolutional layers—is computationally intensive, FPGAs’ superior parallel processing and specialized architecture can drastically reduce computation time.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

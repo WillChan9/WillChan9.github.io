@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Hardware Acceleration | Rongqian&#39;s website</title>
+    <link>http://localhost:1313/tags/hardware-acceleration/</link>
+      <atom:link href="http://localhost:1313/tags/hardware-acceleration/index.xml" rel="self" type="application/rss+xml" />
+    <description>Hardware Acceleration</description>
+    <generator>Hugo Blox Builder (https://hugoblox.com)</generator><language>en-us</language><lastBuildDate>Wed, 01 Sep 2021 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>http://localhost:1313/media/icon_hu_645fa481986063ef.png</url>
+      <title>Hardware Acceleration</title>
+      <link>http://localhost:1313/tags/hardware-acceleration/</link>
+    </image>
+    
+    <item>
+      <title>FPGA based Accelerated CNN</title>
+      <link>http://localhost:1313/project/fpga-cnn/</link>
+      <pubDate>Wed, 01 Sep 2021 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/project/fpga-cnn/</guid>
+      <description>&lt;style&gt;
+  .btn-link {
+    display: inline-block;
+    background-color: #4da6ff; /* Light blue */
+    color: white !important; /* Ensures white text */
+    font-size: 1em;
+    font-weight: bold;
+    padding: 8px 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background-color 0.2s ease-in-out, text-decoration 0.2s ease-in-out;
+  }
+
+  .btn-link:hover {
+    background-color: #3399ff; /* Darker blue on hover */
+    color: white !important; /* Prevents green color */
+    text-decoration: underline;
+  }
+
+  .center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+&lt;/style&gt;
+&lt;p&gt;&lt;strong&gt;IEEE JETCAS Paper:&lt;/strong&gt; 
+  &lt;a href=&#34;Stability_Improvement_of_Pulse_Power_Supply_With_Dual-Inductance_Active_Storage_Unit_Using_Hysteresis_Current_Control.pdf&#34; class=&#34;btn-link&#34; target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;PDF&lt;/a&gt;
+&lt;/p&gt;
+&lt;p&gt;This project, completed as part of the ESE539 course at UPenn, explores the co-design of software and hardware for machine learning by applying the advantages of FPGAs over traditional CPUs. Given that matrix multiplication—the core operation in convolutional layers—is computationally intensive, FPGAs’ superior parallel processing and specialized architecture can drastically reduce computation time.&lt;/p&gt;
+&lt;p&gt;In our work, we adapted the VGG16 model using the PyTorch framework by replacing standard convolutional layers with custom FPGA-accelerated layers. The FPGA accelerator, deployed via Amazon Web Services and programmed in C, is leveraged to execute these computationally demanding operations more efficiently.&lt;/p&gt;
+&lt;p&gt;The FPGA customization process can be summarized as follows:&lt;/p&gt;
+&lt;figure style=&#34;text-align: center;&#34;&gt;
+    &lt;img src=&#34;ASU.png&#34; width=&#34;800&#34; style=&#34;display: block; margin: 0 auto;&#34;&gt;
+    &lt;figcaption&gt;System Diagram&lt;/figcaption&gt;
+&lt;/figure&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

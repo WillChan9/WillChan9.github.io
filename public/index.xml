@@ -533,7 +533,7 @@
 
 
 
-&lt;div id=&#34;chart-432678159&#34; class=&#34;chart&#34;&gt;&lt;/div&gt;
+&lt;div id=&#34;chart-714592368&#34; class=&#34;chart&#34;&gt;&lt;/div&gt;
 &lt;script&gt;
   async function fetchChartJSON() {
     console.debug(&#39;Hugo Blox fetching chart JSON...&#39;)
@@ -551,7 +551,7 @@
 
       fetchChartJSON().then(chart =&gt; {
         console.debug(&#39;Plotting chart...&#39;)
-        window.Plotly.newPlot(&#39;chart-432678159&#39;, chart.data, chart.layout, {responsive: true});
+        window.Plotly.newPlot(&#39;chart-714592368&#39;, chart.data, chart.layout, {responsive: true});
       });
     }, 500 );
   })();
@@ -1313,6 +1313,75 @@ Parallel 4   :         des6, after des4, 1d
   &lt;span class=&#34;dark:text-neutral-300&#34;&gt;Create your slides in Markdown - click the &lt;em&gt;Slides&lt;/em&gt; button to check out the example.&lt;/span&gt;
 &lt;/div&gt; --&gt;
 &lt;!-- Add the publication&#39;s **full text** or **supplementary notes** here. You can use rich formatting such as including [code, math, and images](https://docs.hugoblox.com/content/writing-markdown-latex/). --&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>FPGA based Accelerated CNN</title>
+      <link>http://localhost:1313/project/fpga-cnn/</link>
+      <pubDate>Wed, 01 Sep 2021 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/project/fpga-cnn/</guid>
+      <description>&lt;style&gt;
+  .btn-link {
+    display: inline-block;
+    background-color: #4da6ff; /* Light blue */
+    color: white !important; /* Ensures white text */
+    font-size: 1em;
+    font-weight: bold;
+    padding: 8px 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background-color 0.2s ease-in-out, text-decoration 0.2s ease-in-out;
+  }
+
+  .btn-link:hover {
+    background-color: #3399ff; /* Darker blue on hover */
+    color: white !important; /* Prevents green color */
+    text-decoration: underline;
+  }
+
+  .center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+&lt;/style&gt;
+&lt;p&gt;&lt;strong&gt;Project Final Report:&lt;/strong&gt; 
+  &lt;a href=&#34;ESE539.pdf&#34; class=&#34;btn-link&#34; target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;PDF&lt;/a&gt;
+&lt;/p&gt;
+&lt;p&gt;This project, completed as part of the ESE539 course at UPenn, explores the co-design of software and hardware for machine learning by applying the advantages of FPGAs over traditional CPUs. Given that matrix multiplication—the core operation in convolutional layers—is computationally intensive, FPGAs’ superior parallel processing and specialized architecture can drastically reduce computation time.&lt;/p&gt;
+&lt;p&gt;In our work, we adapted the VGG16 model using the PyTorch framework by replacing standard convolutional layers with custom FPGA-accelerated layers. The FPGA accelerator, deployed via Amazon Web Services and programmed in C, is leveraged to execute these computationally demanding operations more efficiently.&lt;/p&gt;
+&lt;p&gt;The FPGA customization process can be summarized as follows:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Flattening: Both the filters and the input image are transformed into one-dimensional row and column arrays, effectively converting the convolution operation into a matrix multiplication problem.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure style=&#34;text-align: center;&#34;&gt;
+    &lt;img src=&#34;split1.png&#34; width=&#34;300&#34; style=&#34;display: block; margin: 0 auto;&#34;&gt;
+    &lt;figcaption&gt;Flattening&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;ul&gt;
+&lt;li&gt;Partitioning: The resulting matrix is divided into several submatrices to ensure they fit within the FPGA’s buffer constraints.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure style=&#34;text-align: center;&#34;&gt;
+    &lt;img src=&#34;split2.png&#34; width=&#34;500&#34; style=&#34;display: block; margin: 0 auto;&#34;&gt;
+    &lt;figcaption&gt;Partitioning&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;ul&gt;
+&lt;li&gt;Computation: Each submatrix undergoes a multiply-and-accumulate process to build the overall result matrix.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure style=&#34;text-align: center;&#34;&gt;
+    &lt;img src=&#34;split3.png&#34; width=&#34;800&#34; style=&#34;display: block; margin: 0 auto;&#34;&gt;
+    &lt;figcaption&gt;Computation&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;ul&gt;
+&lt;li&gt;Reshaping: Finally, the result matrix is reconstructed into multi-layer images, restoring the original spatial structure.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure style=&#34;text-align: center;&#34;&gt;
+    &lt;img src=&#34;split4.png&#34; width=&#34;400&#34; style=&#34;display: block; margin: 0 auto;&#34;&gt;
+    &lt;figcaption&gt;Reshaping&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;p&gt;Our experiments demonstrated a speedup of over &lt;strong&gt;7 times&lt;/strong&gt; compared to traditional CPU-based methods. Although the current solution is not fully optimal and leaves room for further improvement, the findings clearly indicate that FPGA-based architectures hold significant potential for accelerating deep learning computations.&lt;/p&gt;
 </description>
     </item>
     
