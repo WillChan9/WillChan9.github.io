@@ -541,7 +541,7 @@
       "TableOfContents",
       "about-me",
       "callouts",
-      "chart-843265179",
+      "chart-396478521",
       "charts",
       "code",
       "crowd-funded-open-source-software",
@@ -556,7 +556,9 @@
       "ideation",
       "inline-images",
       "inspiration",
+      "key-features",
       "license",
+      "market-digest",
       "math",
       "mindmaps",
       "moon",
@@ -588,10 +590,12 @@
       "spoiler-3",
       "sun",
       "teaching",
+      "technical-architecture",
       "test-students",
       "themes",
       "todo-lists",
       "top",
+      "use-cases",
       "video"
     ]
   }

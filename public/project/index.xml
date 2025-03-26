@@ -60,11 +60,136 @@
     </item>
     
     <item>
-      <title>Macro Economics Bot</title>
+      <title>Macro Economics Bot: MarketDigest</title>
       <link>http://localhost:1313/project/rag-bot/</link>
       <pubDate>Sun, 01 Sep 2024 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/project/rag-bot/</guid>
-      <description>&lt;p&gt;Under editing&amp;hellip;&lt;/p&gt;
+      <description>&lt;h1 id=&#34;market-digest&#34;&gt;Market Digest&lt;/h1&gt;
+&lt;style&gt;
+  .btn-link {
+    display: inline-block;
+    background-color: #4da6ff; /* Light blue */
+    color: white !important; /* Ensures white text */
+    font-size: 1em;
+    font-weight: bold;
+    padding: 8px 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background-color 0.2s ease-in-out, text-decoration 0.2s ease-in-out;
+  }
+
+  .btn-link:hover {
+    background-color: #3399ff; /* Darker blue on hover */
+    color: white !important; /* Prevents green color */
+    text-decoration: underline;
+  }
+
+  .center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+&lt;/style&gt;
+&lt;p&gt;&lt;strong&gt;GitHub Folder:&lt;/strong&gt; 
+  &lt;a href=&#34;https://github.com/WillChan9/Market-digest&#34; class=&#34;btn-link&#34; target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;PDF&lt;/a&gt;
+&lt;/p&gt;
+&lt;h2 id=&#34;overview&#34;&gt;Overview&lt;/h2&gt;
+&lt;p&gt;Market Digest is an intelligent financial research platform that automates the collection, processing, and analysis of macroeconomic reports from major financial institutions. The platform combines web scraping, natural language processing, and vector database technology to create a powerful knowledge base for financial research and trading strategy development.&lt;/p&gt;
+&lt;h3 id=&#34;key-features&#34;&gt;Key Features&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Automated Data Collection&lt;/strong&gt;: Scrapes macroeconomic reports from leading financial institutions including:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;BlackRock&lt;/li&gt;
+&lt;li&gt;Goldman Sachs&lt;/li&gt;
+&lt;li&gt;J.P. Morgan&lt;/li&gt;
+&lt;li&gt;Morgan Stanley&lt;/li&gt;
+&lt;li&gt;Federal Reserve&lt;/li&gt;
+&lt;li&gt;European Central Bank&lt;/li&gt;
+&lt;li&gt;Bank for International Settlements (BIS)&lt;/li&gt;
+&lt;li&gt;Lombard Odier&lt;/li&gt;
+&lt;li&gt;Merrill Lynch&lt;/li&gt;
+&lt;li&gt;WisdomTree&lt;/li&gt;
+&lt;li&gt;J. Safra Sarasin&lt;/li&gt;
+&lt;li&gt;T. Rowe Price&lt;/li&gt;
+&lt;li&gt;International Monetary Fund (IMF)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Intelligent Processing&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Extracts and structures content from PDF reports&lt;/li&gt;
+&lt;li&gt;Generates concise summaries using advanced language models&lt;/li&gt;
+&lt;li&gt;Organizes data in a vector database for semantic search capabilities&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Interactive Research Assistant&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Natural language interface for querying the knowledge base&lt;/li&gt;
+&lt;li&gt;Semantic search to find relevant market insights&lt;/li&gt;
+&lt;li&gt;Context-aware responses based on historical reports&lt;/li&gt;
+&lt;li&gt;Support for complex queries about market trends and economic indicators&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Trading Strategy Support&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Access to historical market analysis and predictions&lt;/li&gt;
+&lt;li&gt;Identification of key market themes and trends&lt;/li&gt;
+&lt;li&gt;Correlation analysis between different market indicators&lt;/li&gt;
+&lt;li&gt;Foundation for building data-driven trading strategies&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;use-cases&#34;&gt;Use Cases&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Market Research&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Quick access to the latest market insights from major institutions&lt;/li&gt;
+&lt;li&gt;Historical analysis of market trends and predictions&lt;/li&gt;
+&lt;li&gt;Cross-reference multiple sources for comprehensive analysis&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Trading Strategy Development&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Identify market themes and sentiment&lt;/li&gt;
+&lt;li&gt;Track institutional positioning and outlook&lt;/li&gt;
+&lt;li&gt;Analyze historical patterns and correlations&lt;/li&gt;
+&lt;li&gt;Support for both fundamental and quantitative trading strategies&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Risk Management&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Monitor global economic indicators&lt;/li&gt;
+&lt;li&gt;Track institutional risk assessments&lt;/li&gt;
+&lt;li&gt;Identify potential market risks and opportunities&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Portfolio Management&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Access to asset allocation recommendations&lt;/li&gt;
+&lt;li&gt;Sector and region-specific insights&lt;/li&gt;
+&lt;li&gt;Market timing indicators&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;technical-architecture&#34;&gt;Technical Architecture&lt;/h3&gt;
+&lt;p&gt;The platform is built with a modern tech stack:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Python-based web scrapers for data collection&lt;/li&gt;
+&lt;li&gt;AWS S3 for document storage&lt;/li&gt;
+&lt;li&gt;Pinecone vector database for semantic search&lt;/li&gt;
+&lt;li&gt;OpenAI&amp;rsquo;s language models for text processing&lt;/li&gt;
+&lt;li&gt;Docker containers for deployment&lt;/li&gt;
+&lt;li&gt;AWS ECS for container orchestration&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;// &amp;hellip; existing code &amp;hellip;&lt;/p&gt;
 </description>
     </item>
     
@@ -299,7 +424,18 @@
 &lt;/figure&gt;
 &lt;p&gt;We then developed a robust and reliable solution for acquiring and stacking blocks, and our proposed algorithm was tested in simulation and evaluated in experimental setups. Moreover, we used some new strategies to improve the algorithm’s performance, which greatly reduced the time cost and sped up the movement.&lt;/p&gt;
 &lt;p&gt;For path planning, we used RRT(rapid exploring random tree) Algorithm for searching the potential paths and avoiding obstacles. In order to reduce the computation time, we use hard-coded paths in fixed setpoints and trajectories(while it still depends on the tower height) and only apply the path planning computation in the pick-up stage.&lt;/p&gt;
-</description>
+&lt;div style=&#34;display: flex; justify-content: center; align-items: flex-end; gap: 10px;&#34;&gt;
+    &lt;img src=&#34;path1.png&#34; width=&#34;300&#34;&gt;
+    &lt;img src=&#34;path2.png&#34; width=&#34;400&#34;&gt;
+&lt;/div&gt;
+&lt;figure style=&#34;text-align: center;&#34;&gt;
+    &lt;img src=&#34;competition.gif&#34; width=&#34;600&#34; style=&#34;display: block; margin: 0 auto;&#34;&gt;
+&lt;/figure&gt;
+&lt;p&gt;Here is the process of how it works: First, the blocks&amp;rsquo; location and direction were recognized by computer vision models. Then the arm computes the shortest way with the least rotating angle to the goal block. Once the block got grabbed, the arm will follow the path between fixed setpoints. Since computer vision is not allowed in dynamic blocks, we used a scooping pose to blindly grab the blocks, which proved to be an effective way. Finally, we developed several grabbing plans for different situations to maximize our score. Since on the battlefield, your opponent could steal your blocks in advance!&lt;/p&gt;
+&lt;figure style=&#34;text-align: center;&#34;&gt;
+    &lt;img src=&#34;IMG_0160.jpg&#34; width=&#34;600&#34; style=&#34;display: block; margin: 0 auto;&#34;&gt;
+    &lt;figcaption&gt;Final Battle&lt;/figcaption&gt;
+&lt;/figure&gt;</description>
     </item>
     
     <item>
