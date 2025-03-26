@@ -40,7 +40,7 @@ image:
 </style>
 
 <p><strong>GitHub Folder:</strong> 
-  <a href="https://github.com/WillChan9/Market-digest" class="btn-link" target="_blank" rel="noopener noreferrer">PDF</a>
+  <a href="https://github.com/WillChan9/Market-digest" class="btn-link" target="_blank" rel="noopener noreferrer">GitHub</a>
 </p>
 
 ## Overview
