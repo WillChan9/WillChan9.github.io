@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Analytics | Rongqian&#39;s website</title>
+    <link>http://localhost:1313/tags/analytics/</link>
+      <atom:link href="http://localhost:1313/tags/analytics/index.xml" rel="self" type="application/rss+xml" />
+    <description>Analytics</description>
+    <generator>Hugo Blox Builder (https://hugoblox.com)</generator><language>en-us</language><lastBuildDate>Tue, 26 Mar 2024 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>http://localhost:1313/media/icon_hu_645fa481986063ef.png</url>
+      <title>Analytics</title>
+      <link>http://localhost:1313/tags/analytics/</link>
+    </image>
+    
+    <item>
+      <title>Website Analytics</title>
+      <link>http://localhost:1313/ip-tracker/</link>
+      <pubDate>Tue, 26 Mar 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/ip-tracker/</guid>
+      <description>&lt;style&gt;
+  .ip-container {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px 0;
+  }
+  
+  .ip-info {
+    font-family: monospace;
+    margin: 10px 0;
+  }
+  
+  .privacy-notice {
+    background-color: #fff3cd;
+    border: 1px solid #ffeeba;
+    border-radius: 4px;
+    padding: 15px;
+    margin: 20px 0;
+  }
+
+  #map {
+    height: 500px;
+    width: 100%;
+    border-radius: 8px;
+    margin: 20px 0;
+  }
+
+  .visitor-list {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-top: 20px;
+  }
+
+  .visitor-item {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+  }
+&lt;/style&gt;
+&lt;div class=&#34;privacy-notice&#34;&gt;
+  &lt;strong&gt;Privacy Notice:&lt;/strong&gt; This page displays and records the IP addresses and locations of visitors for analytics purposes. We respect your privacy and only store basic location data. This information is used solely for website analytics and is not shared with third parties.
+&lt;/div&gt;
+&lt;div class=&#34;ip-container&#34;&gt;
+  &lt;h3&gt;Your IP Information&lt;/h3&gt;
+  &lt;div id=&#34;ip-info&#34; class=&#34;ip-info&#34;&gt;
+    Loading...
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;map&#34;&gt;&lt;/div&gt;
+&lt;div class=&#34;ip-container&#34;&gt;
+  &lt;h3&gt;Recent Visitors&lt;/h3&gt;
+  &lt;div id=&#34;visitor-list&#34; class=&#34;visitor-list&#34;&gt;
+    Loading visitor history...
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;!-- Leaflet CSS --&gt;
+&lt;link rel=&#34;stylesheet&#34; href=&#34;https://unpkg.com/leaflet@1.9.4/dist/leaflet.css&#34; /&gt;
+&lt;!-- Leaflet JS --&gt;
+&lt;script src=&#34;https://unpkg.com/leaflet@1.9.4/dist/leaflet.js&#34;&gt;&lt;/script&gt;
+&lt;script&gt;
+  // Initialize the map
+  const map = L.map(&#39;map&#39;).setView([0, 0], 2);
+  L.tileLayer(&#39;https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png&#39;, {
+    attribution: &#39;© OpenStreetMap contributors&#39;
+  }).addTo(map);
+
+  // Function to add a marker to the map
+  function addMarkerToMap(lat, lon, ip, timestamp) {
+    const marker = L.marker([lat, lon]).addTo(map);
+    marker.bindPopup(`
+      &lt;strong&gt;IP:&lt;/strong&gt; ${ip}&lt;br&gt;
+      &lt;strong&gt;Time:&lt;/strong&gt; ${timestamp}
+    `);
+  }
+
+  // Function to format timestamp
+  function formatTimestamp(date) {
+    return new Date(date).toLocaleString();
+  }
+
+  // Function to add visitor to the list
+  function addVisitorToList(ip, location, timestamp) {
+    const visitorList = document.getElementById(&#39;visitor-list&#39;);
+    const visitorItem = document.createElement(&#39;div&#39;);
+    visitorItem.className = &#39;visitor-item&#39;;
+    visitorItem.innerHTML = `
+      &lt;strong&gt;IP:&lt;/strong&gt; ${ip}&lt;br&gt;
+      &lt;strong&gt;Location:&lt;/strong&gt; ${location}&lt;br&gt;
+      &lt;strong&gt;Time:&lt;/strong&gt; ${timestamp}
+    `;
+    visitorList.insertBefore(visitorItem, visitorList.firstChild);
+  }
+
+  async function getIPInfo() {
+    try {
+      // Get IP address
+      const ipResponse = await fetch(&#39;https://api.ipify.org?format=json&#39;);
+      const ipData = await ipResponse.json();
+      const ip = ipData.ip;
+
+      // Get location data
+      const locationResponse = await fetch(`https://ipapi.co/${ip}/json/`);
+      const locationData = await locationResponse.json();
+
+      // Update IP info display
+      document.getElementById(&#39;ip-info&#39;).innerHTML = `
+        &lt;p&gt;&lt;strong&gt;IP Address:&lt;/strong&gt; ${ip}&lt;/p&gt;
+        &lt;p&gt;&lt;strong&gt;Location:&lt;/strong&gt; ${locationData.city}, ${locationData.country_name}&lt;/p&gt;
+        &lt;p&gt;&lt;strong&gt;ISP:&lt;/strong&gt; ${locationData.org}&lt;/p&gt;
+        &lt;p&gt;&lt;strong&gt;Timestamp:&lt;/strong&gt; ${formatTimestamp(new Date())}&lt;/p&gt;
+      `;
+
+      // Add marker to map
+      addMarkerToMap(locationData.latitude, locationData.longitude, ip, formatTimestamp(new Date()));
+
+      // Add to visitor list
+      addVisitorToList(ip, `${locationData.city}, ${locationData.country_name}`, formatTimestamp(new Date()));
+
+      // Store visitor data
+      const visitorData = {
+        ip: ip,
+        location: `${locationData.city}, ${locationData.country_name}`,
+        timestamp: new Date().toISOString(),
+        lat: locationData.latitude,
+        lon: locationData.longitude
+      };
+
+      // Store in localStorage (for demo purposes)
+      let visitors = JSON.parse(localStorage.getItem(&#39;visitors&#39;) || &#39;[]&#39;);
+      visitors.unshift(visitorData);
+      // Keep only last 50 visitors
+      visitors = visitors.slice(0, 50);
+      localStorage.setItem(&#39;visitors&#39;, JSON.stringify(visitors));
+
+      // Load all stored visitors
+      loadStoredVisitors();
+
+    } catch (error) {
+      document.getElementById(&#39;ip-info&#39;).innerHTML = &#39;Unable to fetch IP information&#39;;
+      console.error(&#39;Error:&#39;, error);
+    }
+  }
+
+  // Function to load stored visitors
+  function loadStoredVisitors() {
+    const visitors = JSON.parse(localStorage.getItem(&#39;visitors&#39;) || &#39;[]&#39;);
+    const visitorList = document.getElementById(&#39;visitor-list&#39;);
+    visitorList.innerHTML = &#39;&#39;; // Clear current list
+
+    visitors.forEach(visitor =&gt; {
+      addVisitorToList(visitor.ip, visitor.location, formatTimestamp(visitor.timestamp));
+      addMarkerToMap(visitor.lat, visitor.lon, visitor.ip, formatTimestamp(visitor.timestamp));
+    });
+  }
+
+  // Initialize
+  getIPInfo();
+  loadStoredVisitors();
+&lt;/script&gt; 
+&lt;p&gt;&lt;/script&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
