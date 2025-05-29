@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Power Electronics | Rongqian&#39;s website</title>
+    <link>http://localhost:1313/tags/power-electronics/</link>
+      <atom:link href="http://localhost:1313/tags/power-electronics/index.xml" rel="self" type="application/rss+xml" />
+    <description>Power Electronics</description>
+    <generator>Hugo Blox Builder (https://hugoblox.com)</generator><language>en-us</language><lastBuildDate>Fri, 01 Jan 2021 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>http://localhost:1313/media/icon_hu_645fa481986063ef.png</url>
+      <title>Power Electronics</title>
+      <link>http://localhost:1313/tags/power-electronics/</link>
+    </image>
+    
+    <item>
+      <title>Stability improvement of pulse power supply with dual-inductance active storage unit using hysteresis current control</title>
+      <link>http://localhost:1313/publication/pulse-power-supply/</link>
+      <pubDate>Fri, 01 Jan 2021 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/publication/pulse-power-supply/</guid>
+      <description>&lt;!-- 
+
+
+
+
+  
+    
+  
+
+&lt;div class=&#34;flex px-4 py-3 mb-6 rounded-md bg-primary-100 dark:bg-primary-900&#34;&gt;
+&lt;span class=&#34;pr-3 pt-1 text-primary-600 dark:text-primary-300&#34;&gt;
+  &lt;svg height=&#34;24&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34; viewBox=&#34;0 0 24 24&#34;&gt;&lt;path fill=&#34;none&#34; stroke=&#34;currentColor&#34; stroke-linecap=&#34;round&#34; stroke-linejoin=&#34;round&#34; stroke-width=&#34;1.5&#34; d=&#34;m11.25 11.25l.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0a9 9 0 0 1 18 0m-9-3.75h.008v.008H12z&#34;/&gt;&lt;/svg&gt;
+&lt;/span&gt;
+  &lt;span class=&#34;dark:text-neutral-300&#34;&gt;Click the &lt;em&gt;Cite&lt;/em&gt; button above to demo the feature to enable visitors to import publication metadata into their reference management software.&lt;/span&gt;
+&lt;/div&gt;
+
+
+
+
+
+
+  
+    
+  
+
+&lt;div class=&#34;flex px-4 py-3 mb-6 rounded-md bg-primary-100 dark:bg-primary-900&#34;&gt;
+&lt;span class=&#34;pr-3 pt-1 text-primary-600 dark:text-primary-300&#34;&gt;
+  &lt;svg height=&#34;24&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34; viewBox=&#34;0 0 24 24&#34;&gt;&lt;path fill=&#34;none&#34; stroke=&#34;currentColor&#34; stroke-linecap=&#34;round&#34; stroke-linejoin=&#34;round&#34; stroke-width=&#34;1.5&#34; d=&#34;m11.25 11.25l.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0a9 9 0 0 1 18 0m-9-3.75h.008v.008H12z&#34;/&gt;&lt;/svg&gt;
+&lt;/span&gt;
+  &lt;span class=&#34;dark:text-neutral-300&#34;&gt;Create your slides in Markdown - click the &lt;em&gt;Slides&lt;/em&gt; button to check out the example.&lt;/span&gt;
+&lt;/div&gt;
+
+Add the publication&#39;s **full text** or **supplementary notes** here. You can use rich formatting such as including [code, math, and images](https://docs.hugoblox.com/content/writing-markdown-latex/). --&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Pulse Power Supply Development</title>
+      <link>http://localhost:1313/project/pulse-power/</link>
+      <pubDate>Sat, 01 Aug 2020 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/project/pulse-power/</guid>
+      <description>&lt;style&gt;
+  .btn-link {
+    display: inline-block;
+    background-color: #4da6ff; /* Light blue */
+    color: white !important; /* Ensures white text */
+    font-size: 1em;
+    font-weight: bold;
+    padding: 8px 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background-color 0.2s ease-in-out, text-decoration 0.2s ease-in-out;
+  }
+
+  .btn-link:hover {
+    background-color: #3399ff; /* Darker blue on hover */
+    color: white !important; /* Prevents green color */
+    text-decoration: underline;
+  }
+
+  .center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+&lt;/style&gt;
+&lt;p&gt;&lt;strong&gt;IEEE JETCAS Paper:&lt;/strong&gt; 
+  &lt;a href=&#34;Stability_Improvement_of_Pulse_Power_Supply_With_Dual-Inductance_Active_Storage_Unit_Using_Hysteresis_Current_Control.pdf&#34; class=&#34;btn-link&#34; target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;PDF&lt;/a&gt;
+&lt;/p&gt;
+&lt;p&gt;The Pulse Power Supply (PPS) delivers periodic high-power pulses, widely used in industrial and military applications. However, the conversion from DC power to high pulse power often leads to stability issues, particularly voltage fluctuations and current spikes. Our research focused on enhancing stability by implementing a &lt;strong&gt;Dual-Inductance Active Storage Unit (ASU)&lt;/strong&gt; combined with &lt;strong&gt;Hysteresis Current Control (HCC)&lt;/strong&gt; to regulate compensating currents effectively.&lt;/p&gt;
+&lt;figure style=&#34;text-align: center;&#34;&gt;
+    &lt;img src=&#34;system.png&#34; width=&#34;500&#34; style=&#34;display: block; margin: 0 auto;&#34;&gt;
+    &lt;figcaption&gt;System Diagram&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;p&gt;The Active Storage Unit (ASU) is responsible for stabilizing the DC bus voltage while delivering pulse currents. It consists of a conversion circuit and a capacitor, which stores energy when the pulse current is at its lowest. The dual-inductance design replaces the conventional single inductor, creating independent current flow paths that enhance stability.&lt;/p&gt;
+&lt;figure style=&#34;text-align: center;&#34;&gt;
+    &lt;img src=&#34;ASU.png&#34; width=&#34;800&#34; style=&#34;display: block; margin: 0 auto;&#34;&gt;
+    &lt;figcaption&gt;System Diagram&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;p&gt;The ASU functions as a buck-boost converter with two distinct operating modes:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Boost Mode (Low Current Demand): The capacitor charges through diode D1.&lt;/li&gt;
+&lt;li&gt;Buck Mode (High Current Demand): The capacitor discharges through diode D3.&lt;/li&gt;
+&lt;li&gt;Inductor L1 &amp;amp; Switch S4: During buck mode, L1 remains in the loop with S4, ensuring a steady current flow.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Experimental results demonstrated that our 500W prototype (100-500Hz pulse frequency) successfully:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;✅ Reduced voltage ripple on the DC bus&lt;/li&gt;
+&lt;li&gt;✅ Eliminated current spikes, improving system stability&lt;/li&gt;
+&lt;li&gt;✅ Provided a smooth output waveform, enhancing power efficiency&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure style=&#34;text-align: center;&#34;&gt;
+    &lt;img src=&#34;waves.png&#34; width=&#34;400&#34; style=&#34;display: block; margin: 0 auto;&#34;&gt;
+&lt;/figure&gt;
+&lt;p&gt;The final testbench and prototype verified the effectiveness of our design in improving pulse power supply performance, as shown follows.&lt;/p&gt;
+&lt;figure style=&#34;text-align: center;&#34;&gt;
+    &lt;img src=&#34;board.png&#34; width=&#34;800&#34; style=&#34;display: block; margin: 0 auto;&#34;&gt;
+    &lt;figcaption&gt;Pulse Power Prototype&lt;/figcaption&gt;
+&lt;/figure&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
