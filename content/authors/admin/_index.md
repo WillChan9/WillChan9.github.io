@@ -161,8 +161,10 @@ languages:
 #     icon: datacamp
 #     summary: |
 #       Object-oriented programming (OOP) lets you specify relationships between functions and the objects that they can act on, helping you manage complexity in your code. This is an intermediate level course, providing an introduction to OOP, using the S3 and R6 systems. S3 is a great day-to-day R programming tool that simplifies some of the functions that you write. R6 is especially useful for industry-specific analyses, working with web APIs, and building GUIs.
+
+# supervised by [Dr. Tian Lan](https://www2.seas.gwu.edu/~tlan/)
 ---
 
 ## About Me
 
-I'm a PhD student at the GWU, supervised by [Dr. Tian Lan](https://www2.seas.gwu.edu/~tlan/), my current research directions include artificial intelligence, robotics and AR/VR technology. 
+I'm a PhD student at the GWU, my current research directions include artificial intelligence, robotics and AR/VR technology. 
