@@ -30,16 +30,7 @@ sections:
           size: cover
           position: center
           parallax: false
-  - block: markdown
-    content:
-      title: '🔍 My Research'
-      subtitle: ''
-      text: |-
-        My research interests lie at the intersection of Artificial Intelligence and Robotics, with a particular focus on applying AI to robots, enabling intelligent interaction with the physical world. My background spans hardware and system development, robot and actuator design, equipping me with valuable expertise in mathematical modeling and simulation, software and hardware system development, mechanical design and prototyping.
 
-        Looking ahead, I am eager to tackle challenges in developing AI models for robotics while also exploring the potential of AR/VR technologies in AI-driven robotics. I believe these techniques have the power to transform lives in profound ways.
-    design:
-      columns: '1'
   - block: collection
     id: project
     content:
