@@ -169,6 +169,6 @@ languages:
 
 I'm a PhD student at the GWU, my current research directions include artificial intelligence, robotics and AR/VR technology.
 
-I’m an interdisciplinary engineer with depth in hardware (circuits, chips) and software, and hands-on experience in mechanical design for robots and actuators. My work spans mathematical modeling and simulation, embedded/controls software, and mechanical design and prototyping, enabling full-stack development and reliable integration across electrical, mechanical, and software subsystems.
+I'm an interdisciplinary researcher with expertise in electrical, mechanical, and software engineering. My past works span mathematical modeling and simulation, hardware (circuits, chips), embedded/controls software, and mechanical design and prototyping, enabling full-stack development and reliable integration across electrical, mechanical, and software subsystems.
 
-Looking ahead, I aim to build AI models that give robots the ability to perceive, reason, and act in complex physical environments. I’m also exploring how AR/VR (XR) can augment perception, control, and human–robot collaboration to deliver truly embodied intelligence. I believe these techniques have the power to transform lives in profound ways. 
+Looking ahead, I am interested in building AI models that give robots the ability to perceive, reason, and act in complex physical environments. I'm also exploring how AR/VR (XR) can augment perception, control, and human–robot collaboration to deliver truly embodied intelligence. I believe these techniques have the power to transform lives in profound ways. 
