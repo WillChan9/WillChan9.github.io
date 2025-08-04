@@ -1,5 +1,5 @@
 ---
-title: 'Adaptive Leg Stiffness in a Monopedal Hopper: Achieving Energy-Efficient Vertical Hopping Across Varying Ground Profiles'
+title: 'Tunable Leg Stiffness in a Monopedal Hopper for Energy-Efficient Vertical Hopping Across Varying Ground Profiles'
 
 # Authors
 # If you created a profile for a user (e.g. the default `admin` user), write the username (folder name) here
