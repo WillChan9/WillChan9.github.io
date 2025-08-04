@@ -13,10 +13,6 @@ last_name: Chen
 status:
   icon: 
 
-# Avatar configuration for high quality display
-avatar_shape: circle
-avatar_size: 400
-
 # Is this the primary user of the site?
 superuser: true
 
