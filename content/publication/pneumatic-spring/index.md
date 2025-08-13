@@ -28,7 +28,7 @@ publication_types: ['paper-conference']
 
 # Publication name and optional abbreviated publication name.
 publication: In *2024 IEEE 7th International Conference on Soft Robotics (RoboSoft)*
-publication_short: In *RoboSoft 2024*
+publication_short: In **RoboSoft 2024**
 
 abstract: We introduce a self-contained pneumatic actuator capable of 1.43 times stiffness gain from 1332 N/m to 1913 N/m without needing an external air source or valve. The design incorporates an air chamber bellows and a spring bellows, connected and sealed. Stiffness modulation is achieved by altering the air chamber volume. We present an approach for computing the volume, pressurized force, and stiffness of a single bellows component, as well as methods for composing single bellows models to predict the change in stiffness of the dual bellows actuator as a function of air chamber compression. We detail the fabrication of the actuator and verify the models on the fabricated prototype. This actuator holds promise for future integration in tunable stiffness robots demanding high strength and adaptability in dynamic scenarios.
 
