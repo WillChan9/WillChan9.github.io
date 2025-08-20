@@ -167,7 +167,7 @@ languages:
 
 ## About Me
 
-I'm a PhD student at the GWU, my current research directions include artificial intelligence, robotics and AR/VR technology.
+I'm a PhD student at GWU started in Fall 2024. My research directions include artificial intelligence, robotics and AR/VR technology.
 
 I'm an interdisciplinary researcher with expertise in electrical, mechanical, and software engineering. My past works span mathematical modeling and simulation, hardware (circuits, chips), embedded/controls software, and mechanical design and prototyping.
 

@@ -54,7 +54,7 @@ featured: false
 # - name: Custom Link
 #   url: http://example.org
 
-url_pdf: ''
+url_pdf: 'uploads/A Neurosymbolic Framework for Interpretable Cognitive Attack Detection in Augmented Reality.pdf'
 links:
 - name: arXiv
   url: https://arxiv.org/abs/2508.09185
