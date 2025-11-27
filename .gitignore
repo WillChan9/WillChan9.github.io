@@ -5,6 +5,7 @@ resources/
 # Hugo cache
 .hugo_build.lock
 hugo_stats.json
+go.sum
 # OS generated files
 .DS_Store
 .DS_Store?
