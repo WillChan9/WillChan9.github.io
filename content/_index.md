@@ -56,6 +56,7 @@ sections:
     design:
       view: article-grid
       columns: 3
+  
   - block: collection
     id: papers
     content:
@@ -67,6 +68,18 @@ sections:
     design:
       view: article-grid
       columns: 2
+  
+  - block: collection
+    id: notes
+    content:
+      title: Notes
+      filters:
+        folders:
+          - notes
+      count: 0
+    design:
+      view: article-grid
+      columns: 3
   
   # - block: collection
   #   id: news

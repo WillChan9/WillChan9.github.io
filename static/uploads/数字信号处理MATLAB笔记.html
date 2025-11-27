@@ -1,0 +1,465 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>数字信号处理MATLAB笔记</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><h2><a id="_0"></a>全文框架</h2>
+<p><img src="https://i-blog.csdnimg.cn/blog_migrate/079771367581a3f6ec7406f515e3b252.png" alt="在这里插入图片描述"></p>
+<h2><a id="1_2"></a>1.函数笔记</h2>
+<p><img src="https://i-blog.csdnimg.cn/blog_migrate/16dbb9178ac2080a8ef87c39d0dd66b2.png" alt="在这里插入图片描述"><br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/4faf62717b75d706c87a5546bb354763.png" alt="在这里插入图片描述"><br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/d50132794ef36e467d97862b62dff091.png" alt="在这里插入图片描述"><br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/65ca7a4bf43adea23d19a727a52fe994.png" alt="在这里插入图片描述"><br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/a2ccf0f7a3d336d78974c0adad993922.png" alt="在这里插入图片描述"><br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/f2143399d3fba274c5349ebfc92e7e5a.png" alt="在这里插入图片描述"><br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/fdf0d144fef3f09ebff0002b387d71fd.png" alt="在这里插入图片描述"><br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/609ea9f85aa260e9e6337dd736c287f2.png" alt="在这里插入图片描述"><br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/1d3030261a53aa22f89736992208c89b.png" alt="在这里插入图片描述"></p>
+<p><strong>fft():快速傅里叶变换</strong><br>
+Y = fft(X,n,dim)<br>
+计算x的n点DFT，x长度不够n时补0，比n长时截短，dim为对x做傅里叶变换的维数。</p>
+<p><strong>ifft():傅里叶反变换</strong><br>
+y = ifft(X,n)<br>
+计算X的n点DFT反变换</p>
+<p><strong>Stem():火柴杆图</strong><br>
+stem(X,Y)<br>
+显示离散序列，X与Y大小必须相同，一一对应。如Y是一个长度为6的序列，x可以为0:5，若X省略，程序会自动把横坐标变为Y的大小。<br>
+若一个连续序列用stem显示，会变成实心的，因为离散序列每个点下都有一条竖线，因此最好用plot显示连续序列。</p>
+<p><strong>Abs():绝对值或幅值</strong><br>
+Y = abs(X)<br>
+求绝对值或复数的幅度，可用于求幅度谱。</p>
+<p><strong>Angle():相位</strong><br>
+P = angle(Z)<br>
+求复数Z的角度和相位，返回值在±π之间。</p>
+<p><strong>Conj():求共轭</strong><br>
+ZC = conj(Z)</p>
+<p>矩形信号：<br>
+矩形序列R(N):可以用zeros和ones构造，如：R20=[zeros(1,40),ones(1,20),zeros(1,41)];<br>
+连续矩形信号可用rectpuls()函数，y = rectpuls(t,w)，t为时间序列，w为宽度，宽度以t=0为对称<br>
+单位脉冲信号：<br>
+只需在原点处设一个脉冲即可</p>
+<p><strong>Tripuls():三角波信号</strong><br>
+y = tripuls(T,width,skew)<br>
+T为时间序列，width为三角波宽度，skew为斜度，范围0-1，默认为0，即对称三角波。<br>
+注意三角波以T=0对称，若要完整显示，时间序列要从负到正（如：T=-30:1:30）。<br>
+若要移动三角波，对T进行加减（如T+50表示向右移50单位）</p>
+<p><strong>Impulse():单位脉冲响应</strong><br>
+Y=Impulse(sys,t)<br>
+Sys为系统函数，t为时间序列（Ts:dt:Te），y为单位阶跃响应，t省略则自动生成时间间隔</p>
+<p><strong>Step():单位阶跃响应</strong><br>
+Y=step(sys,t)<br>
+Sys为系统函数，t为时间序列（Ts:dt:Te），y为单位阶跃响应，t省略则自动生成时间间隔<br>
+[y,t] = step(sys)<br>
+返回单位阶跃响应y，时间间隔t</p>
+<p><strong>Filter():一维滤波</strong><br>
+y = filter(b,a,x)<br>
+a,b为滤波器的传递函数的分子分母，x为向量或矩阵，y为输出，大小与x相同。<br>
+也可以用来求系统响应，比如系统差分方程： ，则b和a为： ，x即为x(n)，输出y为系统响应</p>
+<p><strong>Impz():求离散LTI系统的单位冲激响应</strong><br>
+h=impz(b,a,k)<br>
+b为x的向量，a为y的向量，k为输出序列的取值范围。h为单位脉冲响应。</p>
+<p><strong>tf()：系统函数</strong><br>
+sys = tf(Numerator,Denominator)<br>
+创建系统函数，numerator为分子向量，denominator为分母向量<br>
+后面可加参数，如：‘Variable’,‘p’，意思是把p作为变量</p>
+<p><strong>Freqz():离散系统频率响应</strong><br>
+[h,w] = freqz(b,a,n)<br>
+B为分子，a为分母，返回n个频率点的频率响应，放在h向量中，n个频率放在向量w中，这n个频率均匀设置在（0，pi）上，缺省时默认512</p>
+<p><strong>Freqs():连续系统频率响应</strong><br>
+h = freqs(b,a,w)<br>
+B，a为分子分母，w为角频率向量，返回频率响应h</p>
+<p><strong>Ellipord():椭圆滤波器参数</strong><br>
+[n,Wp] = ellipord(Wp,Ws,Rp,Rs,’s’)<br>
+Rp、Rs分别为通带最大波纹和阻带最小衰减；wp、ws分别为为通带边界频率和阻带边界频率，单位为rad/s。<br>
+'s’表示模拟滤波器，缺省时该函数适用于数字滤波器，此时wp及ws均为0~1之间的数值，即频率与抽样频率的比值。返回最小阶数n和截止频率Wp。</p>
+<p>编写N点循环卷积程序：<br>
+X_K1=fft(xn1,N);<br>
+X_K2=fft(xn2,N);<br>
+X_K3=X_K1.*X_K2;<br>
+x_n3=ifft(X_K3,N);<br>
+因fft可以自动补0，故可以利用其将两序列变成长度为N的DFT序列，再对应相乘，相当于循环卷积的效果。此程序可用来比较线性卷积（conv函数）和循环卷积的区别。</p>
+<p>其他笔记：<br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/d89face43b473222d5878da06e9ae16b.png" alt="在这里插入图片描述"><br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/a8e4207e1c1cf3c1fb8c0d6b7a3d1cf1.png" alt="在这里插入图片描述"></p>
+<h2><a id="21_97"></a>2.1系统响应及系统稳定性</h2>
+<p><strong>一、实验目的和步骤</strong><br>
+目的：<br>
+（1）掌握	求系统响应的方法。<br>
+（2）掌握时域离散系统的时域特性。<br>
+（3）分析、观察及检验系统的稳定性。<br>
+步骤：<br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/2d75fa6d3643196905a12a7921f7b7a7.png" alt="在这里插入图片描述"><br>
+<strong>二、代码</strong></p>
+<pre><code>close all
+clear all 
+clc
+
+x1_n=[ones(1,8),zeros(1,90)];
+x2_n=ones(1,100);
+t=0:1:99;
+h_n=impz([0.05 0.05],[1 -0.9],t);%系统单位脉冲响应
+y1_n=conv(x1_n,h_n);
+y2_n=conv(x2_n,h_n);
+figure
+subplot(311);stem(h_n);title('系统单位脉冲响应');
+subplot(312);stem(y1_n(1:100));title('R8(n)系统响应');
+subplot(313);stem(y2_n(1:100));title('u(n)系统响应');
+
+h1_n=[ones(1,10)];
+h2_n=[1 2.5 2.5 1];
+y3_n=conv(x1_n,h1_n);
+y4_n=conv(x1_n,h2_n);
+figure
+subplot(211);stem(y3_n(1:100));title('对h1(n)输出响应');
+subplot(212);stem(y4_n(1:100));title('对h2(n)输出响应');
+
+
+xsin=sin(0.014*t)+sin(0.4*t); %产生正弦信号
+A=[1,-1.8237,0.9801];B=[1/100.49,0,-1/100.49];  %系统差分方程系数向量B和A
+y5_n=filter(B,A,x2_n);    %谐振器对u(n)的响应
+y6_n=filter(B,A,xsin);    %谐振器对x(n)的响应
+figure
+subplot(2,1,1);stem(y5_n);title('谐振器对u(n)的响应');
+subplot(2,1,2);stem(y6_n);title('谐振器对正弦信号的响应');
+
+</code></pre>
+<p><strong>三、运行结果</strong><br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/a52fcc53d4f063ab7b88af0a1308e35c.png" alt="在这里插入图片描述"><br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/097f9e5fe06fb6ead990c226488728d6.png" alt="在这里插入图片描述"><br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/38981ab634c73f4eaec65962f44d3faf.png" alt="在这里插入图片描述"></p>
+<h2><a id="22__146"></a>2.2 时域采样与频域采样</h2>
+<p><strong>一、实验目的和步骤</strong><br>
+目的：<br>
+验证时域采样和频域采样定理<br>
+步骤：<br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/fa46ea03335354d8159e9c7cfae8275e.png" alt="在这里插入图片描述"><br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/bb3fbfdd039bcb270825847524f77a85.png" alt="在这里插入图片描述"><br>
+<strong>二、代码</strong></p>
+<pre><code>close all
+clear all 
+clc
+%%%%%%%%%%%%%%%%%%%%%%%%%%5时域采样定理验证
+Tp=64/1000;%观察时间
+Fs1=1000;%采样频率，分别为1000,300,200Hz
+Fs2=300;
+Fs3=200;
+T1=1/Fs1;%周期
+T2=1/Fs2;
+T3=1/Fs3;
+M=64;
+A=444.128;
+a=pi*50*2^0.5;
+w=pi*50*2^0.5;
+n1=0:Tp*Fs1;
+n2=0:Tp*Fs2;
+n3=0:Tp*Fs3;
+xa_t1=A*exp(-a*n1*T1).*sin(w*n1*T1);
+xa_t2=A*exp(-a*n2*T2).*sin(w*n2*T2);
+xa_t3=A*exp(-a*n3*T3).*sin(w*n3*T3);
+Xa_k1=fft(xa_t1,M);
+Xa_k2=fft(xa_t2,M);
+Xa_k3=fft(xa_t3,M);
+figure
+subplot(321);stem(xa_t1);title('采样频率为1000Hz的时域离散信号');
+subplot(322);stem(abs(Xa_k1));title('64点DFT');
+subplot(323);stem(xa_t2);title('采样频率为300Hz的时域离散信号');
+subplot(324);stem(abs(Xa_k2));title('64点DFT');
+subplot(325);stem(xa_t3);title('采样频率为300Hz的时域离散信号');
+subplot(326);stem(abs(Xa_k3));title('64点DFT');
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%频域采样定理的验证
+
+for i=0:13
+    x_n(i+1)=i+1;
+end
+for i=14:26
+    x_n(i)=27-i;
+end
+X_k32=fft(x_n,32);
+X_k16=X_k32(1:2:32);
+x_n32=ifft(X_k32,32);
+x_n16=ifft(X_k16,16);
+
+figure
+subplot(321);plot(abs(fft(x_n)));title('原频谱');
+subplot(322);stem(x_n);title('原序列');
+subplot(323);stem(abs(X_k32));title('32点采样频谱');
+subplot(324);stem(x_n32);title('32点IDFT');
+subplot(325);stem(abs(X_k16));title('16点采样频谱');
+subplot(326);stem(x_n16);title('32点采样频谱');
+
+</code></pre>
+<p><strong>三、运行结果</strong><br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/0c26381d1adca04d4a626ce70dadd30d.png" alt="在这里插入图片描述"><br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/11e5041aded91047762c7f5754d70113.png" alt="在这里插入图片描述"></p>
+<h2><a id="23_FFT_213"></a>2.3 用FFT对信号作频谱分析</h2>
+<p><strong>一、实验目的和步骤</strong><br>
+步骤：<br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/1b6cdf1c398911be71517713f49b31a2.png" alt="在这里插入图片描述"><br>
+<strong>二、代码</strong></p>
+<pre><code>close all 
+clear all
+clc
+
+x1_n=[ones(1,4)];
+for i=1:4
+    x2_n(i)=i;
+end
+for i=5:8
+    x2_n(i)=9-i;
+end
+
+for i=1:4
+    x3_n(i)=5-i;
+end
+for i=5:8
+    x3_n(i)=i-2;
+end
+
+X1_k8=fft(x1_n,8);
+X1_k16=fft(x1_n,16);
+X2_k8=fft(x2_n,8);
+X2_k16=fft(x2_n,16);
+X3_k8=fft(x3_n,8);
+X3_k16=fft(x3_n,16);
+
+figure
+subplot(321);stem(abs(X1_k8));title('x1(n)的8点DFT');
+subplot(322);stem(abs(X1_k16));title('x1(n)的16点DFT');
+subplot(323);stem(abs(X2_k8));title('x2(n)的8点DFT');
+subplot(324);stem(abs(X2_k16));title('x2(n)的16点DFT');
+subplot(325);stem(abs(X3_k8));title('x3(n)的8点DFT');
+subplot(326);stem(abs(X3_k16));title('x3(n)的16点DFT');
+
+n=1:32;
+x4_n=cos(pi/4*n);
+x5_n=cos(pi*n/4)+cos(pi*n/8);
+X4_k8=fft(x4_n,8);
+X4_k16=fft(x4_n,16);
+X5_k8=fft(x5_n,8);
+X5_k16=fft(x5_n,16);
+
+figure
+subplot(221);stem(abs(X4_k8));title('x4(n)的8点DFT');
+subplot(222);stem(abs(X4_k16));title('x4(n)的16点DFT');
+subplot(223);stem(abs(X5_k8));title('x5(n)的8点DFT');
+subplot(224);stem(abs(X5_k16));title('x5(n)的16点DFT');
+
+N1=16;
+N2=32;
+N3=64;
+n1=1:1:N1;
+n2=1:1:N2;
+n3=1:1:N3;
+Fs=64;
+t1=n1./Fs;
+t2=n2./Fs;
+t3=n3./Fs;
+x8_t1=cos(8*pi*t1)+cos(16*pi*t1)+cos(20*pi*t1);
+X8_k1=fft(x8_t1,N1);
+x8_t2=cos(8*pi*t2)+cos(16*pi*t2)+cos(20*pi*t2);
+X8_k2=fft(x8_t2,N2);
+x8_t3=cos(8*pi*t3)+cos(16*pi*t3)+cos(20*pi*t3);
+X8_k3=fft(x8_t3,N3);
+figure
+subplot(311);stem(abs(X8_k1));title('x8(t)的16点DFT');
+subplot(312);stem(abs(X8_k2));title('x8(t)的32点DFT');
+subplot(313);stem(abs(X8_k3));title('x8(t)的64点DFT');
+
+</code></pre>
+<p><strong>三、运行结果</strong><br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/e5c6eb7fda0b5bd1cf5ccf808f873f8d.png" alt="在这里插入图片描述"><br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/40b1b48a18bfb9cd41c2c9858cc78cc7.png" alt="在这里插入图片描述"><br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/dea88e51270c68287463321103c3f1a3.png" alt="在这里插入图片描述"></p>
+<h2><a id="24_IIR_294"></a>2.4 IIR数字滤波器设计</h2>
+<p><strong>一、实验目的和步骤</strong><br>
+目的：<br>
+（1）熟悉用双线性变换法设计IIR数字滤波器的原理与方法；<br>
+（2）学会调用MATLAB信号处理工具箱中滤波器设计函数（或滤波器设计分析工具fdatool）设计各种IIR数字滤波器，学会根据滤波需求确定滤波器指标参数。<br>
+（3）掌握IIR数字滤波器的MATLAB实现方法。<br>
+（3）通过观察滤波器输入输出信号的时域波形及其频谱，建立数字滤波的概念。<br>
+步骤：<br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/66ce85b7cbb087b46974587b904dcd51.png" alt="在这里插入图片描述"><br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/3a7bf252f92defbb53a360fa2f5a1ebe.png" alt="在这里插入图片描述"><br>
+<strong>二、代码</strong></p>
+<pre><code>close all
+clear all
+clc
+
+%%%%%%%%%%%%%滤波器设计
+st=mstg;   %调用信号产生函数mstg产生由三路抑制载波调幅信号相加构成的复合信号s
+Fs=10000; T=1/Fs;  %采样频率
+fp=280; fs=450;wp=2*fp/Fs;ws=2*fs/Fs; %低通（关于pi归一化）
+   name='y_1(t)';LHL_filter(wp,ws,name,st,T,'low');
+fp_L=440; fp_R=560;fs_L=275; fs_R=900;%带通
+   wp=[2*fp_L/Fs,2*fp_R/Fs];ws=[2*fs_L/Fs,2*fs_R/Fs];
+   name='y_2(t)'; LHL_filter(wp,ws,name,st,T,'bandpass');
+fp=890; fs=600;wp=2*fp/Fs;ws=2*fs/Fs; %高通
+   name='y_3(t)';LHL_filter(wp,ws,name,st,T,'high');
+
+function LHL_filter(wp,ws,name,st,T,flag)
+rp=0.1;rs=60; %DF指标（低通滤波器的通、阻带边界频）
+[N,wp]=ellipord(wp,ws,rp,rs); %调用ellipord计算椭圆DF阶数N和通带截止频率wp?
+[B,A]=ellip(N,rp,rs,wp,flag); %调用ellip计算椭圆带通DF系统函数系数向量B和A
+yt=filter(B,A,st); %滤波器软件实现
+ figure; freqz(B,A);%B,A分别为系统函数分子，分母多项式系数向量?
+ figure;tplot(st,yt,T,name);
+end
+function tplot(st,xn,T,name)
+%时域序列连续曲线绘图函数
+%?xn:信号数据序列，%?T为采样间隔
+N=length(xn);n=0:N-1; t=n*T; Tp=N*T; f=n/Tp;
+subplot(311);plot(t,xn);xlabel('t/s');ylabel(name);
+axis([0,t(end),min(xn),1.2*max(xn)]);
+subplot(312);stem(f,abs(fftshift(fft(st,N))));
+title('原 st(t)的频谱');xlabel('f/Hz');ylabel('幅度');
+subplot(313);stem(f,abs(fftshift(fft(xn,N))));
+title('滤波后xn(t)的频谱');xlabel('f/Hz');ylabel('幅度');
+end
+function st=mstg
+%产生信号序列向量st,并显示st的时域波形和频谱
+%st=mstg 返回三路调幅信号相加形成的混合信号，长度N=1600
+N=1600;Fs=10000;T=1/Fs;Tp=N*T; % N为信号st的长度。采样频率Fs=10kHz，Tp为采样时间
+t=0:T:(N-1)*T;k=0:N-1;f=k/Tp;
+fc1=Fs/10;fm1=fc1/10;%第1路调幅信号的载波频率fc1=1000Hz,调制信号频率fm1=100Hz
+fc2=Fs/20;fm2=fc2/10;%第2路调幅信号的载波频率fc2=500Hz,调制信号频率fm2=50Hz
+fc3=Fs/40;fm3=fc3/10;%第3路调幅信号的载波频率fc3=250Hz,调制信号频率fm3=25Hz                  
+xt1=cos(2*pi*fm1*t).*cos(2*pi*fc1*t); %产生第1路调幅信号
+xt2=cos(2*pi*fm2*t).*cos(2*pi*fc2*t); %产生第2路调幅信号
+xt3=cos(2*pi*fm3*t).*cos(2*pi*fc3*t); %产生第3路调幅信号
+st=xt1+xt2+xt3;         %三路调幅信号相加
+fxt=fft(st,N);          %计算信号st的频谱
+subplot(211);plot(t,st);xlabel('t/s');ylabel('s(t)');
+axis([0,Tp/8,min(st),max(st)]);title('(a) s(t)的波形');
+subplot(212);stem(f,abs(fxt)./max(abs(fxt)));
+axis([0,Fs/5,0.1,2]);
+title('(频谱');xlabel('f/Hz');ylabel('幅度');
+end
+
+</code></pre>
+<p><strong>三、运行结果</strong><br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/5f95c3d6fe937c3a2b05b635a7ca3fc1.png" alt="在这里插入图片描述"><br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/1f5c8699480d0955b0313e4aeddf6bf6.png" alt="在这里插入图片描述"><br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/1a19725e051e1477b2f0cb685633a862.png" alt="在这里插入图片描述"></p>
+<p><img src="https://i-blog.csdnimg.cn/blog_migrate/b4e83f94de1130de440c5172c62f59ff.png" alt="在这里插入图片描述"><br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/c11aae4e9e72e3c8efdadbdaa56adf92.png" alt="在这里插入图片描述"><br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/bcf35a2d0e2f8bc630ab578c8c4618af.png" alt="在这里插入图片描述"><br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/22ae3758bcd7382441c3397c791ed3ec.png" alt="在这里插入图片描述"></p>
+<h2><a id="25_FIR_371"></a>2.5 FIR数字滤波器设计</h2>
+<p><strong>一、实验目的和步骤</strong><br>
+目的：<br>
+（1）掌握用窗函数法设计FIR数字滤波器的原理和方法。<br>
+（2）掌握用等波纹最佳逼近法设计FIR数字滤波器的原理和方法。<br>
+（3）掌握FIR滤波器的快速卷积实现原理。<br>
+（4）学会调用MATLAB函数设计与实现FIR滤波器。<br>
+步骤：<br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/086193d4404303d9eb7a0c90910ea64d.png" alt="在这里插入图片描述"><br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/cb27e3b55fa41809d81b4316512bd17b.png" alt="在这里插入图片描述"><br>
+<strong>二、代码</strong></p>
+<pre><code>clc
+close all
+clear all
+
+xt=xtg;
+Fs=1000;T=1/Fs;
+fp=120;fs=150;
+wp=2*fp*T;ws=2*fs*T;
+%%%%%%%%%%%%%%%%%%%%低通滤波器
+rp=0.1;rs=60; %DF指标
+[N,wp]=ellipord(wp,ws,rp,rs); %调用ellipord计算椭圆DF阶数N和通带截止频率wp
+[B,A]=ellip(N,rp,rs,wp,'low'); %调用ellip计算椭圆带通DF系统函数系数向量B和A
+low_filter=freqz(B,A);
+yt1=filter(B,A,xt); 
+figure
+subplot(311);plot(abs(low_filter));title('椭圆低通滤波器幅度谱');xlabel('f/Hz');axis([0,600,0,1.2]);
+subplot(312);plot(angle(low_filter));title('椭圆低通滤波器相位谱');xlabel('f/Hz');
+subplot(313);plot(20*log(abs(low_filter)));title('椭圆低通滤波器损耗函数');xlabel('f/Hz');
+figure
+subplot(311);plot(yt1);title('椭圆低通滤波后时域波形');axis([0,600,-1.2,1.2]);
+subplot(312);plot(abs(fft(yt1)));title('幅频特性');
+subplot(313);plot(angle(fft(yt1)));title('相频特性');
+
+%%%%%%%%%%%%%%%%%窗函数法，逼近的函数为理想低通滤波器，使用凯塞窗
+Bt=ws-wp;%过渡带宽度
+alph=0.112*(rs-8.7);%凯塞窗参数a
+M=ceil((rs-8)/2.285/Bt)%凯塞窗阶数
+wc=(ws+wp)/2;%已对pi归一化
+hn=fir1(M,wc,kaiser(M+1,alph));
+[HK,w]=freqz(hn,1);
+yt2=fftfilt(hn,xt,1000);
+figure
+subplot(411);plot(hn);title('凯塞窗h(n)波形');xlabel('n');
+subplot(412);plot(w/pi,abs(HK));title('幅度谱');xlabel('w/\pi');
+subplot(413);plot(w/pi,angle(HK));title('相位谱');xlabel('w/\pi');
+subplot(414);plot(w/pi,20*log(abs(HK)));title('损耗函数');xlabel('w/\pi');
+
+figure
+subplot(311);plot(yt2);title('凯塞窗滤波后时域波形');axis([0,600,-1.2,1.2]);
+subplot(312);plot(abs(fft(yt2)));title('幅频特性');
+subplot(313);plot(angle(fft(yt2)));title('相频特性');
+
+%%%%%%%%%%%%%%%%%%%%%%%%%等波纹法
+f=[fp,fs];m=[1,0];
+dat1=(10^(rp/20)-1)/(10^(rp/20)+1);dat2=10^(-rs/20);
+rip=[dat1,dat2];
+[M1,fo,mo,w]=remezord(f,m,rip,Fs);
+ M1=M1+1
+hn1=remez(M1,fo,mo,w);
+[HK1,w]=freqz(hn1,1);
+yt3=fftfilt(hn1,xt,1000);
+figure
+subplot(411);plot(hn);title('等波纹法滤波器h(n)波形');xlabel('n');
+subplot(412);plot(w/pi,abs(HK1));title('幅度谱');xlabel('w/\pi');
+subplot(413);plot(w/pi,angle(HK1));title('相位谱');xlabel('w/\pi');
+subplot(414);plot(w/pi,20*log(abs(HK1)));title('损耗函数');xlabel('w/\pi');
+
+figure
+subplot(311);plot(yt3);title('等波纹法滤波后时域波形');axis([0,600,-1.2,1.2]);
+subplot(312);plot(abs(fft(yt3)));title('幅频特性');
+subplot(313);plot(angle(fft(yt3)));title('相频特性');
+
+function xt=xtg
+N=1000;Fs=1000;T=1/Fs;Tp=N*T;
+t=0:T:(N-1)*T;
+fc=Fs/10;
+f0=fc/10;
+mt=cos(2*pi*f0*t);
+ct=cos(2*pi*fc*t);
+xt=mt.*ct;
+nt=2*rand(1,N)-1;
+fp=150;fs=200;Rp=0.1;As=70;
+fb=[fp,fs];m=[0,1];
+dev=[10^(-As/20),(10^(Rp/20)-1)/(10^(Rp/20)+1)];
+[n,fo,mo,W]=remezord(fb,m,dev,Fs);
+hn=remez(n,fo,mo,W);
+yt=filter(hn,1,10*nt);
+
+xt=xt+yt;
+fst=fft(xt,N);k=0:N-1;f=k/Tp;
+subplot(311);plot(t,xt);grid;xlabel('t/s');ylabel('x(t)');
+axis([0,Tp/5,min(xt),max(xt)]);title('(a)加噪声波形');
+subplot(312);plot(f,abs(fst)/max(abs(fst)));grid;title('(b)信号加噪声频谱');
+axis([0,Fs/2,0,1.2]);xlabel('f/Hz');ylabel('幅度');
+end
+
+</code></pre>
+<p><strong>三、运行结果</strong><br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/386899a629dff0684dec6e6f82db1cff.png" alt="在这里插入图片描述"><br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/d64257c5a5608949ac57c4ebfc289eec.png" alt="在这里插入图片描述"><br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/d701d3910f96c0a1eeb19afeee056d29.png" alt="在这里插入图片描述"><br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/396e1151f8667dc4fa3253f5a92b0ee1.png" alt="在这里插入图片描述"><br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/dbf672fd926b6bc2913a7f19b685f9d2.png" alt="在这里插入图片描述"><br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/88d870d2ff15fc657021e7fb09bc14fe.png" alt="在这里插入图片描述"><br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/6e34b92c6f8c5f6621322164924aa18c.png" alt="在这里插入图片描述"></p>
+<h2><a id="_480"></a>总结</h2>
+<p>通过matlab编程，更深刻掌握了数字信号处理的知识，very interesting</p>
+</div>
+</body>
+
+</html>

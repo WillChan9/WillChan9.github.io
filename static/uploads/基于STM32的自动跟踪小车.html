@@ -1,0 +1,706 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>基于STM32的自动跟踪小车</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><h2><a id="_0"></a>概述</h2>
+<p><img src="https://i-blog.csdnimg.cn/blog_migrate/0818487a8f9cc752c7c5247f9d596f90.jpeg" alt="在这里插入图片描述"><br>
+<strong>小车外形：</strong><br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/92c42a3b27f11bdff45ba56f484b9072.jpeg" alt="在这里插入图片描述"><br>
+<strong>功能简介</strong><br>
+利用摄像头识别前车尾部的AprilTag，得到前车位置，传回stm32主控板处理，使两车在行驶时保持恒定距离，实现自动跟车。</p>
+<h2><a id="1openMV4_7"></a>1.openMV4摄像头</h2>
+<h3><a id="11_Apriltag_8"></a>1.1 Apriltag识别与串口传输</h3>
+<p>AprilTag是一个视觉基准库，在AR，机器人，相机校准领域广泛使用。通过特定的标志（与二维码相似，但是降低了复杂度以满足实时性要求），可以快速地检测标志，并计算相对位置。<br>
+Apriltag示例：<br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/39c76f9078bc17e5203f62649c8b80de.png" alt="在这里插入图片描述"><br>
+通过识别Apriltag，可以得到x,y,z三个方向的距离以及偏移角度。这里只需要三维的距离即可，通过串口传回stm32.</p>
+<pre><code class="prism language-python"><span class="token keyword">import</span> sensor<span class="token punctuation">,</span> image<span class="token punctuation">,</span> time<span class="token punctuation">,</span> math<span class="token punctuation">,</span>pyb
+<span class="token keyword">from</span> pyb <span class="token keyword">import</span> UART
+
+sensor<span class="token punctuation">.</span>reset<span class="token punctuation">(</span><span class="token punctuation">)</span>
+sensor<span class="token punctuation">.</span>set_pixformat<span class="token punctuation">(</span>sensor<span class="token punctuation">.</span>RGB565<span class="token punctuation">)</span>
+sensor<span class="token punctuation">.</span>set_framesize<span class="token punctuation">(</span>sensor<span class="token punctuation">.</span>QQVGA<span class="token punctuation">)</span> <span class="token comment"># we run out of memory if the resolution is much bigger...</span>
+sensor<span class="token punctuation">.</span>skip_frames<span class="token punctuation">(</span>time <span class="token operator">=</span> <span class="token number">2000</span><span class="token punctuation">)</span>
+sensor<span class="token punctuation">.</span>set_auto_gain<span class="token punctuation">(</span><span class="token boolean">False</span><span class="token punctuation">)</span>  <span class="token comment"># must turn this off to prevent image washout...</span>
+sensor<span class="token punctuation">.</span>set_auto_whitebal<span class="token punctuation">(</span><span class="token boolean">False</span><span class="token punctuation">)</span>  <span class="token comment"># must turn this off to prevent image washout...</span>
+clock <span class="token operator">=</span> time<span class="token punctuation">.</span>clock<span class="token punctuation">(</span><span class="token punctuation">)</span>
+uart <span class="token operator">=</span> UART<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">115200</span><span class="token punctuation">)</span><span class="token comment">#串口波特率</span>
+
+f_x <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token number">2.8</span> <span class="token operator">/</span> <span class="token number">3.984</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token number">160</span> <span class="token comment"># find_apriltags defaults to this if not set</span>
+f_y <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token number">2.8</span> <span class="token operator">/</span> <span class="token number">2.952</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token number">120</span> <span class="token comment"># find_apriltags defaults to this if not set</span>
+c_x <span class="token operator">=</span> <span class="token number">160</span> <span class="token operator">*</span> <span class="token number">0.5</span> <span class="token comment"># find_apriltags defaults to this if not set (the image.w * 0.5)</span>
+c_y <span class="token operator">=</span> <span class="token number">120</span> <span class="token operator">*</span> <span class="token number">0.5</span> <span class="token comment"># find_apriltags defaults to this if not set (the image.h * 0.5)</span>
+
+<span class="token keyword">def</span> <span class="token function">degrees</span><span class="token punctuation">(</span>radians<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token number">180</span> <span class="token operator">*</span> radians<span class="token punctuation">)</span> <span class="token operator">/</span> math<span class="token punctuation">.</span>pi
+
+<span class="token keyword">while</span><span class="token punctuation">(</span><span class="token boolean">True</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    clock<span class="token punctuation">.</span>tick<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    img <span class="token operator">=</span> sensor<span class="token punctuation">.</span>snapshot<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">for</span> tag <span class="token keyword">in</span> img<span class="token punctuation">.</span>find_apriltags<span class="token punctuation">(</span>fx<span class="token operator">=</span>f_x<span class="token punctuation">,</span> fy<span class="token operator">=</span>f_y<span class="token punctuation">,</span> cx<span class="token operator">=</span>c_x<span class="token punctuation">,</span> cy<span class="token operator">=</span>c_y<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token comment"># defaults to TAG36H11</span>
+        img<span class="token punctuation">.</span>draw_rectangle<span class="token punctuation">(</span>tag<span class="token punctuation">.</span>rect<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> color <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token number">255</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        img<span class="token punctuation">.</span>draw_cross<span class="token punctuation">(</span>tag<span class="token punctuation">.</span>cx<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> tag<span class="token punctuation">.</span>cy<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> color <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">255</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        print_args <span class="token operator">=</span> <span class="token punctuation">(</span>tag<span class="token punctuation">.</span>x_translation<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> tag<span class="token punctuation">.</span>y_translation<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> tag<span class="token punctuation">.</span>z_translation<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token comment">#degrees(tag.x_rotation()), degrees(tag.y_rotation()), degrees(tag.z_rotation()))</span>
+        <span class="token comment"># Translation units are unknown. Rotation units are in degrees.</span>
+       <span class="token comment"># print("Tx %f, Ty %f, Tz %f" % print_args)</span>
+        uart<span class="token punctuation">.</span>write<span class="token punctuation">(</span><span class="token string">"A%.2f,B%.2f,C%.2f,"</span> <span class="token operator">%</span> print_args<span class="token operator">+</span><span class="token string">'\r\n'</span><span class="token punctuation">)</span><span class="token comment">#设置特定格式，以便于stm32分割取得数据</span>
+        <span class="token comment">#pyb.delay(500)</span>
+   <span class="token comment"># print(clock.fps())</span>
+
+</code></pre>
+<h2><a id="2_STM32F407_50"></a>2. STM32主控板（型号为F407）</h2>
+<h3><a id="21__51"></a>2.1 时钟与中断配置</h3>
+<p>附上stm32时钟示意图：<br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/5d6071594f434db318efe8dc34052710.png" alt="在这里插入图片描述"><br>
+定时器示意图：<br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/62ed2046a191fbde3e4fc82d9e0ee087.png" alt="在这里插入图片描述"><br>
+定时器分配：<br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/73b623b6c3d776e6a5315d059186940b.png" alt="在这里插入图片描述"><br>
+所有时钟初始化的函数：（每个函数的详细内容在后面）</p>
+<pre><code class="prism language-c"><span class="token function">TIM8_PWM_Init</span><span class="token punctuation">(</span><span class="token number">400</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">20</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>	<span class="token comment">//用于控制电机，168M/20=8.4Mhz的计数频率,重装载值400，所以PWM频率为 8.4M/400=21Khz. </span>
+	<span class="token function">TIM3_PWM_Init</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">8400</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//用于控制舵机，50HZ</span>
+	<span class="token function">TIM2_Int_Init</span><span class="token punctuation">(</span><span class="token number">400</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">20</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//定时中断，21KHZ</span>
+	<span class="token function">TIM7_Int_Init</span><span class="token punctuation">(</span><span class="token number">500</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">8400</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//用于编码器计数，20HZ，50ms中断一次</span>
+	<span class="token function">uart_init</span><span class="token punctuation">(</span><span class="token number">115200</span><span class="token punctuation">)</span><span class="token punctuation">;</span>	<span class="token comment">//初始化串口1波特率为115200</span>
+	<span class="token function">Encoder_Init_TIM4</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//编码器接口初始化</span>
+</code></pre>
+<h2><a id="22__68"></a>2.2 串口收发与数据处理</h2>
+<p>串口中断：USART1，USART2<br>
+串口初始化函数（以USART1为例）：</p>
+<pre><code class="prism language-c"><span class="token keyword">void</span> <span class="token function">uart_init</span><span class="token punctuation">(</span>u32 bound<span class="token punctuation">)</span><span class="token punctuation">{</span>
+   <span class="token comment">//GPIO端口设置</span>
+  GPIO_InitTypeDef GPIO_InitStructure<span class="token punctuation">;</span>
+	USART_InitTypeDef USART_InitStructure<span class="token punctuation">;</span>
+	NVIC_InitTypeDef NVIC_InitStructure<span class="token punctuation">;</span>
+	
+	<span class="token function">RCC_AHB1PeriphClockCmd</span><span class="token punctuation">(</span>RCC_AHB1Periph_GPIOA<span class="token punctuation">,</span>ENABLE<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//使能GPIOA时钟</span>
+	<span class="token function">RCC_APB2PeriphClockCmd</span><span class="token punctuation">(</span>RCC_APB2Periph_USART1<span class="token punctuation">,</span>ENABLE<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//使能USART1时钟</span>
+ 
+	<span class="token comment">//串口1对应引脚复用映射</span>
+	<span class="token function">GPIO_PinAFConfig</span><span class="token punctuation">(</span>GPIOA<span class="token punctuation">,</span>GPIO_PinSource9<span class="token punctuation">,</span>GPIO_AF_USART1<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//GPIOA9复用为USART1</span>
+	<span class="token function">GPIO_PinAFConfig</span><span class="token punctuation">(</span>GPIOA<span class="token punctuation">,</span>GPIO_PinSource10<span class="token punctuation">,</span>GPIO_AF_USART1<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//GPIOA10复用为USART1</span>
+	
+	<span class="token comment">//USART1端口配置</span>
+  GPIO_InitStructure<span class="token punctuation">.</span>GPIO_Pin <span class="token operator">=</span> GPIO_Pin_9 <span class="token operator">|</span> GPIO_Pin_10<span class="token punctuation">;</span> <span class="token comment">//GPIOA9与GPIOA10</span>
+	GPIO_InitStructure<span class="token punctuation">.</span>GPIO_Mode <span class="token operator">=</span> GPIO_Mode_AF<span class="token punctuation">;</span><span class="token comment">//复用功能</span>
+	GPIO_InitStructure<span class="token punctuation">.</span>GPIO_Speed <span class="token operator">=</span> GPIO_Speed_50MHz<span class="token punctuation">;</span>	<span class="token comment">//速度50MHz</span>
+	GPIO_InitStructure<span class="token punctuation">.</span>GPIO_OType <span class="token operator">=</span> GPIO_OType_PP<span class="token punctuation">;</span> <span class="token comment">//推挽复用输出</span>
+	GPIO_InitStructure<span class="token punctuation">.</span>GPIO_PuPd <span class="token operator">=</span> GPIO_PuPd_UP<span class="token punctuation">;</span> <span class="token comment">//上拉</span>
+	<span class="token function">GPIO_Init</span><span class="token punctuation">(</span>GPIOA<span class="token punctuation">,</span><span class="token operator">&amp;</span>GPIO_InitStructure<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//初始化PA9，PA10</span>
+
+   <span class="token comment">//USART1 初始化设置</span>
+	USART_InitStructure<span class="token punctuation">.</span>USART_BaudRate <span class="token operator">=</span> bound<span class="token punctuation">;</span><span class="token comment">//波特率设置</span>
+	USART_InitStructure<span class="token punctuation">.</span>USART_WordLength <span class="token operator">=</span> USART_WordLength_8b<span class="token punctuation">;</span><span class="token comment">//字长为8位数据格式</span>
+	USART_InitStructure<span class="token punctuation">.</span>USART_StopBits <span class="token operator">=</span> USART_StopBits_1<span class="token punctuation">;</span><span class="token comment">//一个停止位</span>
+	USART_InitStructure<span class="token punctuation">.</span>USART_Parity <span class="token operator">=</span> USART_Parity_No<span class="token punctuation">;</span><span class="token comment">//无奇偶校验位</span>
+	USART_InitStructure<span class="token punctuation">.</span>USART_HardwareFlowControl <span class="token operator">=</span> USART_HardwareFlowControl_None<span class="token punctuation">;</span><span class="token comment">//无硬件数据流控制</span>
+	USART_InitStructure<span class="token punctuation">.</span>USART_Mode <span class="token operator">=</span> USART_Mode_Rx <span class="token operator">|</span> USART_Mode_Tx<span class="token punctuation">;</span>	<span class="token comment">//收发模式</span>
+  <span class="token function">USART_Init</span><span class="token punctuation">(</span>USART1<span class="token punctuation">,</span> <span class="token operator">&amp;</span>USART_InitStructure<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//初始化串口1</span>
+	
+  <span class="token function">USART_Cmd</span><span class="token punctuation">(</span>USART1<span class="token punctuation">,</span> ENABLE<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//使能串口1 </span>
+	
+	<span class="token function">USART_ClearFlag</span><span class="token punctuation">(</span>USART1<span class="token punctuation">,</span> USART_FLAG_TC<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">if</span> <span class="token expression">EN_USART1_RX	</span></span>
+	<span class="token function">USART_ITConfig</span><span class="token punctuation">(</span>USART1<span class="token punctuation">,</span> USART_IT_RXNE<span class="token punctuation">,</span> ENABLE<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//开启相关中断</span>
+
+	<span class="token comment">//Usart1 NVIC 配置</span>
+  NVIC_InitStructure<span class="token punctuation">.</span>NVIC_IRQChannel <span class="token operator">=</span> USART1_IRQn<span class="token punctuation">;</span><span class="token comment">//串口1中断通道</span>
+	NVIC_InitStructure<span class="token punctuation">.</span>NVIC_IRQChannelPreemptionPriority<span class="token operator">=</span><span class="token number">3</span><span class="token punctuation">;</span><span class="token comment">//抢占优先级3</span>
+	NVIC_InitStructure<span class="token punctuation">.</span>NVIC_IRQChannelSubPriority <span class="token operator">=</span><span class="token number">3</span><span class="token punctuation">;</span>		<span class="token comment">//子优先级3</span>
+	NVIC_InitStructure<span class="token punctuation">.</span>NVIC_IRQChannelCmd <span class="token operator">=</span> ENABLE<span class="token punctuation">;</span>			<span class="token comment">//IRQ通道使能</span>
+	<span class="token function">NVIC_Init</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>NVIC_InitStructure<span class="token punctuation">)</span><span class="token punctuation">;</span>	<span class="token comment">//根据指定的参数初始化VIC寄存器、</span>
+
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">endif</span></span>
+	
+<span class="token punctuation">}</span>
+</code></pre>
+<p>串口中断处理函数：</p>
+<pre><code class="prism language-c"><span class="token keyword">void</span> <span class="token function">USART1_IRQHandler</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>                	<span class="token comment">//串口1中断服务程序</span>
+<span class="token punctuation">{</span>
+	u8 Res<span class="token punctuation">;</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">ifdef</span> <span class="token expression">OS_TICKS_PER_SEC	 	</span><span class="token comment">//如果时钟节拍数定义了,说明要使用ucosII了.</span></span>
+	<span class="token function">OSIntEnter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">endif</span></span>
+	<span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">USART_GetITStatus</span><span class="token punctuation">(</span>USART1<span class="token punctuation">,</span> USART_IT_RXNE<span class="token punctuation">)</span> <span class="token operator">!=</span> RESET<span class="token punctuation">)</span>  <span class="token comment">//接收中断(接收到的数据必须是0x0d 0x0a结尾)</span>
+	<span class="token punctuation">{</span>
+		Res <span class="token operator">=</span><span class="token function">USART_ReceiveData</span><span class="token punctuation">(</span>USART1<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//(USART1-&gt;DR);	//读取接收到的数据</span>
+		
+		<span class="token keyword">if</span><span class="token punctuation">(</span><span class="token punctuation">(</span>USART_RX_STA<span class="token operator">&amp;</span><span class="token number">0x8000</span><span class="token punctuation">)</span><span class="token operator">==</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token comment">//接收未完成</span>
+		<span class="token punctuation">{</span>
+			<span class="token keyword">if</span><span class="token punctuation">(</span>USART_RX_STA<span class="token operator">&amp;</span><span class="token number">0x4000</span><span class="token punctuation">)</span><span class="token comment">//接收到了0x0d</span>
+			<span class="token punctuation">{</span>
+				<span class="token keyword">if</span><span class="token punctuation">(</span>Res<span class="token operator">!=</span><span class="token number">0x0a</span><span class="token punctuation">)</span>USART_RX_STA<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span><span class="token comment">//接收错误,重新开始</span>
+				<span class="token keyword">else</span> USART_RX_STA<span class="token operator">|=</span><span class="token number">0x8000</span><span class="token punctuation">;</span>	<span class="token comment">//接收完成了 </span>
+			<span class="token punctuation">}</span>
+			<span class="token keyword">else</span> <span class="token comment">//还没收到0X0D</span>
+			<span class="token punctuation">{</span>	
+				<span class="token keyword">if</span><span class="token punctuation">(</span>Res<span class="token operator">==</span><span class="token number">0x0d</span><span class="token punctuation">)</span>USART_RX_STA<span class="token operator">|=</span><span class="token number">0x4000</span><span class="token punctuation">;</span>
+				<span class="token keyword">else</span>
+				<span class="token punctuation">{</span>
+					USART_RX_BUF<span class="token punctuation">[</span>USART_RX_STA<span class="token operator">&amp;</span><span class="token number">0X3FFF</span><span class="token punctuation">]</span><span class="token operator">=</span>Res <span class="token punctuation">;</span>
+					USART_RX_STA<span class="token operator">++</span><span class="token punctuation">;</span>
+					<span class="token keyword">if</span><span class="token punctuation">(</span>USART_RX_STA<span class="token operator">&gt;</span><span class="token punctuation">(</span>USART_REC_LEN<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span>USART_RX_STA<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span><span class="token comment">//接收数据错误,重新开始接收	  </span>
+				<span class="token punctuation">}</span>		 
+			<span class="token punctuation">}</span>
+		<span class="token punctuation">}</span>   		 
+  <span class="token punctuation">}</span> 
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">ifdef</span> <span class="token expression">OS_TICKS_PER_SEC	 	</span><span class="token comment">//如果时钟节拍数定义了,说明要使用ucosII了.</span></span>
+	<span class="token function">OSIntExit</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  											 
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">endif</span></span>
+<span class="token punctuation">}</span> 
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">endif</span>	</span>
+
+</code></pre>
+<p>字符串接收与处理（从openMV接收到的数据）：</p>
+<pre><code class="prism language-c"><span class="token comment">/*涉及到的全局变量
+float data[3];//x,y,z方向的距离，浮点数形式
+unsigned char data_string[3][7];//x,y,z方向的距离，字符串形式
+*/</span>
+<span class="token keyword">if</span><span class="token punctuation">(</span>USART_RX_STA<span class="token operator">&amp;</span><span class="token number">0x8000</span><span class="token punctuation">)</span>
+		<span class="token punctuation">{</span>	
+			<span class="token comment">//清空字符串</span>
+			<span class="token keyword">for</span><span class="token punctuation">(</span>i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span><span class="token number">2</span><span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span>
+			<span class="token punctuation">{</span>
+				<span class="token keyword">for</span><span class="token punctuation">(</span>j<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>j<span class="token operator">&lt;</span><span class="token number">6</span><span class="token punctuation">;</span>j<span class="token operator">++</span><span class="token punctuation">)</span>
+				<span class="token punctuation">{</span>
+					data_string<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">=</span><span class="token string">' '</span><span class="token punctuation">;</span>
+				<span class="token punctuation">}</span>
+			<span class="token punctuation">}</span>
+			len<span class="token operator">=</span>USART_RX_STA<span class="token operator">&amp;</span><span class="token number">0x3fff</span><span class="token punctuation">;</span><span class="token comment">//得到此次接收到的数据长度</span>
+			<span class="token keyword">for</span><span class="token punctuation">(</span>t<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">,</span>j<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>t<span class="token operator">&lt;</span>len<span class="token punctuation">;</span>t<span class="token operator">++</span><span class="token punctuation">)</span>
+			<span class="token punctuation">{</span>
+				j<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
+				<span class="token keyword">if</span><span class="token punctuation">(</span>USART_RX_BUF<span class="token punctuation">[</span>t<span class="token punctuation">]</span><span class="token operator">==</span><span class="token string">'A'</span><span class="token punctuation">)</span>
+				<span class="token punctuation">{</span>
+					t<span class="token operator">++</span><span class="token punctuation">;</span><span class="token comment">//去掉首字母</span>
+					<span class="token keyword">while</span><span class="token punctuation">(</span>USART_RX_BUF<span class="token punctuation">[</span>t<span class="token punctuation">]</span><span class="token operator">!=</span><span class="token string">','</span><span class="token punctuation">)</span>
+					<span class="token punctuation">{</span>
+						data_string<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">=</span>USART_RX_BUF<span class="token punctuation">[</span>t<span class="token punctuation">]</span><span class="token punctuation">;</span>
+						t<span class="token operator">++</span><span class="token punctuation">;</span>
+						j<span class="token operator">++</span><span class="token punctuation">;</span>
+					<span class="token punctuation">}</span>
+				<span class="token punctuation">}</span>
+				<span class="token keyword">if</span><span class="token punctuation">(</span>USART_RX_BUF<span class="token punctuation">[</span>t<span class="token punctuation">]</span><span class="token operator">==</span><span class="token string">'B'</span><span class="token punctuation">)</span>
+				<span class="token punctuation">{</span>
+					t<span class="token operator">++</span><span class="token punctuation">;</span><span class="token comment">//去掉首字母</span>
+					<span class="token keyword">while</span><span class="token punctuation">(</span>USART_RX_BUF<span class="token punctuation">[</span>t<span class="token punctuation">]</span><span class="token operator">!=</span><span class="token string">','</span><span class="token punctuation">)</span>
+					<span class="token punctuation">{</span>
+						data_string<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">=</span>USART_RX_BUF<span class="token punctuation">[</span>t<span class="token punctuation">]</span><span class="token punctuation">;</span>
+						t<span class="token operator">++</span><span class="token punctuation">;</span>
+						j<span class="token operator">++</span><span class="token punctuation">;</span>
+					<span class="token punctuation">}</span>
+				<span class="token punctuation">}</span>
+				<span class="token keyword">if</span><span class="token punctuation">(</span>USART_RX_BUF<span class="token punctuation">[</span>t<span class="token punctuation">]</span><span class="token operator">==</span><span class="token string">'C'</span><span class="token punctuation">)</span>
+				<span class="token punctuation">{</span>
+					t<span class="token operator">++</span><span class="token punctuation">;</span><span class="token comment">//去掉首字母</span>
+					<span class="token keyword">while</span><span class="token punctuation">(</span>USART_RX_BUF<span class="token punctuation">[</span>t<span class="token punctuation">]</span><span class="token operator">!=</span><span class="token string">','</span><span class="token punctuation">)</span>
+					<span class="token punctuation">{</span>
+						data_string<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">=</span>USART_RX_BUF<span class="token punctuation">[</span>t<span class="token punctuation">]</span><span class="token punctuation">;</span>
+						t<span class="token operator">++</span><span class="token punctuation">;</span>
+						j<span class="token operator">++</span><span class="token punctuation">;</span>
+					<span class="token punctuation">}</span>
+				<span class="token punctuation">}</span>
+			<span class="token punctuation">}</span>
+			<span class="token comment">//把字符串转化为浮点数</span>
+			data<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token function">myatof</span><span class="token punctuation">(</span>data_string<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token operator">/</span><span class="token number">100.0</span><span class="token punctuation">;</span><span class="token comment">//x</span>
+			data<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token function">myatof</span><span class="token punctuation">(</span>data_string<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token operator">/</span><span class="token number">100.0</span><span class="token punctuation">;</span><span class="token comment">//y</span>
+			data<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token function">myatof</span><span class="token punctuation">(</span>data_string<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token operator">*</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token operator">/</span><span class="token number">100.0</span><span class="token punctuation">;</span><span class="token comment">//z，输入是负数，转换为正</span>
+				<span class="token comment">//USART2发送数据</span>
+<span class="token comment">//				Usart_SendString( RS232_USART, (uint8_t *)USART_RX_BUF );</span>
+				
+			<span class="token comment">//LCD更新显示</span>
+			<span class="token comment">//显示xyz</span>
+<span class="token comment">//			  CLEAR(10);</span>
+<span class="token comment">//			  Gui_DrawFont_GBK16(30,0,BLACK,WHITE,clear);</span>
+<span class="token comment">//			  Gui_DrawFont_GBK16(30,0,BLACK,WHITE,data_string[0]);</span>
+<span class="token comment">//				Gui_DrawFont_GBK16(30,20,BLACK,WHITE,clear);</span>
+<span class="token comment">//			  Gui_DrawFont_GBK16(30,20,BLACK,WHITE,data_string[1]);</span>
+<span class="token comment">//				Gui_DrawFont_GBK16(30,40,BLACK,WHITE,clear);</span>
+<span class="token comment">//			  Gui_DrawFont_GBK16(30,40,BLACK,WHITE,data_string[2]);</span>
+				
+				USART_RX_STA<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span><span class="token comment">//清除标志位</span>
+		<span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>字符串转化为两位小数浮点数（用于后续PID控制）:</p>
+<pre><code class="prism language-c"><span class="token keyword">int</span> <span class="token function">myatof</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">char</span> <span class="token operator">*</span>str<span class="token punctuation">)</span><span class="token comment">//此函数仅适用于两位小数的浮点数，返回的是乘100后的int值，因float返回有错误</span>
+<span class="token punctuation">{</span>
+	<span class="token keyword">int</span> flag <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span><span class="token comment">//表示正数</span>
+	<span class="token keyword">int</span> res <span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
+	u8 i<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span> <span class="token comment">//小数点后两位</span>
+	<span class="token keyword">while</span><span class="token punctuation">(</span><span class="token operator">*</span>str <span class="token operator">!=</span> <span class="token string">'\0'</span><span class="token punctuation">)</span>
+		<span class="token punctuation">{</span>
+			<span class="token keyword">if</span><span class="token punctuation">(</span> <span class="token operator">!</span><span class="token punctuation">(</span><span class="token operator">*</span>str <span class="token operator">&gt;=</span> <span class="token string">'0'</span> <span class="token operator">&amp;&amp;</span> <span class="token operator">*</span>str <span class="token operator">&lt;=</span> <span class="token string">'9'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token comment">//找到字符串中的第一个数字</span>
+			<span class="token punctuation">{</span>
+				str<span class="token operator">++</span><span class="token punctuation">;</span>
+				<span class="token keyword">continue</span><span class="token punctuation">;</span>
+			<span class="token punctuation">}</span>
+			<span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">(</span>str<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token string">'-'</span><span class="token punctuation">)</span>
+			<span class="token punctuation">{</span>
+				flag<span class="token operator">=</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span><span class="token comment">//表示是一个负数</span>
+			<span class="token punctuation">}</span>
+
+		<span class="token keyword">while</span><span class="token punctuation">(</span><span class="token operator">*</span>str <span class="token operator">&gt;=</span> <span class="token string">'0'</span> <span class="token operator">&amp;&amp;</span> <span class="token operator">*</span>str <span class="token operator">&lt;=</span> <span class="token string">'9'</span><span class="token punctuation">)</span>
+		<span class="token punctuation">{</span>
+			res <span class="token operator">=</span> res <span class="token operator">*</span><span class="token number">10</span> <span class="token operator">+</span> <span class="token punctuation">(</span><span class="token operator">*</span>str <span class="token operator">-</span> <span class="token string">'0'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+			str<span class="token operator">++</span><span class="token punctuation">;</span>
+		<span class="token punctuation">}</span>
+		<span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">*</span>str <span class="token operator">==</span> <span class="token string">'.'</span><span class="token punctuation">)</span>
+		<span class="token punctuation">{</span>
+			str<span class="token operator">++</span><span class="token punctuation">;</span>
+			res <span class="token operator">=</span> res <span class="token operator">*</span><span class="token number">10</span> <span class="token operator">+</span> <span class="token punctuation">(</span><span class="token operator">*</span>str <span class="token operator">-</span> <span class="token string">'0'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+			str<span class="token operator">++</span><span class="token punctuation">;</span>
+			res <span class="token operator">=</span> res <span class="token operator">*</span><span class="token number">10</span> <span class="token operator">+</span> <span class="token punctuation">(</span><span class="token operator">*</span>str <span class="token operator">-</span> <span class="token string">'0'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//保留两位，故加两次</span>
+			<span class="token keyword">return</span> res<span class="token operator">*</span>flag<span class="token punctuation">;</span>
+		<span class="token punctuation">}</span>
+		<span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2><a id="23_LCD_269"></a>2.3 LCD显示模块</h2>
+<p>LCD模块用于调试时观察数据，调试完成可以删去，因为显示屏很耗时，使处理速度变慢<br>
+驱动函数总览：</p>
+<pre><code class="prism language-c"><span class="token keyword">void</span> <span class="token function">LCD_GPIO_Init</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">Lcd_WriteIndex</span><span class="token punctuation">(</span>u8 Index<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">Lcd_WriteData</span><span class="token punctuation">(</span>u8 Data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">Lcd_WriteReg</span><span class="token punctuation">(</span>u8 Index<span class="token punctuation">,</span>u8 Data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+u16 <span class="token function">Lcd_ReadReg</span><span class="token punctuation">(</span>u8 LCD_Reg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">Lcd_Reset</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">Lcd_Init</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">Lcd_Clear</span><span class="token punctuation">(</span>u16 Color<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">Lcd_SetXY</span><span class="token punctuation">(</span>u16 x<span class="token punctuation">,</span>u16 y<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">Gui_DrawPoint</span><span class="token punctuation">(</span>u16 x<span class="token punctuation">,</span>u16 y<span class="token punctuation">,</span>u16 Data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">unsigned</span> <span class="token keyword">int</span> <span class="token function">Lcd_ReadPoint</span><span class="token punctuation">(</span>u16 x<span class="token punctuation">,</span>u16 y<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">Lcd_SetRegion</span><span class="token punctuation">(</span>u16 x_start<span class="token punctuation">,</span>u16 y_start<span class="token punctuation">,</span>u16 x_end<span class="token punctuation">,</span>u16 y_end<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">LCD_WriteData_16Bit</span><span class="token punctuation">(</span>u16 Data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>TFT屏幕初始化：</p>
+<pre><code class="prism language-c"><span class="token keyword">void</span> <span class="token function">TFT_Init_Show</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+	<span class="token function">Lcd_Clear</span><span class="token punctuation">(</span>WHITE<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token function">Gui_DrawFont_GBK16</span><span class="token punctuation">(</span><span class="token number">16</span><span class="token punctuation">,</span><span class="token number">70</span><span class="token punctuation">,</span>BLACK<span class="token punctuation">,</span>WHITE<span class="token punctuation">,</span><span class="token string">"by WILL CHAN"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token function">delay_ms</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token function">Lcd_Clear</span><span class="token punctuation">(</span>WHITE<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token function">Gui_DrawFont_GBK16</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span>RED<span class="token punctuation">,</span>WHITE<span class="token punctuation">,</span><span class="token string">"X:"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token function">Gui_DrawFont_GBK16</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">20</span><span class="token punctuation">,</span>RED<span class="token punctuation">,</span>WHITE<span class="token punctuation">,</span><span class="token string">"Y:"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token function">Gui_DrawFont_GBK16</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">40</span><span class="token punctuation">,</span>RED<span class="token punctuation">,</span>WHITE<span class="token punctuation">,</span><span class="token string">"Z:"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token function">Gui_DrawFont_GBK16</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">60</span><span class="token punctuation">,</span>RED<span class="token punctuation">,</span>WHITE<span class="token punctuation">,</span><span class="token string">"speed:"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>字符串显示函数;</p>
+<pre><code class="prism language-c"><span class="token keyword">void</span> <span class="token function">Gui_DrawFont_GBK16</span><span class="token punctuation">(</span>u16 x<span class="token punctuation">,</span> u16 y<span class="token punctuation">,</span> u16 fc<span class="token punctuation">,</span> u16 bc<span class="token punctuation">,</span> u8 <span class="token operator">*</span>s<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+	<span class="token keyword">unsigned</span> <span class="token keyword">char</span> i<span class="token punctuation">,</span>j<span class="token punctuation">;</span>
+	<span class="token keyword">unsigned</span> <span class="token keyword">short</span> k<span class="token punctuation">,</span>x0<span class="token punctuation">;</span>
+	x0<span class="token operator">=</span>x<span class="token punctuation">;</span>
+
+	<span class="token keyword">while</span><span class="token punctuation">(</span><span class="token operator">*</span>s<span class="token punctuation">)</span> 
+	<span class="token punctuation">{</span>	
+		<span class="token keyword">if</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token operator">*</span>s<span class="token punctuation">)</span> <span class="token operator">&lt;</span> <span class="token number">128</span><span class="token punctuation">)</span> 
+		<span class="token punctuation">{</span>
+			k<span class="token operator">=</span><span class="token operator">*</span>s<span class="token punctuation">;</span>
+			<span class="token keyword">if</span> <span class="token punctuation">(</span>k<span class="token operator">==</span><span class="token number">13</span><span class="token punctuation">)</span> 
+			<span class="token punctuation">{</span>
+				x<span class="token operator">=</span>x0<span class="token punctuation">;</span>
+				y<span class="token operator">+=</span><span class="token number">16</span><span class="token punctuation">;</span>
+			<span class="token punctuation">}</span>
+			<span class="token keyword">else</span> 
+			<span class="token punctuation">{</span>
+				<span class="token keyword">if</span> <span class="token punctuation">(</span>k<span class="token operator">&gt;</span><span class="token number">32</span><span class="token punctuation">)</span> k<span class="token operator">-=</span><span class="token number">32</span><span class="token punctuation">;</span> <span class="token keyword">else</span> k<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
+	
+			    <span class="token keyword">for</span><span class="token punctuation">(</span>i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span><span class="token number">16</span><span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span>
+				<span class="token keyword">for</span><span class="token punctuation">(</span>j<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>j<span class="token operator">&lt;</span><span class="token number">8</span><span class="token punctuation">;</span>j<span class="token operator">++</span><span class="token punctuation">)</span> 
+					<span class="token punctuation">{</span>
+				    	<span class="token keyword">if</span><span class="token punctuation">(</span>asc16<span class="token punctuation">[</span>k<span class="token operator">*</span><span class="token number">16</span><span class="token operator">+</span>i<span class="token punctuation">]</span><span class="token operator">&amp;</span><span class="token punctuation">(</span><span class="token number">0x80</span><span class="token operator">&gt;&gt;</span>j<span class="token punctuation">)</span><span class="token punctuation">)</span>	<span class="token function">Gui_DrawPoint</span><span class="token punctuation">(</span>x<span class="token operator">+</span>j<span class="token punctuation">,</span>y<span class="token operator">+</span>i<span class="token punctuation">,</span>fc<span class="token punctuation">)</span><span class="token punctuation">;</span>
+						<span class="token keyword">else</span> 
+						<span class="token punctuation">{</span>
+							<span class="token keyword">if</span> <span class="token punctuation">(</span>fc<span class="token operator">!=</span>bc<span class="token punctuation">)</span> <span class="token function">Gui_DrawPoint</span><span class="token punctuation">(</span>x<span class="token operator">+</span>j<span class="token punctuation">,</span>y<span class="token operator">+</span>i<span class="token punctuation">,</span>bc<span class="token punctuation">)</span><span class="token punctuation">;</span>
+						<span class="token punctuation">}</span>
+					<span class="token punctuation">}</span>
+				x<span class="token operator">+=</span><span class="token number">8</span><span class="token punctuation">;</span>
+			<span class="token punctuation">}</span>
+			s<span class="token operator">++</span><span class="token punctuation">;</span>
+		<span class="token punctuation">}</span>
+			
+		<span class="token keyword">else</span> 
+		<span class="token punctuation">{</span>
+		
+
+			<span class="token keyword">for</span> <span class="token punctuation">(</span>k<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>k<span class="token operator">&lt;</span>hz16_num<span class="token punctuation">;</span>k<span class="token operator">++</span><span class="token punctuation">)</span> 
+			<span class="token punctuation">{</span>
+			  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>hz16<span class="token punctuation">[</span>k<span class="token punctuation">]</span><span class="token punctuation">.</span>Index<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token operator">==</span><span class="token operator">*</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">&amp;&amp;</span><span class="token punctuation">(</span>hz16<span class="token punctuation">[</span>k<span class="token punctuation">]</span><span class="token punctuation">.</span>Index<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token operator">==</span><span class="token operator">*</span><span class="token punctuation">(</span>s<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+			  <span class="token punctuation">{</span> 
+				    <span class="token keyword">for</span><span class="token punctuation">(</span>i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span><span class="token number">16</span><span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span>
+				    <span class="token punctuation">{</span>
+						<span class="token keyword">for</span><span class="token punctuation">(</span>j<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>j<span class="token operator">&lt;</span><span class="token number">8</span><span class="token punctuation">;</span>j<span class="token operator">++</span><span class="token punctuation">)</span> 
+							<span class="token punctuation">{</span>
+						    	<span class="token keyword">if</span><span class="token punctuation">(</span>hz16<span class="token punctuation">[</span>k<span class="token punctuation">]</span><span class="token punctuation">.</span>Msk<span class="token punctuation">[</span>i<span class="token operator">*</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token operator">&amp;</span><span class="token punctuation">(</span><span class="token number">0x80</span><span class="token operator">&gt;&gt;</span>j<span class="token punctuation">)</span><span class="token punctuation">)</span>	<span class="token function">Gui_DrawPoint</span><span class="token punctuation">(</span>x<span class="token operator">+</span>j<span class="token punctuation">,</span>y<span class="token operator">+</span>i<span class="token punctuation">,</span>fc<span class="token punctuation">)</span><span class="token punctuation">;</span>
+								<span class="token keyword">else</span> <span class="token punctuation">{</span>
+									<span class="token keyword">if</span> <span class="token punctuation">(</span>fc<span class="token operator">!=</span>bc<span class="token punctuation">)</span> <span class="token function">Gui_DrawPoint</span><span class="token punctuation">(</span>x<span class="token operator">+</span>j<span class="token punctuation">,</span>y<span class="token operator">+</span>i<span class="token punctuation">,</span>bc<span class="token punctuation">)</span><span class="token punctuation">;</span>
+								<span class="token punctuation">}</span>
+							<span class="token punctuation">}</span>
+						<span class="token keyword">for</span><span class="token punctuation">(</span>j<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>j<span class="token operator">&lt;</span><span class="token number">8</span><span class="token punctuation">;</span>j<span class="token operator">++</span><span class="token punctuation">)</span> 
+							<span class="token punctuation">{</span>
+						    	<span class="token keyword">if</span><span class="token punctuation">(</span>hz16<span class="token punctuation">[</span>k<span class="token punctuation">]</span><span class="token punctuation">.</span>Msk<span class="token punctuation">[</span>i<span class="token operator">*</span><span class="token number">2</span><span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token operator">&amp;</span><span class="token punctuation">(</span><span class="token number">0x80</span><span class="token operator">&gt;&gt;</span>j<span class="token punctuation">)</span><span class="token punctuation">)</span>	<span class="token function">Gui_DrawPoint</span><span class="token punctuation">(</span>x<span class="token operator">+</span>j<span class="token operator">+</span><span class="token number">8</span><span class="token punctuation">,</span>y<span class="token operator">+</span>i<span class="token punctuation">,</span>fc<span class="token punctuation">)</span><span class="token punctuation">;</span>
+								<span class="token keyword">else</span> 
+								<span class="token punctuation">{</span>
+									<span class="token keyword">if</span> <span class="token punctuation">(</span>fc<span class="token operator">!=</span>bc<span class="token punctuation">)</span> <span class="token function">Gui_DrawPoint</span><span class="token punctuation">(</span>x<span class="token operator">+</span>j<span class="token operator">+</span><span class="token number">8</span><span class="token punctuation">,</span>y<span class="token operator">+</span>i<span class="token punctuation">,</span>bc<span class="token punctuation">)</span><span class="token punctuation">;</span>
+								<span class="token punctuation">}</span>
+							<span class="token punctuation">}</span>
+				    <span class="token punctuation">}</span>
+				<span class="token punctuation">}</span>
+			  <span class="token punctuation">}</span>
+			s<span class="token operator">+=</span><span class="token number">2</span><span class="token punctuation">;</span>x<span class="token operator">+=</span><span class="token number">16</span><span class="token punctuation">;</span>
+		<span class="token punctuation">}</span> 
+		
+	<span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2><a id="24__374"></a>2.4 电机、舵机与编码器</h2>
+<p>定时中断：TIM2，用于修改电机和舵机的PWM占空比<br>
+初始化函数：</p>
+<pre><code class="prism language-c"><span class="token comment">//通用定时器2中断初始化</span>
+<span class="token comment">//arr：自动重装值。</span>
+<span class="token comment">//psc：时钟预分频数</span>
+<span class="token comment">//定时器溢出时间计算方法:Tout=((arr+1)*(psc+1))/Ft us.</span>
+<span class="token comment">//Ft=定时器工作频率,单位:Mhz</span>
+<span class="token comment">//这里使用的是定时器2!</span>
+<span class="token keyword">void</span> <span class="token function">TIM2_Int_Init</span><span class="token punctuation">(</span>u16 arr<span class="token punctuation">,</span>u16 psc<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+	TIM_TimeBaseInitTypeDef TIM_TimeBaseInitStructure<span class="token punctuation">;</span>
+	NVIC_InitTypeDef NVIC_InitStructure<span class="token punctuation">;</span>
+	
+	<span class="token function">RCC_APB1PeriphClockCmd</span><span class="token punctuation">(</span>RCC_APB1Periph_TIM2<span class="token punctuation">,</span>ENABLE<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">///使能TIM2时钟</span>
+	
+  TIM_TimeBaseInitStructure<span class="token punctuation">.</span>TIM_Period <span class="token operator">=</span> arr<span class="token punctuation">;</span> 	<span class="token comment">//自动重装载值</span>
+	TIM_TimeBaseInitStructure<span class="token punctuation">.</span>TIM_Prescaler<span class="token operator">=</span>psc<span class="token punctuation">;</span>  <span class="token comment">//定时器分频</span>
+	TIM_TimeBaseInitStructure<span class="token punctuation">.</span>TIM_CounterMode<span class="token operator">=</span>TIM_CounterMode_Up<span class="token punctuation">;</span> <span class="token comment">//向上计数模式</span>
+	TIM_TimeBaseInitStructure<span class="token punctuation">.</span>TIM_ClockDivision<span class="token operator">=</span>TIM_CKD_DIV1<span class="token punctuation">;</span> 
+	
+	<span class="token function">TIM_TimeBaseInit</span><span class="token punctuation">(</span>TIM2<span class="token punctuation">,</span><span class="token operator">&amp;</span>TIM_TimeBaseInitStructure<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//初始化TIM3</span>
+	
+	<span class="token function">TIM_ITConfig</span><span class="token punctuation">(</span>TIM2<span class="token punctuation">,</span>TIM_IT_Update<span class="token punctuation">,</span>ENABLE<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//允许定时器2更新中断</span>
+	<span class="token function">TIM_Cmd</span><span class="token punctuation">(</span>TIM2<span class="token punctuation">,</span>ENABLE<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//使能定时器2</span>
+	
+	NVIC_InitStructure<span class="token punctuation">.</span>NVIC_IRQChannel<span class="token operator">=</span>TIM2_IRQn<span class="token punctuation">;</span> <span class="token comment">//定时器2中断</span>
+	NVIC_InitStructure<span class="token punctuation">.</span>NVIC_IRQChannelPreemptionPriority<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span> <span class="token comment">//抢占优先级1</span>
+	NVIC_InitStructure<span class="token punctuation">.</span>NVIC_IRQChannelSubPriority<span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">;</span> <span class="token comment">//子优先级3</span>
+	NVIC_InitStructure<span class="token punctuation">.</span>NVIC_IRQChannelCmd<span class="token operator">=</span>ENABLE<span class="token punctuation">;</span>
+	<span class="token function">NVIC_Init</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>NVIC_InitStructure<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token punctuation">}</span>
+</code></pre>
+<p>TIM2中断处理函数：</p>
+<pre><code class="prism language-c"><span class="token keyword">void</span> <span class="token function">TIM2_IRQHandler</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>	
+	<span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">TIM_GetITStatus</span><span class="token punctuation">(</span>TIM2<span class="token punctuation">,</span>TIM_IT_Update<span class="token punctuation">)</span><span class="token operator">==</span>SET<span class="token punctuation">)</span><span class="token comment">//溢出中断</span>
+	<span class="token punctuation">{</span>
+		<span class="token keyword">if</span><span class="token punctuation">(</span>motor_flag<span class="token operator">==</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token comment">//反转</span>
+		<span class="token punctuation">{</span>
+			<span class="token function">TIM_SetCompare1</span><span class="token punctuation">(</span>TIM8<span class="token punctuation">,</span>motor_duty<span class="token operator">*</span>PID_val_motor<span class="token operator">*</span><span class="token number">400.0</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//和定时器的自动重装载值进行比较，来设置占空比,引脚：PC6</span>
+			<span class="token function">TIM_SetCompare2</span><span class="token punctuation">(</span>TIM8<span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token punctuation">}</span>
+		<span class="token keyword">if</span><span class="token punctuation">(</span>motor_flag<span class="token operator">==</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token comment">//正转</span>
+		<span class="token punctuation">{</span>
+			<span class="token function">TIM_SetCompare1</span><span class="token punctuation">(</span>TIM8<span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+			<span class="token function">TIM_SetCompare2</span><span class="token punctuation">(</span>TIM8<span class="token punctuation">,</span>motor_duty<span class="token operator">*</span>PID_val_motor<span class="token operator">*</span><span class="token number">400.0</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//和定时器的自动重装载值进行比较，来设置占空比，引脚：PC7</span>
+		<span class="token punctuation">}</span>
+		<span class="token function">TIM_SetCompare1</span><span class="token punctuation">(</span>TIM3<span class="token punctuation">,</span><span class="token number">200</span><span class="token operator">-</span><span class="token punctuation">(</span>servo_angle<span class="token operator">/</span><span class="token number">45.0</span><span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token operator">*</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//设置舵机角度，引脚：PA6</span>
+	<span class="token punctuation">}</span>
+	<span class="token function">TIM_ClearITPendingBit</span><span class="token punctuation">(</span>TIM2<span class="token punctuation">,</span>TIM_IT_Update<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//清除中断标志位</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>PWM输出：TIM3（舵机），TIM8（电机）<br>
+初始化函数（以TIM8为例）：</p>
+<pre><code class="prism language-c"><span class="token keyword">void</span> <span class="token function">TIM8_PWM_Init</span><span class="token punctuation">(</span>u32 arr<span class="token punctuation">,</span>u32 psc<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>		 					 
+	<span class="token comment">//此部分需手动修改IO口设置</span>
+	
+	GPIO_InitTypeDef GPIO_InitStructure<span class="token punctuation">;</span>
+	TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure<span class="token punctuation">;</span>
+	TIM_OCInitTypeDef  TIM_OCInitStructure<span class="token punctuation">;</span>
+	TIM_BDTRInitTypeDef	TIM_BDTRInitStructure<span class="token punctuation">;</span>
+	
+	<span class="token function">RCC_APB2PeriphClockCmd</span><span class="token punctuation">(</span>RCC_APB2Periph_TIM8<span class="token punctuation">,</span>ENABLE<span class="token punctuation">)</span><span class="token punctuation">;</span>  	<span class="token comment">//TIM8时钟使能    </span>
+	<span class="token function">RCC_AHB1PeriphClockCmd</span><span class="token punctuation">(</span>RCC_AHB1Periph_GPIOA<span class="token operator">|</span>RCC_AHB1Periph_GPIOB<span class="token operator">|</span>RCC_AHB1Periph_GPIOC<span class="token punctuation">,</span> ENABLE<span class="token punctuation">)</span><span class="token punctuation">;</span> 	<span class="token comment">//使能PORTA时钟	</span>
+	
+	GPIO_InitStructure<span class="token punctuation">.</span>GPIO_Pin <span class="token operator">=</span> GPIO_Pin_7<span class="token punctuation">;</span>           <span class="token comment">//GPIOFA</span>
+	GPIO_InitStructure<span class="token punctuation">.</span>GPIO_Mode <span class="token operator">=</span> GPIO_Mode_AF<span class="token punctuation">;</span>        <span class="token comment">//复用功能</span>
+	GPIO_InitStructure<span class="token punctuation">.</span>GPIO_Speed <span class="token operator">=</span> GPIO_Speed_50MHz<span class="token punctuation">;</span>	<span class="token comment">//速度100MHz</span>
+	GPIO_InitStructure<span class="token punctuation">.</span>GPIO_OType <span class="token operator">=</span> GPIO_OType_PP<span class="token punctuation">;</span>      <span class="token comment">//推挽复用输出</span>
+	GPIO_InitStructure<span class="token punctuation">.</span>GPIO_PuPd <span class="token operator">=</span> GPIO_PuPd_UP<span class="token punctuation">;</span>        <span class="token comment">//上拉</span>
+	<span class="token function">GPIO_Init</span><span class="token punctuation">(</span>GPIOA<span class="token punctuation">,</span><span class="token operator">&amp;</span>GPIO_InitStructure<span class="token punctuation">)</span><span class="token punctuation">;</span>              <span class="token comment">//初始化PA7</span>
+
+	GPIO_InitStructure<span class="token punctuation">.</span>GPIO_Pin <span class="token operator">=</span> GPIO_Pin_0<span class="token operator">|</span>GPIO_Pin_1<span class="token punctuation">;</span>
+  <span class="token function">GPIO_Init</span><span class="token punctuation">(</span>GPIOB<span class="token punctuation">,</span><span class="token operator">&amp;</span>GPIO_InitStructure<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	
+	GPIO_InitStructure<span class="token punctuation">.</span>GPIO_Pin <span class="token operator">=</span> GPIO_Pin_6<span class="token operator">|</span>GPIO_Pin_7<span class="token operator">|</span>GPIO_Pin_8<span class="token punctuation">;</span>
+  <span class="token function">GPIO_Init</span><span class="token punctuation">(</span>GPIOC<span class="token punctuation">,</span><span class="token operator">&amp;</span>GPIO_InitStructure<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	
+	<span class="token function">GPIO_PinAFConfig</span><span class="token punctuation">(</span>GPIOC<span class="token punctuation">,</span>GPIO_PinSource6<span class="token punctuation">,</span>GPIO_AF_TIM8<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//GPIOA8复用为定时器1</span>
+	<span class="token function">GPIO_PinAFConfig</span><span class="token punctuation">(</span>GPIOC<span class="token punctuation">,</span>GPIO_PinSource7<span class="token punctuation">,</span>GPIO_AF_TIM8<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//GPIOA9复用为定时器1</span>
+	<span class="token function">GPIO_PinAFConfig</span><span class="token punctuation">(</span>GPIOC<span class="token punctuation">,</span>GPIO_PinSource8<span class="token punctuation">,</span>GPIO_AF_TIM8<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//GPIOA10复用为定时器1</span>
+	<span class="token function">GPIO_PinAFConfig</span><span class="token punctuation">(</span>GPIOA<span class="token punctuation">,</span>GPIO_PinSource7<span class="token punctuation">,</span>GPIO_AF_TIM8<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//GPIOB13复用为定时器1</span>
+	<span class="token function">GPIO_PinAFConfig</span><span class="token punctuation">(</span>GPIOB<span class="token punctuation">,</span>GPIO_PinSource0<span class="token punctuation">,</span>GPIO_AF_TIM8<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//GPIOB14复用为定时器1</span>
+	<span class="token function">GPIO_PinAFConfig</span><span class="token punctuation">(</span>GPIOB<span class="token punctuation">,</span>GPIO_PinSource1<span class="token punctuation">,</span>GPIO_AF_TIM8<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//GPIOB15复用为定时器1</span>
+
+	TIM_TimeBaseStructure<span class="token punctuation">.</span>TIM_Prescaler<span class="token operator">=</span>psc<span class="token punctuation">;</span>  <span class="token comment">//定时器分频</span>
+	TIM_TimeBaseStructure<span class="token punctuation">.</span>TIM_CounterMode<span class="token operator">=</span>TIM_CounterMode_Up<span class="token punctuation">;</span> <span class="token comment">//向上计数模式</span>
+	TIM_TimeBaseStructure<span class="token punctuation">.</span>TIM_Period<span class="token operator">=</span>arr<span class="token punctuation">;</span>   <span class="token comment">//自动重装载值</span>
+	TIM_TimeBaseStructure<span class="token punctuation">.</span>TIM_ClockDivision<span class="token operator">=</span>TIM_CKD_DIV1<span class="token punctuation">;</span> 
+	
+	<span class="token function">TIM_TimeBaseInit</span><span class="token punctuation">(</span>TIM8<span class="token punctuation">,</span><span class="token operator">&amp;</span>TIM_TimeBaseStructure<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//初始化定时器1</span>
+	
+	<span class="token comment">//初始化PWM模式	 </span>
+	TIM_OCInitStructure<span class="token punctuation">.</span>TIM_OCMode <span class="token operator">=</span> TIM_OCMode_PWM1<span class="token punctuation">;</span>
+	TIM_OCInitStructure<span class="token punctuation">.</span>TIM_OutputState <span class="token operator">=</span> TIM_OutputState_Enable<span class="token punctuation">;</span>
+	TIM_OCInitStructure<span class="token punctuation">.</span>TIM_OutputNState <span class="token operator">=</span> TIM_OutputNState_Enable<span class="token punctuation">;</span>
+	TIM_OCInitStructure<span class="token punctuation">.</span>TIM_Pulse <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+	TIM_OCInitStructure<span class="token punctuation">.</span>TIM_OCPolarity <span class="token operator">=</span> TIM_OCPolarity_High<span class="token punctuation">;</span>
+	TIM_OCInitStructure<span class="token punctuation">.</span>TIM_OCNPolarity <span class="token operator">=</span> TIM_OCNPolarity_High<span class="token punctuation">;</span>
+	TIM_OCInitStructure<span class="token punctuation">.</span>TIM_OCIdleState <span class="token operator">=</span> TIM_OCIdleState_Reset<span class="token punctuation">;</span> 
+	TIM_OCInitStructure<span class="token punctuation">.</span>TIM_OCNIdleState <span class="token operator">=</span> TIM_OCIdleState_Reset<span class="token punctuation">;</span>
+
+	<span class="token function">TIM_OC1Init</span><span class="token punctuation">(</span>TIM8<span class="token punctuation">,</span> <span class="token operator">&amp;</span>TIM_OCInitStructure<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token function">TIM_OC2Init</span><span class="token punctuation">(</span>TIM8<span class="token punctuation">,</span> <span class="token operator">&amp;</span>TIM_OCInitStructure<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token function">TIM_OC3Init</span><span class="token punctuation">(</span>TIM8<span class="token punctuation">,</span> <span class="token operator">&amp;</span>TIM_OCInitStructure<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+	<span class="token function">TIM_OC1PreloadConfig</span><span class="token punctuation">(</span>TIM8<span class="token punctuation">,</span>TIM_OCPreload_Enable<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token function">TIM_OC2PreloadConfig</span><span class="token punctuation">(</span>TIM8<span class="token punctuation">,</span>TIM_OCPreload_Enable<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token function">TIM_OC3PreloadConfig</span><span class="token punctuation">(</span>TIM8<span class="token punctuation">,</span>TIM_OCPreload_Enable<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+	TIM_BDTRInitStructure<span class="token punctuation">.</span>TIM_OSSRState <span class="token operator">=</span> TIM_OSSRState_Enable<span class="token punctuation">;</span>
+	TIM_BDTRInitStructure<span class="token punctuation">.</span>TIM_OSSIState <span class="token operator">=</span> TIM_OSSIState_Enable<span class="token punctuation">;</span>
+	TIM_BDTRInitStructure<span class="token punctuation">.</span>TIM_LOCKLevel <span class="token operator">=</span> TIM_LOCKLevel_OFF<span class="token punctuation">;</span>
+	TIM_BDTRInitStructure<span class="token punctuation">.</span>TIM_DeadTime <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+	TIM_BDTRInitStructure<span class="token punctuation">.</span>TIM_Break <span class="token operator">=</span> TIM_Break_Disable<span class="token punctuation">;</span> 
+	TIM_BDTRInitStructure<span class="token punctuation">.</span>TIM_BreakPolarity <span class="token operator">=</span> TIM_BreakPolarity_Low<span class="token punctuation">;</span>
+	TIM_BDTRInitStructure<span class="token punctuation">.</span>TIM_AutomaticOutput <span class="token operator">=</span> TIM_AutomaticOutput_Disable<span class="token punctuation">;</span>
+	<span class="token function">TIM_BDTRConfig</span><span class="token punctuation">(</span>TIM8<span class="token punctuation">,</span><span class="token operator">&amp;</span>TIM_BDTRInitStructure<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+	<span class="token function">TIM_Cmd</span><span class="token punctuation">(</span>TIM8<span class="token punctuation">,</span>ENABLE<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token function">TIM_CCPreloadControl</span><span class="token punctuation">(</span>TIM8<span class="token punctuation">,</span>ENABLE<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token function">TIM_CtrlPWMOutputs</span><span class="token punctuation">(</span>TIM8<span class="token punctuation">,</span>ENABLE<span class="token punctuation">)</span><span class="token punctuation">;</span>
+										  
+<span class="token punctuation">}</span>  
+
+</code></pre>
+<p>编码器初始化函数：</p>
+<pre><code class="prism language-c"><span class="token keyword">void</span> <span class="token function">Encoder_Init_TIM4</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    GPIO_InitTypeDef         GPIO_InitStructure<span class="token punctuation">;</span> 
+    TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure<span class="token punctuation">;</span>
+    TIM_ICInitTypeDef        TIM_ICInitStructure<span class="token punctuation">;</span>
+    NVIC_InitTypeDef NVIC_InitStructure<span class="token punctuation">;</span>
+ 
+    <span class="token function">RCC_APB1PeriphClockCmd</span><span class="token punctuation">(</span>RCC_APB1Periph_TIM4<span class="token punctuation">,</span>ENABLE<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//开启TIM4时钟</span>
+    <span class="token function">RCC_AHB1PeriphClockCmd</span><span class="token punctuation">(</span>RCC_AHB1Periph_GPIOB<span class="token punctuation">,</span>ENABLE<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//开启GPIOB时钟</span>
+  
+    <span class="token function">GPIO_PinAFConfig</span><span class="token punctuation">(</span>GPIOB<span class="token punctuation">,</span>GPIO_PinSource6<span class="token punctuation">,</span>GPIO_AF_TIM4<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//PB6引脚复用</span>
+    <span class="token function">GPIO_PinAFConfig</span><span class="token punctuation">(</span>GPIOB<span class="token punctuation">,</span>GPIO_PinSource7<span class="token punctuation">,</span>GPIO_AF_TIM4<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//PB7引脚服用</span>
+ 
+    GPIO_InitStructure<span class="token punctuation">.</span>GPIO_Pin <span class="token operator">=</span> GPIO_Pin_6<span class="token operator">|</span>GPIO_Pin_7<span class="token punctuation">;</span> <span class="token comment">//GPIOB6,GPIOB7</span>
+    GPIO_InitStructure<span class="token punctuation">.</span>GPIO_Mode  <span class="token operator">=</span> GPIO_Mode_AF<span class="token punctuation">;</span>
+    GPIO_InitStructure<span class="token punctuation">.</span>GPIO_Speed <span class="token operator">=</span> GPIO_Speed_50MHz<span class="token punctuation">;</span>
+    GPIO_InitStructure<span class="token punctuation">.</span>GPIO_OType <span class="token operator">=</span> GPIO_OType_OD<span class="token punctuation">;</span>
+    <span class="token comment">//GPIO_InitStructure.GPIO_PuPd  = GPIO_PuPd_NOPULL ;</span>
+	  GPIO_InitStructure<span class="token punctuation">.</span>GPIO_PuPd  <span class="token operator">=</span> GPIO_PuPd_UP<span class="token punctuation">;</span>
+    <span class="token function">GPIO_Init</span><span class="token punctuation">(</span>GPIOB<span class="token punctuation">,</span><span class="token operator">&amp;</span>GPIO_InitStructure<span class="token punctuation">)</span><span class="token punctuation">;</span> 
+    
+    NVIC_InitStructure<span class="token punctuation">.</span>NVIC_IRQChannel <span class="token operator">=</span> TIM4_IRQn<span class="token punctuation">;</span>
+    NVIC_InitStructure<span class="token punctuation">.</span>NVIC_IRQChannelPreemptionPriority <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> <span class="token comment">/*它的抢占优先级可以尽量设置低点*/</span>
+    NVIC_InitStructure<span class="token punctuation">.</span>NVIC_IRQChannelSubPriority <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    NVIC_InitStructure<span class="token punctuation">.</span>NVIC_IRQChannelCmd <span class="token operator">=</span> DISABLE<span class="token punctuation">;</span><span class="token comment">//禁用中断，防止计数溢出而没有相应函数，造成卡死</span>
+    <span class="token function">NVIC_Init</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>NVIC_InitStructure<span class="token punctuation">)</span><span class="token punctuation">;</span>
+ 
+ 
+ 
+    TIM_TimeBaseStructure<span class="token punctuation">.</span>TIM_Period <span class="token operator">=</span> <span class="token number">4095</span><span class="token punctuation">;</span> <span class="token comment">//设置下一个更新事件装入活动的自动重装载寄存器周期的值</span>
+    TIM_TimeBaseStructure<span class="token punctuation">.</span>TIM_Prescaler <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token comment">//设置用来作为TIMx时钟频率除数的预分频值  不分频</span>
+    TIM_TimeBaseStructure<span class="token punctuation">.</span>TIM_ClockDivision <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token comment">//设置时钟分割:TDTS = Tck_tim</span>
+    TIM_TimeBaseStructure<span class="token punctuation">.</span>TIM_CounterMode <span class="token operator">=</span> TIM_CounterMode_Up<span class="token punctuation">;</span>  <span class="token comment">//TIM向上计数模式</span>
+    <span class="token function">TIM_TimeBaseInit</span><span class="token punctuation">(</span>TIM4<span class="token punctuation">,</span> <span class="token operator">&amp;</span>TIM_TimeBaseStructure<span class="token punctuation">)</span><span class="token punctuation">;</span> 
+ 
+    <span class="token function">TIM_EncoderInterfaceConfig</span><span class="token punctuation">(</span>TIM4<span class="token punctuation">,</span> TIM_EncoderMode_TI12<span class="token punctuation">,</span>TIM_ICPolarity_Rising<span class="token punctuation">,</span>TIM_ICPolarity_Falling<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">TIM_ICStructInit</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>TIM_ICInitStructure<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    TIM_ICInitStructure<span class="token punctuation">.</span>TIM_ICFilter <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>  <span class="token comment">//输入滤波器</span>
+    <span class="token function">TIM_ICInit</span><span class="token punctuation">(</span>TIM4<span class="token punctuation">,</span> <span class="token operator">&amp;</span>TIM_ICInitStructure<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">TIM_ClearFlag</span><span class="token punctuation">(</span>TIM4<span class="token punctuation">,</span> TIM_FLAG_Update<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//清除所有标志位</span>
+    <span class="token function">TIM_ITConfig</span><span class="token punctuation">(</span>TIM4<span class="token punctuation">,</span> TIM_IT_Update<span class="token punctuation">,</span> DISABLE<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//允许中断更新</span>
+    TIM4<span class="token operator">-&gt;</span>CNT <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token function">TIM_Cmd</span><span class="token punctuation">(</span>TIM4<span class="token punctuation">,</span> ENABLE<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//使能TIM4</span>
+<span class="token punctuation">}</span>
+
+</code></pre>
+<p>编码器返回速度值：</p>
+<pre><code class="prism language-c"><span class="token comment">/**************************************************************************
+函数功能：单位时间读取编码器计数
+入口参数：定时器
+返回  值：速度值
+**************************************************************************/</span>
+<span class="token keyword">float</span> <span class="token function">Read_Encoder_Speed</span><span class="token punctuation">(</span><span class="token class-name">uint8_t</span> TIMX<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token class-name">int32_t</span> Encoder_TIM<span class="token punctuation">;</span>
+    <span class="token keyword">float</span> res <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">switch</span> <span class="token punctuation">(</span>TIMX<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+    <span class="token keyword">case</span> <span class="token number">5</span><span class="token operator">:</span>
+        Encoder_TIM <span class="token operator">=</span> <span class="token function">TIM_GetCounter</span><span class="token punctuation">(</span>TIM5<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        TIM5<span class="token operator">-&gt;</span>CNT <span class="token operator">=</span> ENCODER_BASE_COUNT<span class="token punctuation">;</span> 
+        res <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token class-name">int32_t</span><span class="token punctuation">)</span>Encoder_TIM <span class="token operator">-</span> ENCODER_BASE_COUNT<span class="token punctuation">;</span>
+        <span class="token keyword">break</span><span class="token punctuation">;</span>
+    <span class="token keyword">case</span> <span class="token number">4</span><span class="token operator">:</span>
+        Encoder_TIM <span class="token operator">=</span> <span class="token function">TIM_GetCounter</span><span class="token punctuation">(</span>TIM4<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        TIM4<span class="token operator">-&gt;</span>CNT <span class="token operator">=</span> ENCODER_BASE_COUNT<span class="token punctuation">;</span> 
+        res <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token class-name">int32_t</span><span class="token punctuation">)</span>Encoder_TIM <span class="token operator">-</span> ENCODER_BASE_COUNT<span class="token punctuation">;</span>
+        <span class="token keyword">break</span><span class="token punctuation">;</span>
+    <span class="token keyword">default</span><span class="token operator">:</span>
+        Encoder_TIM <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        res <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>res<span class="token operator">&gt;</span><span class="token number">2048.0f</span><span class="token punctuation">)</span>
+        res<span class="token operator">-=</span><span class="token number">4096.0f</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> res<span class="token operator">*</span><span class="token number">360.0f</span><span class="token operator">/</span><span class="token number">4096.0f</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>定时从编码器取数，注意，时间不一样，取回的数值也不一样，取决于实际速度以及编码器线数。这里50ms取一次：</p>
+<pre><code class="prism language-c"><span class="token keyword">void</span> <span class="token function">TIM7_IRQHandler</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span><span class="token comment">//频率20HZ，用于编码器计数</span>
+<span class="token punctuation">{</span>	
+	<span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">TIM_GetITStatus</span><span class="token punctuation">(</span>TIM7<span class="token punctuation">,</span>TIM_IT_Update<span class="token punctuation">)</span><span class="token operator">==</span>SET<span class="token punctuation">)</span><span class="token comment">//溢出中断</span>
+	<span class="token punctuation">{</span>
+		speed<span class="token operator">=</span><span class="token function">Read_Encoder_Speed</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+	<span class="token function">TIM_ClearITPendingBit</span><span class="token punctuation">(</span>TIM7<span class="token punctuation">,</span>TIM_IT_Update<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//清除中断标志位</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2><a id="25_PID_606"></a>2.5 PID控制</h2>
+<p>PID库函数：</p>
+<pre><code class="prism language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">N</span> <span class="token expression"><span class="token number">2</span>				</span><span class="token comment">//需要对多少变量进行pid调节</span></span>
+
+<span class="token keyword">const</span> <span class="token keyword">float</span> KP<span class="token punctuation">[</span>N<span class="token punctuation">]</span><span class="token operator">=</span><span class="token punctuation">{</span><span class="token number">1.3</span><span class="token punctuation">,</span><span class="token number">1.0</span><span class="token punctuation">}</span><span class="token punctuation">;</span><span class="token comment">//这里只用了比例调节</span>
+<span class="token keyword">const</span> <span class="token keyword">float</span> KI<span class="token punctuation">[</span>N<span class="token punctuation">]</span><span class="token operator">=</span><span class="token punctuation">{</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token keyword">float</span> KD<span class="token punctuation">[</span>N<span class="token punctuation">]</span><span class="token operator">=</span><span class="token punctuation">{</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+
+<span class="token keyword">struct</span> <span class="token class-name">_pid</span><span class="token punctuation">{</span>
+	<span class="token keyword">float</span> SetVol<span class="token punctuation">;</span>				<span class="token comment">//定义设定值</span>
+	<span class="token keyword">float</span> ActVol<span class="token punctuation">;</span>				<span class="token comment">//定义实际值</span>
+	<span class="token keyword">float</span> Err<span class="token punctuation">;</span>					<span class="token comment">//定义误差</span>
+	<span class="token keyword">float</span>	Err_Next<span class="token punctuation">;</span>			<span class="token comment">//定义上一个误差</span>
+	<span class="token keyword">float</span>	Err_Last<span class="token punctuation">;</span>			<span class="token comment">//定义上上一个误差</span>
+	<span class="token keyword">float</span> Kp<span class="token punctuation">,</span>Ki<span class="token punctuation">,</span>Kd<span class="token punctuation">;</span>			<span class="token comment">//定义比例、积分、微分系数</span>
+	<span class="token keyword">float</span> integral<span class="token punctuation">;</span>			<span class="token comment">//定义积分值</span>
+	<span class="token keyword">float</span> actuator<span class="token punctuation">;</span>			<span class="token comment">//定义控制器执行变量</span>
+<span class="token punctuation">}</span>pid<span class="token punctuation">[</span>N<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token keyword">void</span> <span class="token function">PID_Init</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+	<span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span>N<span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span>
+	<span class="token punctuation">{</span>
+		pid<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>SetVol<span class="token operator">=</span><span class="token number">0.0</span><span class="token punctuation">;</span>
+		pid<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>ActVol<span class="token operator">=</span><span class="token number">0.0</span><span class="token punctuation">;</span>
+		pid<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>Err<span class="token operator">=</span><span class="token number">0.0</span><span class="token punctuation">;</span>
+		pid<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>Err_Next<span class="token operator">=</span><span class="token number">0.0</span><span class="token punctuation">;</span>
+		pid<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>Err_Last<span class="token operator">=</span><span class="token number">0.0</span><span class="token punctuation">;</span>
+		pid<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>integral<span class="token operator">=</span><span class="token number">0.0</span><span class="token punctuation">;</span>
+		pid<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>actuator<span class="token operator">=</span><span class="token number">0.0</span><span class="token punctuation">;</span>
+		pid<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>Kp<span class="token operator">=</span>KP<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+		pid<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>Ki<span class="token operator">=</span>KI<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+		pid<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>Kd<span class="token operator">=</span>KD<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">float</span> <span class="token function">PID_realize</span><span class="token punctuation">(</span><span class="token keyword">float</span> set_val<span class="token punctuation">,</span><span class="token keyword">float</span> get_val<span class="token punctuation">,</span><span class="token keyword">int</span> i<span class="token punctuation">)</span>			<span class="token comment">//位置型PID算法实现</span>
+<span class="token punctuation">{</span>
+	pid<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>SetVol<span class="token operator">=</span>set_val<span class="token punctuation">;</span>
+	pid<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>ActVol<span class="token operator">=</span>get_val<span class="token punctuation">;</span>
+	pid<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>Err<span class="token operator">=</span>pid<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>SetVol<span class="token operator">-</span>pid<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>ActVol<span class="token punctuation">;</span>
+	<span class="token keyword">float</span> IncVol<span class="token punctuation">;</span>		<span class="token comment">//定义增量</span>
+	pid<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>integral<span class="token operator">+=</span>pid<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>Err<span class="token punctuation">;</span>
+<span class="token comment">//	IncVol=pid[i].Kp*(pid[i].Err-pid[i].Err_Next)+pid[i].Ki*pid[i].Err+pid[i].Kd*(pid[i].Err-2*pid[i].Err_Next+pid[i].Err_Last);</span>
+	pid<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>actuator<span class="token operator">=</span>pid<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>Kp<span class="token operator">*</span> pid<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>Err<span class="token operator">+</span>pid<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>Ki<span class="token operator">*</span>pid<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>integral<span class="token operator">+</span>pid<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>Kd<span class="token operator">*</span><span class="token punctuation">(</span>pid<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>Err<span class="token operator">-</span>pid<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>Err_Next<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">//	pid[i].actuator=adc_val+IncVol;</span>
+	pid<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>ActVol<span class="token operator">=</span>pid<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>actuator<span class="token punctuation">;</span>
+	pid<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>Err_Last<span class="token operator">=</span>pid<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>Err_Next<span class="token punctuation">;</span>
+	pid<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>Err_Next<span class="token operator">=</span>pid<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>Err<span class="token punctuation">;</span>
+	
+	<span class="token keyword">return</span> pid<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>actuator<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>主函数中的PID调节：</p>
+<pre><code class="prism language-c">		z_get<span class="token operator">=</span>data<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+		x_get<span class="token operator">=</span>data<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+		<span class="token keyword">if</span><span class="token punctuation">(</span>z_get<span class="token operator">-</span>z_set<span class="token operator">&gt;</span><span class="token number">0.5</span><span class="token operator">||</span>z_get<span class="token operator">-</span>z_set<span class="token operator">&lt;</span><span class="token operator">-</span><span class="token number">0.5</span><span class="token punctuation">)</span><span class="token comment">//电机PID</span>
+		<span class="token punctuation">{</span>
+			LED1<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>	<span class="token comment">//调节时灯亮</span>
+			PID_val_motor<span class="token operator">=</span><span class="token function">PID_realize</span><span class="token punctuation">(</span>z_set<span class="token punctuation">,</span>z_get<span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+			PID_val_motor<span class="token operator">=</span>PID_val_motor<span class="token operator">/</span><span class="token number">10.0</span><span class="token punctuation">;</span>
+			<span class="token keyword">if</span><span class="token punctuation">(</span>PID_val_motor<span class="token operator">&lt;=</span><span class="token number">0</span><span class="token punctuation">)</span>
+				motor_flag<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span><span class="token comment">//motor_flag控制电机正反转，PID_val_motor用于改变占空比，范围0~1</span>
+			<span class="token keyword">if</span><span class="token punctuation">(</span>PID_val_motor<span class="token operator">&gt;</span><span class="token number">0</span><span class="token punctuation">)</span>
+				motor_flag<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span>
+			PID_val_motor<span class="token operator">=</span><span class="token function">abs_float</span><span class="token punctuation">(</span>PID_val_motor<span class="token punctuation">)</span><span class="token punctuation">;</span>
+			<span class="token keyword">if</span><span class="token punctuation">(</span>PID_val_motor<span class="token operator">&gt;</span><span class="token number">2</span><span class="token punctuation">)</span>PID_val_motor<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span><span class="token comment">//标志太远，让车停止</span>
+			<span class="token keyword">if</span><span class="token punctuation">(</span>PID_val_motor<span class="token operator">&gt;</span><span class="token number">1</span><span class="token operator">&amp;&amp;</span>PID_val_motor<span class="token operator">&lt;=</span><span class="token number">2</span><span class="token punctuation">)</span>PID_val_motor<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span>
+			<span class="token keyword">if</span><span class="token punctuation">(</span>PID_val_motor<span class="token operator">&lt;</span><span class="token number">0.2</span><span class="token punctuation">)</span>PID_val_motor<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
+		<span class="token punctuation">}</span>
+		<span class="token keyword">if</span><span class="token punctuation">(</span>x_get<span class="token operator">-</span>x_set<span class="token operator">&gt;</span><span class="token number">0.1</span><span class="token operator">||</span>x_get<span class="token operator">-</span>x_set<span class="token operator">&lt;</span><span class="token operator">-</span><span class="token number">0.1</span><span class="token punctuation">)</span><span class="token comment">//舵机PID</span>
+		<span class="token punctuation">{</span>
+			LED1<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>	
+			PID_val_servo<span class="token operator">=</span><span class="token function">PID_realize</span><span class="token punctuation">(</span>x_set<span class="token punctuation">,</span>x_get<span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+			servo_angle<span class="token operator">=</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token number">140</span><span class="token operator">-</span><span class="token number">35</span><span class="token punctuation">)</span><span class="token operator">/</span><span class="token number">6</span><span class="token punctuation">)</span><span class="token operator">*</span>PID_val_servo<span class="token operator">+</span><span class="token number">35</span><span class="token punctuation">;</span><span class="token comment">//线性映射，把PID的值转化为角度35~140的舵机转角</span>
+			<span class="token keyword">if</span><span class="token punctuation">(</span>servo_angle<span class="token operator">&lt;</span><span class="token number">35</span><span class="token punctuation">)</span>servo_angle<span class="token operator">=</span><span class="token number">35</span><span class="token punctuation">;</span>
+			<span class="token keyword">if</span><span class="token punctuation">(</span>servo_angle<span class="token operator">&gt;</span><span class="token number">140</span><span class="token punctuation">)</span>servo_angle<span class="token operator">=</span><span class="token number">140</span><span class="token punctuation">;</span>
+		<span class="token punctuation">}</span>
+		LED1<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span>
+</code></pre>
+<p>定时器TIM2中断里改变占空比：</p>
+<pre><code class="prism language-c"><span class="token keyword">void</span> <span class="token function">TIM2_IRQHandler</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>	
+	<span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">TIM_GetITStatus</span><span class="token punctuation">(</span>TIM2<span class="token punctuation">,</span>TIM_IT_Update<span class="token punctuation">)</span><span class="token operator">==</span>SET<span class="token punctuation">)</span><span class="token comment">//溢出中断</span>
+	<span class="token punctuation">{</span>
+		<span class="token keyword">if</span><span class="token punctuation">(</span>motor_flag<span class="token operator">==</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token comment">//反转</span>
+		<span class="token punctuation">{</span>
+			<span class="token function">TIM_SetCompare1</span><span class="token punctuation">(</span>TIM8<span class="token punctuation">,</span>motor_duty<span class="token operator">*</span>PID_val_motor<span class="token operator">*</span><span class="token number">400.0</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//和定时器的自动重装载值进行比较，来设置占空比,引脚：PC6</span>
+			<span class="token function">TIM_SetCompare2</span><span class="token punctuation">(</span>TIM8<span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token punctuation">}</span>
+		<span class="token keyword">if</span><span class="token punctuation">(</span>motor_flag<span class="token operator">==</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token comment">//正转</span>
+		<span class="token punctuation">{</span>
+			<span class="token function">TIM_SetCompare1</span><span class="token punctuation">(</span>TIM8<span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+			<span class="token function">TIM_SetCompare2</span><span class="token punctuation">(</span>TIM8<span class="token punctuation">,</span>motor_duty<span class="token operator">*</span>PID_val_motor<span class="token operator">*</span><span class="token number">400.0</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//和定时器的自动重装载值进行比较，来设置占空比，引脚：PC7</span>
+		<span class="token punctuation">}</span>
+		<span class="token function">TIM_SetCompare1</span><span class="token punctuation">(</span>TIM3<span class="token punctuation">,</span><span class="token number">200</span><span class="token operator">-</span><span class="token punctuation">(</span>servo_angle<span class="token operator">/</span><span class="token number">45.0</span><span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token operator">*</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//设置舵机角度，根据舵机手册得到占空比与转角的关系，引脚：PA6</span>
+	<span class="token punctuation">}</span>
+	<span class="token function">TIM_ClearITPendingBit</span><span class="token punctuation">(</span>TIM2<span class="token punctuation">,</span>TIM_IT_Update<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//清除中断标志位</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2><a id="3_713"></a>3.电源与电机驱动</h2>
+<h2><a id="31_L298N_714"></a>3.1 L298N电机驱动板</h2>
+<p><img src="https://i-blog.csdnimg.cn/blog_migrate/3aa0bddbc9b1be6a37d710c039e0500c.png" alt="在这里插入图片描述"><br>
+因为后面两路电机要求同速，故把AB两通道用线短接，用一路PWM控制两路电机<br>
+下面是使用说明：<br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/4c92dbb3d0e713fd92a3dbfed6c3f6f8.png" alt="在这里插入图片描述"><br>
+具体控制代码见上面TIM2中断处理函数中，利用两路定时器轮流输出PWM（另一路为零），即可控制电机正反转</p>
+<h2><a id="32_LM2596_720"></a>3.2 LM2596降压模块</h2>
+<p><img src="https://i-blog.csdnimg.cn/blog_migrate/9b8e2badb6e630251ee10f5ad392b5de.png" alt="在这里插入图片描述"><br>
+手册中的典型连接：<br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/fb85c06e9af1e8d329676b1f7ad32692.png" alt="在这里插入图片描述"><br>
+原理图如下：<br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/dcee329819756758bc2ebf4775dceea4.png" alt="在这里插入图片描述"></p>
+<h2><a id="33__726"></a>3.3 电源部分注意事项</h2>
+<p>1.电池用的是12v航模锂电池，为了防止过放导致电池损坏，必须要在电池输入端加一个电压表模块，如下图：<br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/25c52a2708e35581fd4786217c114cad.jpeg" alt="在这里插入图片描述"><br>
+2.控制部分电源和电机舵机电源分开，因为电机舵机启动时会过大电流，导致电压不稳定，影响芯片供电。这里LM2596给电机供电，一个LM2596给舵机供电，另一个LM2596给单片机和openMV供电</p>
+<p>3.控制电源和电机舵机电源分别加开关，下程序的时候先关闭电机和舵机的电源。因为此时控制器没有给信号，电机和舵机可能会不受控制的运动</p>
+</div>
+</body>
+
+</html>

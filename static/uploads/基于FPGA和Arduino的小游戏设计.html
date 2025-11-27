@@ -1,0 +1,626 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>基于FPGA和Arduino的小游戏设计</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><h2><a id="_0"></a>实物图</h2>
+<p><img src="https://i-blog.csdnimg.cn/blog_migrate/59838dd29af9c54f395e47e346aae9dd.jpeg" alt="在这里插入图片描述"><br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/aa805faa84eb9c21cbcab1a7e98041f9.jpeg" alt="在这里插入图片描述"></p>
+<h2><a id="__3"></a>目 录</h2>
+<p><strong>一、 总体设计方案…1<br>
+1.1  总体功能介绍…1<br>
+1.2  设计原理…1<br>
+1.3  VerilogHDL程序代码设计及功能介绍…5<br>
+1.4  总体电路图…6<br>
+二、功能仿真及分析…7<br>
+三、功能测试及分析…8<br>
+四、结论…15<br>
+4.1 系统特点及存在的问题…15<br>
+4.2  学习体会…15<br>
+五、附件（代码）…16</strong></p>
+<h2><a id="__18"></a>摘 要</h2>
+<p><strong>关键词</strong>：FPGA， 时钟分频，异步时序<br>
+本设计基于FPGA（ALTERA cyloneII EP4CE6F17C8N）和Arduino（Mega2560）两种控制器，FPGA实现功能，Arduino实现屏幕显示。<br>
+定义时钟模块，为room模块和maze模块提供clk时钟。提供随机数。<br>
+定义room模块，实现重置，时钟，方向，和判断是否拿到剑，s[n]表示到达哪个房间，s3表示进入maze模块。用case语句实现走动和位置的记录，最终通过结合随机数和是否拿到sword来判断能否打败龙。<br>
+定义maze模块，制作了一个八个房间的迷宫，剑藏在随机数所确定的房间里,如果走到的房间恰好为随机数表示的房间，那么v=1，表明拿到了剑。</p>
+<h2><a id="_26"></a>一、总体设计方案</h2>
+<p><strong>1.1 总体功能描述</strong><br>
+有6个房间和1把斩首剑，以及一个包含9个房间的迷宫（剑在迷宫内）。开始于一个嘈杂的洞穴（the Cave of Cacophony）。要想获得胜利，必须要先通过曲折的隧道（the Twisty Tunnel）和湍急的河流（the Rapid River）；然后你需要进入迷宫寻找随机放置在一个房间的斩首剑（the Vorpal Sword）。这把剑将保护你通过后面危机四伏的龙穴（the Dragon Den），安全地到达胜利穹顶（the Victory Vault）赢得胜利。如果你进入龙穴而没有斩首剑，你会被凶残的暴龙撕裂分食，尸骨被扔进阴森恐怖的墓地（the Grievous Graveyard）最终输掉游戏。而如果你有斩首剑，还要根据随机数来判定你是否能取得胜利。<br>
+新功能：<br>
+1、设有九宫格式迷宫，而宝剑藏于其中，需要通过寻找来获得宝剑，增加了游戏的趣味性。<br>
+2、采用液晶屏显示，显示实时位置，并且会有如“YOU WIN”等游戏输赢结果的提示和暴龙凶恶的画面，增加游戏的可读性和趣味性。</p>
+<p><strong>1.2 设计原理</strong><br>
+（1）整体示意图（游戏地图）<br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/bb0ed5268200fb22643fc63e19cc2c05.jpeg" alt="在这里插入图片描述"><br>
+（2）子功能模块：<br>
+①独立按键模块：<br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/24df59d662da29ff9aad65af0d2a9146.png" alt="在这里插入图片描述"><br>
+②Maze模块：<br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/e6d1c7866587015ff9127143dceb886c.png" alt="在这里插入图片描述"><br>
+3、Room模块：<br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/667944e69a03e00787ab0e1383b689da.png" alt="在这里插入图片描述"><br>
+逻辑抽象<br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/ca7b1d72c375530752a7c426de688b69.jpeg" alt="在这里插入图片描述"><br>
+（4）状态转换图<br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/5c040204e44b940d6bf89347b0ab60e4.jpeg" alt="在这里插入图片描述"><br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/041fe4827f17b10c2ad43796f1aa4ed3.jpeg" alt="在这里插入图片描述"><br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/bc9ebd995d547b4d240a6bf17ca893d1.jpeg" alt="在这里插入图片描述"></p>
+<h2><a id="13_Verilog_HDL_51"></a>1.3 Verilog HDL程序代码设计及功能介绍</h2>
+<p><strong>1、独立按键模块：</strong><br>
+（1）功能：四个按健各代表“N”“S”“W”“E”中的一个方向，实现“东”“西”“南”“北”的位置移动。<br>
+（2）设计过程：通过按键实现输入和状态转化，设计按键在电路板的四个方向，操控更加方便</p>
+<p><strong>2、clock_random模块：</strong><br>
+（1）功能：①产生了两个随机数，一个是0/1，判定拿到斩首剑与暴龙战斗是否能胜利。1代表胜利，0代表失败。一个是000-111，产生斩首剑存放的房间号码。<br>
+②输出7Hz的主时钟信号，避免按一次独立按键检测到多个信号。<br>
+（2）设计过程：通过时钟产生随机数，通过三个时钟类似计数器产生000-111的信号，时间相等，因此概率也相等，在需要判定的那一刻取数，便实现了随机的效果。主时钟信号是多次调整的结果，频率太低容易检测不到，太高容易检测到多次。</p>
+<p><strong>3、单片机Arduino的LCD12864显示程序：</strong><br>
+（1）功能：显示实时位置，并且会有如“YOU WIN”等游戏输赢结果的提示和暴龙凶恶的画面。<br>
+（2）设计过程：因用LED难以辨别状态，因此使用arduino的mega2560实现显示功能，通信方式为并行，通过I/O口检测高低电平显示不同的图像文字。<br>
+<strong>4、maze模块：</strong><br>
+（1）功能：有9个房间，其中有一个房间藏着斩首剑，需要游戏者去寻找。<br>
+（2）设计过程：这是拓展部分，宝剑随机藏于0-7号房间，由东南西北四个按键控制，另外实验改进加入了一个类似锁存器的功能在模块中，以便于在进入房间一刻把随机数锁定。Maze模块属于状态3，与主模块room之间用sword_room和return_S2连接<br>
+<strong>5、Room模块：</strong><br>
+（1）功能：有 6个房间，需要游戏者通过来可能到达迷宫寻找斩首剑以及前往龙穴战斗。<br>
+（2）设计过程：按照游戏要求设计，共7个状态，由东南西北四个按键控制。为避免进入S3后按键输入出现混乱，使用了if语句，在进入S3后room模块主功能停止作用。</p>
+<h2><a id="14_72"></a>1.4总体电路图</h2>
+<p><img src="https://i-blog.csdnimg.cn/blog_migrate/ba394779d1b681a08e3b0392a6d9a4dc.png" alt="在这里插入图片描述"></p>
+<h2><a id="_75"></a>二、功能仿真及分析</h2>
+<p><img src="https://i-blog.csdnimg.cn/blog_migrate/838c017d891581f481c99d604da5c12c.png" alt="在这里插入图片描述"><br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/a455230df2c3304ab0a9d89d6f6f7f07.png" alt="在这里插入图片描述"><br>
+分析：<br>
+向东：到达s1向南：到达s2<br>
+向西：到达maze,s3=1<br>
+向北：到达room0，v=0未拿到剑<br>
+向西：到达room2，v=0未拿到剑<br>
+向西：到达room5，v=0未拿到剑<br>
+向南：到达room6，v=0未拿到剑<br>
+向南：到达room7，v=0未拿到剑<br>
+向东：到达room4，v=0未拿到剑<br>
+向东：到达room1，v=0未拿到剑<br>
+向北：到达maze起点，v=0未拿到剑<br>
+向东：到达s2<br>
+向东：到达龙穴，没有剑，die=1战败死亡<br>
+reset置零，回到起点。</p>
+<h2><a id="_93"></a>三、功能测试及分析</h2>
+<p><strong>1、引脚分配</strong><br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/ba2048baa469ef2b1c6178ead43b7abc.jpeg" alt="在这里插入图片描述"><br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/d42cccad3b533ad22a083aaeaf99599c.png" alt="在这里插入图片描述"><br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/68b43da00f5120ffb607f07c1cac5cb4.png" alt="在这里插入图片描述"><br>
+<strong>2、测试照片</strong><br>
+①初始界面：显示嘈杂的洞穴（0号位置），曲折的隧道（1号位置）湍急的河流（2号位置），以及暴龙形象，呼应冒险游戏的主题，渲染紧张的游戏氛围。<br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/1acef005daf54a33fb6b10209ae02176.png" alt="在这里插入图片描述"><br>
+②显示初始位置：嘈杂的洞穴（0号位置）<br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/5da6a9bbdb27309699e44c7c5d5cff04.png" alt="在这里插入图片描述"><br>
+③经过曲折的隧道（1号位置）湍急的河流（2号位置）到达迷宫入口（entrance），即迷宫里的初始位置（8号房间）<br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/a3f6919a4da9ebb46fc7746d9d08f502.png" alt="在这里插入图片描述"><br>
+④到达“？”房间（8号房间）后，显示迷宫地图。斩首剑藏于其中一个房间。<br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/1a4fc9a692504f4ef33edf7058e0e147.png" alt="在这里插入图片描述"><br>
+⑤去不同房间寻找宝剑，当前位于迷宫的3号房间<br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/adbf1da5f97055356123d1025083585e.png" alt="在这里插入图片描述"><br>
+⑥获得斩首剑，即将返回前往龙穴<br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/998ad363d3c693fba0ab160419ea4653.png" alt="在这里插入图片描述"><br>
+⑦返回到湍急的河流,下一个地点即为龙穴<br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/6261b8bf7ad452100fd33977e2f8370a.png" alt="在这里插入图片描述"><br>
+⑧拿到斩首剑，却因为暴龙状态极佳，而无法与之匹敌，最终死亡（“you die”）<br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/501b91a6b7a8b4e2fcffb73b9f0090ed.png" alt="在这里插入图片描述"><br>
+⑨游戏失败的画面<br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/93ffcb38ccdec6b354e74a7d4ae24e03.png" alt="在这里插入图片描述"><br>
+⑩游戏者再接再厉，最终拿到斩首剑赢得胜利<br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/d5e71ac27b68415cb503cf9ef8589eea.png" alt="在这里插入图片描述"><br>
+⑪游戏胜利的欢乐画面<br>
+<img src="https://i-blog.csdnimg.cn/blog_migrate/0dd92b34bde8ff161b4cea40113c1483.png" alt="在这里插入图片描述"></p>
+<h2><a id="_123"></a>四、结论</h2>
+<p><strong>4.1系统特点及存在的问题</strong></p>
+<p>系统特点<br>
+模块之间接口完美，逻辑清晰。<br>
+利用同步时序电路，明确状态的变化，可以清楚的观察游戏者所处的位置。</p>
+<p>存在的问题</p>
+<p>迷宫部分实现了最基本的走动和随机数功能，还可以拓展其丰富性，另外，打龙的时候用随机数的概率来获得胜利比较单调，可以再设计一个能为玩家所控制的打龙模块。迷宫部分实现了最基本的走动和随机数功能，还可以拓展其丰富性，另外，打龙的时候用随机数的概率来获得胜利比较单调，可以再设计一个能为玩家所控制的打龙模块。</p>
+<p><strong>4.2学习体会</strong><br>
+学到了各个模块之间如何实现接口的信息反馈，认识到模块的可扩展性尤为重要。熟悉了各种语句比如if语句case语句。学会如何表示状态的转移。认识到正确的仿真对测试结果的重要性。</p>
+<h2><a id="_140"></a>五、附件（代码）</h2>
+<h2><a id="FPGA__Verilog_HDL_142"></a>FPGA部分  (Verilog HDL)：</h2>
+<h3><a id="Room_143"></a>Room模块：</h3>
+<pre><code>module room(
+input clk,n,s,e,w,v,reset,return_S2,random,
+output reg s0,s1,s2,s3,s4,s5,s6,win,die,sword_room
+);
+always@(posedge clk or negedge reset)
+begin
+if(reset==1'b0)
+{s0,s1,s2,s3,s4,s5,s6,win,die,sword_room}&lt;=10'b1000_0000_00;
+else if(return_S2&amp;&amp;s3==1)
+	begin
+	{s0,s1,s2,s3,s4,s5,s6,sword_room}&lt;=8'b0010_0000;
+	end
+else if(sword_room==0)
+	begin 
+	case ({s0,s1,s2,s3,s4,s5,s6})
+	7'b1000_000:if(e==0) //s0
+						{s0,s1,s2,s3,s4,s5,s6}&lt;=7'b0100_000;
+	7'b0100_000:begin//s1
+					if(s==0)
+						{s0,s1,s2,s3,s4,s5,s6}&lt;=7'b0010_000;
+					else if(w==0)
+						{s0,s1,s2,s3,s4,s5,s6}&lt;=7'b1000_000;
+					end
+	7'b0010_000:begin//s2
+						if(n==0)
+						{s0,s1,s2,s3,s4,s5,s6}&lt;=7'b0100_000;
+						else if(w==0)
+						{s0,s1,s2,s3,s4,s5,s6}&lt;=7'b0001_000;//s3
+						else if(e==0)
+						{s0,s1,s2,s3,s4,s5,s6}&lt;=7'b0000_100;//s4
+						end
+	7'b0001_000:begin//s3
+					sword_room&lt;=1;
+					end
+	7'b0000_100:begin//s4
+						if(v==0)
+						begin
+								{s0,s1,s2,s3,s4,s5,s6}&lt;=7'b0000_001;//s6
+						end
+								else 
+									begin
+									if(random==0)
+									{s0,s1,s2,s3,s4,s5,s6}&lt;=7'b0000_010;//s5
+									else
+									{s0,s1,s2,s3,s4,s5,s6}&lt;=7'b0000_001;//s6
+									end
+					end
+
+	7'b0000_010:begin//s5
+					win&lt;=1;
+					end
+	7'b0000_001:begin//s6
+					die&lt;=1;
+					end
+	default:{s0,s1,s2,s3,s4,s5,s6}&lt;=7'b1000_000;
+								
+endcase
+
+end
+end					
+endmodule
+
+</code></pre>
+<h3><a id="maze_209"></a>maze模块：</h3>
+<pre><code>module maze(
+input clk,n,s,e,w,reset,sword_room,
+input[2:0]random,
+output reg v,
+output reg return_S2,
+output reg [8:0] room
+);
+reg[3:0]state=4'b1000;
+reg flag=0;
+reg [2:0]locked=3'b111;
+always@(posedge clk or negedge reset)
+begin
+				if(reset==1'b0)
+				begin
+				state&lt;=4'b1000;
+				flag&lt;=0;
+				locked[2:0]&lt;=3'b111;
+				v&lt;=0;
+				return_S2&lt;=0;
+				room&lt;=9'b100_000_000;
+				end
+				else if(sword_room)
+						
+						begin
+							if(flag==0)
+							begin
+							locked[2:0]&lt;=random[2:0];
+							flag&lt;=1;
+							end
+						case(state)
+						4'b0000:begin
+						room&lt;=9'b000_000_001;//room0
+							if(w==0)state&lt;=4'b0010;//2
+							else if(s==0)state&lt;=4'b1000;//8
+							else state&lt;=4'b000;
+							end
+						4'b0001:begin
+						room&lt;=9'b000_000_010;//room1
+							if(w==0)state&lt;=4'b0100;
+							else if(n==0)state&lt;=4'b1000;
+							else state&lt;=4'b0001;
+							end
+						4'b0010:begin
+						room&lt;=9'b000_000_100;//room2
+							if(s==0)state&lt;=4'b0011;
+							else if(w==0)state&lt;=4'b0101;
+							else if(e==0)state&lt;=4'b0000;
+							else state&lt;=4'b0010;
+							end
+						4'b0011:begin
+						room&lt;=9'b000_001_000;//room3
+							if(e==0)state&lt;=4'b1000;
+							else if(w==0)state&lt;=4'b0110;
+							else if(n==0)state&lt;=4'b0010;
+							else if(s==0)state&lt;=4'b0100;
+							else state&lt;=4'b0011;
+							end
+						4'b0100:begin
+						room&lt;=9'b000_010_000;//room4
+							if(e==0)state&lt;=4'b0001;
+							else if(n==0)state&lt;=4'b0011;
+							else if(w==0)state&lt;=4'b0111;
+							else state&lt;=4'b0100;
+							end
+						4'b0101:
+							begin
+							room&lt;=9'b000_100_000;
+							if(e==0)state&lt;=4'b0010;
+							else if(s==0)state&lt;=4'b0110;
+							else state&lt;=4'b0101;
+							end
+						4'b0110:begin
+						room&lt;=9'b001_000_000;
+							if(e==0)state&lt;=4'b0011;
+							else if(s==0)state&lt;=4'b0111;
+							else if(n==0)state&lt;=4'b0101;
+							else state&lt;=4'b0110;
+							end
+						4'b0111:begin
+						room&lt;=9'b010_000_000;
+							if(e==0)state&lt;=4'b0100;
+							else if(n==0)state&lt;=4'b0110;
+							else state&lt;=4'b0111;
+							end
+						4'b1000:begin
+						room&lt;=9'b100_000_000;//room8
+							if(e==0)  return_S2&lt;=1;
+							else if(n==0)state&lt;=4'b0000;
+							else if(s==0)state&lt;=4'b0001;
+							else if(w==0)state&lt;=4'b0011;
+							else state&lt;=4'b1000;
+							end
+						endcase
+						if(state[2:0]==locked[2:0])
+						v&lt;=1;
+						end
+						
+	end
+			
+endmodule
+
+</code></pre>
+<h3><a id="clock_random_315"></a>clock_random模块：</h3>
+<pre><code>module clock_random(
+input clk0,reset,
+output reg clk,random1,
+output reg [2:0] random2
+);
+reg clk1,clk2,clk3;
+//test:
+/*
+parameter COUNT_TIME=2000_0000;//room and maze,clk
+parameter COUNT_TIME1=2000_0000;//clk1
+parameter COUNT_TIME2=1000_0000;//clk2
+parameter COUNT_TIME3=500_0000;//clk3
+parameter CLK_FREQ = 100_00_0000; //clock frequency
+*/
+
+parameter COUNT_TIME=7;//room and maze
+parameter COUNT_TIME1=100;
+parameter COUNT_TIME2=50;
+parameter COUNT_TIME3=200;
+parameter CLK_FREQ = 5000_0000; //clock frequency
+
+parameter NUM_COUNT=CLK_FREQ/COUNT_TIME;
+parameter NUM_COUNT1=CLK_FREQ/COUNT_TIME1;
+parameter NUM_COUNT2=CLK_FREQ/COUNT_TIME2;
+parameter NUM_COUNT3=CLK_FREQ/COUNT_TIME3;
+reg[31:0] scan_timer,scan_timer1,scan_timer2,scan_timer3;  //scan time counter
+always@(posedge clk0 or negedge reset)
+begin
+	if(reset == 1'b0)
+	begin
+		scan_timer&lt;=32'd0;
+		scan_timer1 &lt;= 32'd0;
+		scan_timer2&lt;= 32'd0;
+		scan_timer3&lt;= 32'd0;
+	end
+	else if(scan_timer&gt;=NUM_COUNT)
+	begin
+			scan_timer&lt;=32'd0;
+			clk=~clk;
+	end
+	else if(scan_timer1&gt;=NUM_COUNT1)
+	begin
+			scan_timer1&lt;=32'd0;
+			clk1=~clk1;
+	end
+	else if(scan_timer2&gt;=NUM_COUNT2)
+	begin
+			scan_timer2&lt;=32'd0;
+			clk2=~clk2;
+	end
+	else if(scan_timer3&gt;=NUM_COUNT3)
+	begin
+			scan_timer3&lt;=32'd0;
+			clk3=~clk3;
+	end
+	else
+		begin
+			scan_timer&lt;=scan_timer+32'd1;
+			scan_timer1 &lt;= scan_timer1 + 32'd1;
+			scan_timer2 &lt;= scan_timer2 + 32'd1;
+			scan_timer3 &lt;= scan_timer3 + 32'd1;
+		
+		
+		if(clk1==clk2)
+		random1&lt;=1;
+		else
+		random1&lt;=0;
+		//random2:0-7,一定要写成b不能是d！
+		case({clk1,clk2,clk3})
+			3'b000:random2&lt;=3'b000;
+			3'b001:random2&lt;=3'b001;
+			3'b010:random2&lt;=3'b010;
+			3'b011:random2&lt;=3'b011;
+			3'b100:random2&lt;=3'b100;
+			3'b101:random2&lt;=3'b101;
+			3'b110:random2&lt;=3'b110;
+			3'b111:random2&lt;=3'b111;
+			default:random2&lt;=0;
+			endcase
+			
+		end
+
+end
+endmodule
+
+</code></pre>
+<h3><a id="ArduinoLCD12864C_404"></a>单片机Arduino的LCD12864显示程序(C语言)：</h3>
+<pre><code class="prism language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;LCD12864RSPI.h&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name function">AR_SIZE</span><span class="token expression"><span class="token punctuation">(</span> a <span class="token punctuation">)</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span> a <span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span> a<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token punctuation">)</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">S0</span> <span class="token expression"><span class="token number">22</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">S1</span> <span class="token expression"><span class="token number">24</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">S2</span> <span class="token expression"><span class="token number">26</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">S3</span> <span class="token expression"><span class="token number">28</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">S4</span> <span class="token expression"><span class="token number">30</span></span></span>
+<span class="token comment">//#define S5 32</span>
+<span class="token comment">//#define S6 34</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">V</span> <span class="token expression"><span class="token number">32</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">WIN</span> <span class="token expression"><span class="token number">34</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">DIE</span> <span class="token expression"><span class="token number">36</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">ROOM0</span> <span class="token expression"><span class="token number">23</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">ROOM1</span> <span class="token expression"><span class="token number">25</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">ROOM2</span> <span class="token expression"><span class="token number">27</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">ROOM3</span> <span class="token expression"><span class="token number">29</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">ROOM4</span> <span class="token expression"><span class="token number">31</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">ROOM5</span> <span class="token expression"><span class="token number">33</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">ROOM6</span> <span class="token expression"><span class="token number">35</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">ROOM7</span> <span class="token expression"><span class="token number">37</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">ROOM8</span> <span class="token expression"><span class="token number">39</span></span></span>
+<span class="token comment">//unsigned char show0[]={0xBC,0xAB,0xBF,0xCD,0xB9,0xA4,0xB7,0xBB};//极客工坊</span>
+<span class="token keyword">const</span> <span class="token keyword">unsigned</span> <span class="token keyword">char</span> show1<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span><span class="token string">"make by Chan,Jin,Shou"</span><span class="token punctuation">;</span>
+<span class="token keyword">unsigned</span> <span class="token keyword">char</span>  win_pic<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">=</span>
+<span class="token comment">//以下省略几十页图片矩阵</span>
+<span class="token keyword">const</span> <span class="token keyword">unsigned</span> <span class="token keyword">char</span> s0<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span><span class="token string">"Your position is 0"</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token keyword">unsigned</span> <span class="token keyword">char</span> s1<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span><span class="token string">"Your position is 1"</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token keyword">unsigned</span> <span class="token keyword">char</span> s2<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span><span class="token string">"Your position is 2"</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token keyword">unsigned</span> <span class="token keyword">char</span> s3<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span><span class="token string">"You're in the sword_room"</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token keyword">unsigned</span> <span class="token keyword">char</span> s4<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span><span class="token string">"You're fighting with dragon"</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token keyword">unsigned</span> <span class="token keyword">char</span> win<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token string">"you WIN"</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token keyword">unsigned</span> <span class="token keyword">char</span> die<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token string">"you DIE"</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token keyword">unsigned</span> <span class="token keyword">char</span> v<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token string">"get the sword"</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token keyword">unsigned</span> <span class="token keyword">char</span> room8<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span><span class="token string">"You're in entrance"</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token keyword">unsigned</span> <span class="token keyword">char</span> room7<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span><span class="token string">"You're in room7"</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token keyword">unsigned</span> <span class="token keyword">char</span> room6<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span><span class="token string">"You're in room6"</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token keyword">unsigned</span> <span class="token keyword">char</span> room5<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span><span class="token string">"You're in room5"</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token keyword">unsigned</span> <span class="token keyword">char</span> room4<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span><span class="token string">"You're in room4"</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token keyword">unsigned</span> <span class="token keyword">char</span> room3<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span><span class="token string">"You're in room3"</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token keyword">unsigned</span> <span class="token keyword">char</span> room2<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span><span class="token string">"You're in room2"</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token keyword">unsigned</span> <span class="token keyword">char</span> room1<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span><span class="token string">"You're in room1"</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token keyword">unsigned</span> <span class="token keyword">char</span> room0<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span><span class="token string">"You're in room0"</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">setup</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+LCDA<span class="token punctuation">.</span><span class="token function">Initialise</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 屏幕初始化</span>
+<span class="token function">delay</span><span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">22</span><span class="token punctuation">;</span>i<span class="token operator">&lt;=</span><span class="token number">36</span><span class="token punctuation">;</span>i<span class="token operator">=</span>i<span class="token operator">+</span><span class="token number">2</span><span class="token punctuation">)</span>
+<span class="token function">pinMode</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span>INPUT<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">23</span><span class="token punctuation">;</span>i<span class="token operator">&lt;=</span><span class="token number">41</span><span class="token punctuation">;</span>i<span class="token operator">=</span>i<span class="token operator">+</span><span class="token number">2</span><span class="token punctuation">)</span>
+<span class="token function">pinMode</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span>INPUT<span class="token punctuation">)</span><span class="token punctuation">;</span>
+LCDA<span class="token punctuation">.</span><span class="token function">DisplayString</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span>show1<span class="token punctuation">,</span><span class="token function">AR_SIZE</span><span class="token punctuation">(</span>show1<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">delay</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+LCDA<span class="token punctuation">.</span><span class="token function">CLEAR</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">delay</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">void</span> <span class="token function">loop</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+
+ <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token function">digitalRead</span><span class="token punctuation">(</span>S3<span class="token punctuation">)</span><span class="token operator">==</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token operator">&amp;&amp;</span><span class="token function">digitalRead</span><span class="token punctuation">(</span>WIN<span class="token punctuation">)</span><span class="token operator">==</span><span class="token number">0</span><span class="token operator">&amp;&amp;</span><span class="token function">digitalRead</span><span class="token punctuation">(</span>DIE<span class="token punctuation">)</span><span class="token operator">==</span><span class="token number">0</span><span class="token punctuation">)</span>
+  <span class="token punctuation">{</span>
+     LCDA<span class="token punctuation">.</span><span class="token function">DrawFullScreen</span><span class="token punctuation">(</span>main_map<span class="token punctuation">)</span><span class="token punctuation">;</span>
+     <span class="token function">delay</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    
+     <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">digitalRead</span><span class="token punctuation">(</span>S0<span class="token punctuation">)</span><span class="token punctuation">)</span>
+      <span class="token punctuation">{</span>
+        LCDA<span class="token punctuation">.</span><span class="token function">CLEAR</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        LCDA<span class="token punctuation">.</span><span class="token function">DisplayString</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span>s0<span class="token punctuation">,</span><span class="token function">AR_SIZE</span><span class="token punctuation">(</span>s0<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">delay</span><span class="token punctuation">(</span><span class="token number">500</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+       <span class="token punctuation">}</span>
+      <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">digitalRead</span><span class="token punctuation">(</span>S1<span class="token punctuation">)</span><span class="token punctuation">)</span>
+      <span class="token punctuation">{</span>
+        LCDA<span class="token punctuation">.</span><span class="token function">CLEAR</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        LCDA<span class="token punctuation">.</span><span class="token function">DisplayString</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span>s1<span class="token punctuation">,</span><span class="token function">AR_SIZE</span><span class="token punctuation">(</span>s1<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">delay</span><span class="token punctuation">(</span><span class="token number">500</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+       <span class="token punctuation">}</span>
+       <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">digitalRead</span><span class="token punctuation">(</span>S2<span class="token punctuation">)</span><span class="token punctuation">)</span>
+      <span class="token punctuation">{</span>
+        LCDA<span class="token punctuation">.</span><span class="token function">CLEAR</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        LCDA<span class="token punctuation">.</span><span class="token function">DisplayString</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span>s2<span class="token punctuation">,</span><span class="token function">AR_SIZE</span><span class="token punctuation">(</span>s2<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">delay</span><span class="token punctuation">(</span><span class="token number">500</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+       <span class="token punctuation">}</span>
+       <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">digitalRead</span><span class="token punctuation">(</span>S4<span class="token punctuation">)</span><span class="token punctuation">)</span>
+      <span class="token punctuation">{</span>
+        LCDA<span class="token punctuation">.</span><span class="token function">CLEAR</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        LCDA<span class="token punctuation">.</span><span class="token function">DisplayString</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span>s4<span class="token punctuation">,</span><span class="token function">AR_SIZE</span><span class="token punctuation">(</span>s4<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">delay</span><span class="token punctuation">(</span><span class="token number">500</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+       <span class="token punctuation">}</span> 
+       
+        LCDA<span class="token punctuation">.</span><span class="token function">CLEAR</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">delay</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+ <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">digitalRead</span><span class="token punctuation">(</span>S3<span class="token punctuation">)</span><span class="token operator">==</span><span class="token number">1</span><span class="token punctuation">)</span>
+  <span class="token punctuation">{</span>
+    LCDA<span class="token punctuation">.</span><span class="token function">DrawFullScreen</span><span class="token punctuation">(</span>sword_room_map<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">delay</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">digitalRead</span><span class="token punctuation">(</span>ROOM0<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+      LCDA<span class="token punctuation">.</span><span class="token function">CLEAR</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      LCDA<span class="token punctuation">.</span><span class="token function">DisplayString</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span>room0<span class="token punctuation">,</span><span class="token function">AR_SIZE</span><span class="token punctuation">(</span>room0<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token function">delay</span><span class="token punctuation">(</span><span class="token number">500</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">digitalRead</span><span class="token punctuation">(</span>V<span class="token punctuation">)</span><span class="token punctuation">)</span>
+         <span class="token punctuation">{</span>
+             LCDA<span class="token punctuation">.</span><span class="token function">CLEAR</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+             LCDA<span class="token punctuation">.</span><span class="token function">DisplayString</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span>v<span class="token punctuation">,</span><span class="token function">AR_SIZE</span><span class="token punctuation">(</span>v<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+              <span class="token function">delay</span><span class="token punctuation">(</span><span class="token number">500</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+           <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+    
+     <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">digitalRead</span><span class="token punctuation">(</span>ROOM1<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+      LCDA<span class="token punctuation">.</span><span class="token function">CLEAR</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      LCDA<span class="token punctuation">.</span><span class="token function">DisplayString</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span>room1<span class="token punctuation">,</span><span class="token function">AR_SIZE</span><span class="token punctuation">(</span>room1<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token function">delay</span><span class="token punctuation">(</span><span class="token number">500</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+           <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">digitalRead</span><span class="token punctuation">(</span>V<span class="token punctuation">)</span><span class="token punctuation">)</span>
+         <span class="token punctuation">{</span>
+             LCDA<span class="token punctuation">.</span><span class="token function">CLEAR</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+             LCDA<span class="token punctuation">.</span><span class="token function">DisplayString</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span>v<span class="token punctuation">,</span><span class="token function">AR_SIZE</span><span class="token punctuation">(</span>v<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+              <span class="token function">delay</span><span class="token punctuation">(</span><span class="token number">500</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+           <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+    
+      <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">digitalRead</span><span class="token punctuation">(</span>ROOM2<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+      LCDA<span class="token punctuation">.</span><span class="token function">CLEAR</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      LCDA<span class="token punctuation">.</span><span class="token function">DisplayString</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span>room2<span class="token punctuation">,</span><span class="token function">AR_SIZE</span><span class="token punctuation">(</span>room2<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token function">delay</span><span class="token punctuation">(</span><span class="token number">500</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">digitalRead</span><span class="token punctuation">(</span>V<span class="token punctuation">)</span><span class="token punctuation">)</span>
+         <span class="token punctuation">{</span>
+             LCDA<span class="token punctuation">.</span><span class="token function">CLEAR</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+             LCDA<span class="token punctuation">.</span><span class="token function">DisplayString</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span>v<span class="token punctuation">,</span><span class="token function">AR_SIZE</span><span class="token punctuation">(</span>v<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+              <span class="token function">delay</span><span class="token punctuation">(</span><span class="token number">500</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+           <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+    
+      <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">digitalRead</span><span class="token punctuation">(</span>ROOM3<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+      LCDA<span class="token punctuation">.</span><span class="token function">CLEAR</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      LCDA<span class="token punctuation">.</span><span class="token function">DisplayString</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span>room3<span class="token punctuation">,</span><span class="token function">AR_SIZE</span><span class="token punctuation">(</span>room3<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token function">delay</span><span class="token punctuation">(</span><span class="token number">500</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+           <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">digitalRead</span><span class="token punctuation">(</span>V<span class="token punctuation">)</span><span class="token punctuation">)</span>
+         <span class="token punctuation">{</span>
+             LCDA<span class="token punctuation">.</span><span class="token function">CLEAR</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+             LCDA<span class="token punctuation">.</span><span class="token function">DisplayString</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span>v<span class="token punctuation">,</span><span class="token function">AR_SIZE</span><span class="token punctuation">(</span>v<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+              <span class="token function">delay</span><span class="token punctuation">(</span><span class="token number">500</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+           <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+    
+      <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">digitalRead</span><span class="token punctuation">(</span>ROOM4<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+      LCDA<span class="token punctuation">.</span><span class="token function">CLEAR</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      LCDA<span class="token punctuation">.</span><span class="token function">DisplayString</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span>room4<span class="token punctuation">,</span><span class="token function">AR_SIZE</span><span class="token punctuation">(</span>room4<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token function">delay</span><span class="token punctuation">(</span><span class="token number">500</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+           <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">digitalRead</span><span class="token punctuation">(</span>V<span class="token punctuation">)</span><span class="token punctuation">)</span>
+         <span class="token punctuation">{</span>
+             LCDA<span class="token punctuation">.</span><span class="token function">CLEAR</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+             LCDA<span class="token punctuation">.</span><span class="token function">DisplayString</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span>v<span class="token punctuation">,</span><span class="token function">AR_SIZE</span><span class="token punctuation">(</span>v<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+              <span class="token function">delay</span><span class="token punctuation">(</span><span class="token number">500</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+           <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+    
+      <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">digitalRead</span><span class="token punctuation">(</span>ROOM5<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+      LCDA<span class="token punctuation">.</span><span class="token function">CLEAR</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      LCDA<span class="token punctuation">.</span><span class="token function">DisplayString</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span>room5<span class="token punctuation">,</span><span class="token function">AR_SIZE</span><span class="token punctuation">(</span>room5<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token function">delay</span><span class="token punctuation">(</span><span class="token number">500</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+           <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">digitalRead</span><span class="token punctuation">(</span>V<span class="token punctuation">)</span><span class="token punctuation">)</span>
+         <span class="token punctuation">{</span>
+             LCDA<span class="token punctuation">.</span><span class="token function">CLEAR</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+             LCDA<span class="token punctuation">.</span><span class="token function">DisplayString</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span>v<span class="token punctuation">,</span><span class="token function">AR_SIZE</span><span class="token punctuation">(</span>v<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+              <span class="token function">delay</span><span class="token punctuation">(</span><span class="token number">500</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+           <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+    
+      <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">digitalRead</span><span class="token punctuation">(</span>ROOM6<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+      LCDA<span class="token punctuation">.</span><span class="token function">CLEAR</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      LCDA<span class="token punctuation">.</span><span class="token function">DisplayString</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span>room6<span class="token punctuation">,</span><span class="token function">AR_SIZE</span><span class="token punctuation">(</span>room6<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token function">delay</span><span class="token punctuation">(</span><span class="token number">500</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+           <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">digitalRead</span><span class="token punctuation">(</span>V<span class="token punctuation">)</span><span class="token punctuation">)</span>
+         <span class="token punctuation">{</span>
+             LCDA<span class="token punctuation">.</span><span class="token function">CLEAR</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+             LCDA<span class="token punctuation">.</span><span class="token function">DisplayString</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span>v<span class="token punctuation">,</span><span class="token function">AR_SIZE</span><span class="token punctuation">(</span>v<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+              <span class="token function">delay</span><span class="token punctuation">(</span><span class="token number">500</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+           <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+    
+      <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">digitalRead</span><span class="token punctuation">(</span>ROOM7<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+      LCDA<span class="token punctuation">.</span><span class="token function">CLEAR</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      LCDA<span class="token punctuation">.</span><span class="token function">DisplayString</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span>room7<span class="token punctuation">,</span><span class="token function">AR_SIZE</span><span class="token punctuation">(</span>room7<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token function">delay</span><span class="token punctuation">(</span><span class="token number">500</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+           <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">digitalRead</span><span class="token punctuation">(</span>V<span class="token punctuation">)</span><span class="token punctuation">)</span>
+         <span class="token punctuation">{</span>
+             LCDA<span class="token punctuation">.</span><span class="token function">CLEAR</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+             LCDA<span class="token punctuation">.</span><span class="token function">DisplayString</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span>v<span class="token punctuation">,</span><span class="token function">AR_SIZE</span><span class="token punctuation">(</span>v<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+              <span class="token function">delay</span><span class="token punctuation">(</span><span class="token number">500</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+           <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">digitalRead</span><span class="token punctuation">(</span>ROOM8<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+      LCDA<span class="token punctuation">.</span><span class="token function">CLEAR</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      LCDA<span class="token punctuation">.</span><span class="token function">DisplayString</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span>room8<span class="token punctuation">,</span><span class="token function">AR_SIZE</span><span class="token punctuation">(</span>room8<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token function">delay</span><span class="token punctuation">(</span><span class="token number">500</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+           <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">digitalRead</span><span class="token punctuation">(</span>V<span class="token punctuation">)</span><span class="token punctuation">)</span>
+         <span class="token punctuation">{</span>
+             LCDA<span class="token punctuation">.</span><span class="token function">CLEAR</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+             LCDA<span class="token punctuation">.</span><span class="token function">DisplayString</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span>v<span class="token punctuation">,</span><span class="token function">AR_SIZE</span><span class="token punctuation">(</span>v<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+              <span class="token function">delay</span><span class="token punctuation">(</span><span class="token number">500</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+           <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+    
+      
+    <span class="token punctuation">}</span>
+  <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">digitalRead</span><span class="token punctuation">(</span>WIN<span class="token punctuation">)</span><span class="token operator">==</span><span class="token number">1</span><span class="token operator">||</span><span class="token function">digitalRead</span><span class="token punctuation">(</span>DIE<span class="token punctuation">)</span><span class="token operator">==</span><span class="token number">1</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">digitalRead</span><span class="token punctuation">(</span>WIN<span class="token punctuation">)</span><span class="token punctuation">)</span>
+      <span class="token punctuation">{</span>
+        LCDA<span class="token punctuation">.</span><span class="token function">CLEAR</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        LCDA<span class="token punctuation">.</span><span class="token function">DisplayString</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span>win<span class="token punctuation">,</span><span class="token function">AR_SIZE</span><span class="token punctuation">(</span>win<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">delay</span><span class="token punctuation">(</span><span class="token number">500</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        LCDA<span class="token punctuation">.</span><span class="token function">DrawFullScreen</span><span class="token punctuation">(</span>win_pic<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">delay</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+       <span class="token punctuation">}</span>
+       <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">digitalRead</span><span class="token punctuation">(</span>DIE<span class="token punctuation">)</span><span class="token punctuation">)</span>
+      <span class="token punctuation">{</span>
+        LCDA<span class="token punctuation">.</span><span class="token function">CLEAR</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        LCDA<span class="token punctuation">.</span><span class="token function">DisplayString</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span>die<span class="token punctuation">,</span><span class="token function">AR_SIZE</span><span class="token punctuation">(</span>die<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">delay</span><span class="token punctuation">(</span><span class="token number">500</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+         LCDA<span class="token punctuation">.</span><span class="token function">DrawFullScreen</span><span class="token punctuation">(</span>die_pic<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">delay</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+       <span class="token punctuation">}</span> 
+    <span class="token punctuation">}</span>
+    
+    LCDA<span class="token punctuation">.</span><span class="token function">CLEAR</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">delay</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+<span class="token punctuation">}</span>
+
+</code></pre>
+</div>
+</body>
+
+</html>
