@@ -2,7 +2,7 @@
 title: 基于STM32的自动跟踪小车
 summary: Automatic tracking car based on STM32
 date: 2019-01-01
-external_link: '/uploads/基于STM32的自动跟踪小车.html'
+external_link: '/uploads/基于STM32的自动跟踪小车.pdf'
 
 authors:
   - admin
