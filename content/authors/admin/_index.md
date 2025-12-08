@@ -49,9 +49,10 @@ profiles:
     url: https://blog.csdn.net/weixin_42121843?type=blog
 
 interests:
-  - Artificial Intelligence
+  - Agentic AI
+  - Reinforcement Learning
   - Robotics
-  - Augmented/Mixed/Virtual Reality
+  - Extended Reality
 
 education:
   - area: PhD Electrical Engineering
