@@ -30,7 +30,7 @@ publication_types: ['paper-conference']
 
 # Publication name and optional abbreviated publication name.
 publication: In *Workshop on Enhancing Security, Privacy, and Trust in Extended Reality Systems (XR Security 2025) at ACM MobiHoc*
-publication_short: In *ACM MobiHoc XR Security 2025 Workshop (Best Poster Award)*
+publication_short: In **ACM MobiHoc XR Security 2025 Workshop (Best Poster Award)**
 
 abstract: ''
 
