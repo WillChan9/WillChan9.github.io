@@ -27,8 +27,8 @@ publishDate: ''
 publication_types: ['paper-conference']
 
 # Publication name and optional abbreviated publication name.
-publication: In *2025 IEEE International Conference on Robotics and Automation (ICRA2025)*
-publication_short: In **ICRA 2025**
+publication: "**2025 IEEE International Conference on Robotics and Automation (ICRA)**"
+publication_short: "**2025 IEEE International Conference on Robotics and Automation (ICRA)**"
 
 abstract: We present the design and implementation of HASTA (Hopper with Adjustable Stiffness for Terrain Adap- tion), a vertical hopping robot with real-time tunable leg stiffness, aimed at optimizing energy efficiency across various ground profiles (a pair of ground stiffness and damping conditions). By adjusting leg stiffness, we aim to maximize apex hopping height, a key metric for energy-efficient vertical hopping. We hypothesize that softer legs perform better on soft, damped ground by minimizing penetration and energy loss, while stiffer legs excel on hard, less damped ground by reducing limb deformation and energy dissipation. Through experimental tests and simulations, we find the best leg stiffness within our selection for each combination of ground stiffness and damping, enabling the robot to achieve maximum steady- state hopping height with a constant energy input. These results validate our hypothesis and show that tunable stiffness enhances energy-efficient locomotion in dynamic environments. In addition, simulations offer a valuable tool for guiding future controllers in selecting the optimal leg stiffness.
 

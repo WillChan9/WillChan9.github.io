@@ -23,13 +23,13 @@ publishDate: '2026-02-14T00:00:00Z'
 publication_types: ['paper-conference']
 
 # Publication name and optional abbreviated publication name.
-publication: "In *Advances in AI-Enabled Tactical Autonomy: from Sensing to Execution Symposium* at AAAI 2026 Spring Symposium Series"
-publication_short: Accepted by **AAAI 2026 Spring Symposium**
+publication: "**AAAI 2026 Spring Symposium (Accepted)**"
+publication_short: "**AAAI 2026 Spring Symposium (Accepted)**"
 
 abstract: ''
 
 # Summary. An optional shortened abstract.
-summary: Accepted at Advances in AI-Enabled Tactical Autonomy Symposium, AAAI 2026 Spring Symposium Series. Camera-ready due February 26th, 2026.
+summary: Accepted at AAAI 2026 Spring Symposium. Camera-ready due February 26th, 2026.
 
 tags:
   - Drone Planning
@@ -51,4 +51,4 @@ projects: []
 slides: ""
 ---
 
-This paper was accepted for the Advances in AI-Enabled Tactical Autonomy: from Sensing to Execution Symposium at AAAI 2026 Spring Symposium Series. 
+This paper was accepted for the AAAI 2026 Spring Symposium. 

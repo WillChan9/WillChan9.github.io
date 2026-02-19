@@ -28,11 +28,11 @@ publishDate: '2026-01-01T00:00:00Z'
 # Publication type.
 # Accepts a single type but formatted as a YAML list (for Hugo requirements).
 # Enter a publication type from the CSL standard.
-publication_types: ['paper-preprint']
+publication_types: ['paper-conference']
 
 # Publication name and optional abbreviated publication name.
-publication: arXiv preprint
-publication_short: arXiv preprint
+publication: "**2026 IEEE International Conference on Computer Communications (INFOCOM) Workshop (Accepted)**"
+publication_short: "**2026 IEEE International Conference on Computer Communications (INFOCOM) Workshop (Accepted)**"
 
 abstract: ''
 

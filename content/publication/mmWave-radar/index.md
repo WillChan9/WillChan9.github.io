@@ -27,8 +27,8 @@ publishDate: '2022-01-01T00:00:00Z'
 publication_types: ['paper-conference']
 
 # Publication name and optional abbreviated publication name.
-publication: In *2022 IEEE 95th Vehicular Technology Conference*
-publication_short: In **IEEE VTC 2022**
+publication: "**2022-Spring IEEE Vehicular Technology Conference (VTC)**"
+publication_short: "**2022-Spring IEEE Vehicular Technology Conference (VTC)**"
 
 abstract: We studied a target tracking algorithm based on millimeter-wave (MMW) radar in an autonomous driving environment. Aiming at the cluster matching in the target tracking stage, a new weighted feature similarity algorithm is proposed, which increases the matching rate of the same target in adjacent frames under strong environmental noise and multiple interference targets. For autonomous driving scenarios, we constructed a method that uses its motion parameters to extract and correct the trajectory of a moving target, which solves the problem of moving target detection and trajectory correction during vehicle movement. Finally, the feasibility of the proposed method was verified by a series of experiments in autonomous driving environments. The results verify the high recognition accuracy and low positional error of the method.
 

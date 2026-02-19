@@ -29,13 +29,13 @@ publishDate: '2025-10-01T00:00:00Z'
 publication_types: ['paper-conference']
 
 # Publication name and optional abbreviated publication name.
-publication: In *Workshop on Enhancing Security, Privacy, and Trust in Extended Reality Systems (XR Security 2025) at ACM MobiHoc*
-publication_short: In **ACM MobiHoc XR Security 2025 Workshop**
+publication: "**2025 ACM International Symposium on Mobile Ad Hoc Networking and Computing Workshop (MobiHoc)**"
+publication_short: "**2025 ACM International Symposium on Mobile Ad Hoc Networking and Computing Workshop (MobiHoc)**"
 
 abstract: ''
 
 # Summary. An optional shortened abstract.
-summary: Accepted at XR Security 2025 workshop at ACM MobiHoc.
+summary: Accepted at 2025 ACM International Symposium on Mobile Ad Hoc Networking and Computing Workshop (MobiHoc).
 
 tags:
   - Augmented Reality
@@ -82,5 +82,5 @@ projects: []
 slides: ""
 ---
 
-This work was accepted at the Workshop on Enhancing Security, Privacy, and Trust in Extended Reality Systems (XR Security 2025) at ACM MobiHoc, October 2025.
+This work was accepted at the 2025 ACM International Symposium on Mobile Ad Hoc Networking and Computing Workshop (MobiHoc), October 2025.
 
