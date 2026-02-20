@@ -51,7 +51,7 @@ featured: false
 # - name: Custom Link
 #   url: http://example.org
 
-url_pdf: ''
+url_pdf: 'uploads/Time-Aware_LSTM_for_Gaze_Prediction_in_Mixed_Reality_Under_Latency_Perturbations.pdf'
 url_code: ''
 url_dataset: ''
 url_poster: ''

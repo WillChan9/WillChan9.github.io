@@ -51,7 +51,7 @@ featured: false
 # - name: Custom Link
 #   url: http://example.org
 
-url_pdf: ''
+url_pdf: 'uploads/Perception_Graph_for_Cognitive_Attack_Reasoning_in_Augmented_Reality.pdf'
 url_code: ''
 url_dataset: ''
 url_poster: ''
