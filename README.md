@@ -2,6 +2,8 @@ Personal website of Rongqian Chen.
 
  Please visit: [chenrongqian.com](https://www.chenrongqian.com) for more info.
 
+Due to the server latency, it takes some time to show the website after the update.
+
 ## Development Commands
 
 Build the site
