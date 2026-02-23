@@ -170,6 +170,6 @@ languages:
 
 I'm a PhD student at GWU started in Fall 2024, supervised by [Dr. Tian Lan](https://www2.seas.gwu.edu/~tlan/). My research directions include AI, robotics and AR/VR technology.
 
-I'm an interdisciplinary researcher with expertise in electrical, mechanical, and software engineering. My past works span mathematical modeling and simulation, hardware (circuits, chips), embedded/controls software, and mechanical design and prototyping.
+I have interdisciplinary research experience in Robotics, Agentic AI, Mixed Reality and Electrical Systems. My past works and publications span bio-inspired robotics design, agentic AI, human-robot teamming, mixed reality systems and so on.
 
-Looking ahead, I am interested in building AI models that give robots the ability to perceive, reason, and act in complex physical environments. I'm also exploring how AR/VR (XR) can augment perception, control, and human–robot collaboration to deliver truly embodied intelligence. I believe these techniques have the power to transform lives in profound ways. 
+Looking ahead, I am interested in developing agentic AI systems that can automate computer tasks, generate immersive virtual experiences in VR, and enable robots to perceive, reason, and act in complex physical environments. I believe these techniques have the power to transform lives in profound ways. 
