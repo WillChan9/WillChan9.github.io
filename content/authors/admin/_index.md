@@ -168,7 +168,7 @@ languages:
 
 ## About Me
 
-I'm a PhD student at GWU started in Fall 2024, supervised by [Dr. Tian Lan](https://www2.seas.gwu.edu/~tlan/). My research directions include AI, robotics and AR/VR technology.
+I'm a PhD candidate at GWU started in Fall 2024, supervised by [Dr. Tian Lan](https://www2.seas.gwu.edu/~tlan/). My research directions include AI, robotics and AR/VR technology.
 
 I have interdisciplinary research experience in Robotics, Agentic AI, Mixed Reality and Electrical Systems. My past works and publications span bio-inspired robotics design, agentic AI, human-robot teamming, mixed reality systems and so on.
 
