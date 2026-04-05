@@ -1,0 +1,25 @@
+{{ $vm := site.Params.footer.visitor_map | default dict }}
+{{ if not $vm.enable }}{{ return }}{{ end }}
+
+{{ $custom := $vm.custom_html | default "" }}
+{{ $id := $vm.clustrmaps_id | default "" }}
+
+{{ if or $custom $id }}
+<div class="visitor-map mx-auto mt-10 flex w-full max-w-3xl flex-col items-center px-4 text-center">
+  {{ with $vm.title }}
+    <p class="mb-3 text-xs font-medium uppercase tracking-wide text-slate-500 dark:text-slate-400">{{ . }}</p>
+  {{ end }}
+  <div class="visitor-map-embed flex w-full justify-center [&_img]:max-w-full">
+    {{ if $custom }}
+      {{ $custom | safeHTML }}
+    {{ else }}
+      <script type="text/javascript" id="clustrmaps" src="//clustrmaps.com/map_v2.js?d={{ $id }}&amp;cl=ffffff&amp;w=300"></script>
+      <noscript>
+        <a href="https://clustrmaps.com/" target="_blank" rel="noopener noreferrer" title="ClustrMaps visitor map">
+          <img src="//clustrmaps.com/map_v2.png?d={{ $id }}&amp;cl=ffffff&amp;w=a" alt="Visitor map" width="300" height="180" />
+        </a>
+      </noscript>
+    {{ end }}
+  </div>
+</div>
+{{ end }}
