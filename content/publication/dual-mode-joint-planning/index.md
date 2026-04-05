@@ -28,7 +28,7 @@ summary: 'A dual-mode human-robot joint planning system for uncertainty mitigati
 tags:
   - Human-Robot Collaboration
   - UAV
-  - LLM
+  - Agent
 
 featured: false
 
