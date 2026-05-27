@@ -30,10 +30,8 @@ tags:
 
 featured: false
 
-url_pdf: 'uploads/intentScore.pdf'
-links:
-  - name: arXiv
-    url: https://arxiv.org/abs/2604.05157
+url_pdf: ''
+links: []
 url_code: ''
 url_dataset: ''
 url_poster: ''
