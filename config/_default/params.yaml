@@ -39,13 +39,13 @@ header:
 
 # Site footer
 footer:
-  # Visitor map (footer-end). Register at https://www.clustrmaps.com/add, then copy the `d=...`
-  # value from the script URL into `clustrmaps_id`. Alternatively set `custom_html` to any embed
+  # Visitor map (footer-end). Register at https://mapmyvisitors.com, then copy the `d=...`
+  # value from the script URL into `mapmyvisitors_id`. Alternatively set `custom_html` to any embed
   # snippet (e.g. RevolverMaps). Map only renders when `enable` is true and id or custom_html is set.
   visitor_map:
     enable: true
     title: ''
-    clustrmaps_id: '2Pl-9EnM5q7kIktKj_tnjH6BMgOG8Yrnd6RLWlYUbxk'
+    mapmyvisitors_id: 'vYHThMNZOEQnuH3-AyqJaSnURJyqJVtoZLYp1BA91X0'
     custom_html: ''
   copyright:
     notice: '© {year} Me. This work is licensed under {license}'
