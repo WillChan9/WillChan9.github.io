@@ -1,7 +1,7 @@
 ---
 title: 🤖 I joined Daxo Robotics as a Full Stack Robot Engineer Intern
 summary: I am developing and controlling a 120-DoF dexterous robotic hand.
-date: 2026-06-01
+date: 2026-05-15
 authors:
   - admin
 ---
