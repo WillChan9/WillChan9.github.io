@@ -54,7 +54,7 @@ links:
 url_code: ''
 url_dataset: ''
 url_poster: ''
-url_project: ''
+url_project: '/project/mmwave-radar/'
 url_slides: ''
 url_source: ''
 url_video: ''
@@ -72,22 +72,39 @@ image:
 #   E.g. `internal-project` references `content/project/internal-project/index.md`.
 #   Otherwise, set `projects: []`.
 projects:
-  - example
+  - mmWave-radar
 
 # Slides (optional).
 #   Associate this publication with Markdown slides.
 #   Simply enter your slide deck's filename without extension.
 #   E.g. `slides: "example"` references `content/slides/example/index.md`.
 #   Otherwise, set `slides: ""`.
-slides: example
+slides: ""
 ---
 
-<!-- {{% callout note %}}
-Click the _Cite_ button above to demo the feature to enable visitors to import publication metadata into their reference management software.
-{{% /callout %}}
+## TL;DR
 
-{{% callout note %}}
-Create your slides in Markdown - click the _Slides_ button to check out the example.
-{{% /callout %}} -->
+A moving-target tracking algorithm for automotive FMCW mmWave radar: sparse radar points are merged into clusters and matched across frames by **weighted feature similarity**, staying robust under strong environmental noise and multiple interfering targets.
 
-<!-- Add the publication's **full text** or **supplementary notes** here. You can use rich formatting such as including [code, math, and images](https://docs.hugoblox.com/content/writing-markdown-latex/). -->
+**Key contributions:**
+
+- A **cluster-based weighted feature similarity** matching algorithm that raises the same-target matching rate across adjacent frames.
+- **Trajectory extraction and correction** for moving targets using the ego vehicle's motion parameters.
+- Verified in autonomous-driving experiments with high recognition accuracy and low positional error.
+
+## Learn more
+
+Implementation details are documented on the [project page](/project/mmwave-radar/).
+
+## BibTeX
+
+```bibtex
+@inproceedings{chen2022cluster,
+  title={A Cluster-Based Weighted Feature Similarity Moving Target Tracking Algorithm for Automotive FMCW Radar},
+  author={Chen, Rongqian and Zou, Yingquan and Gao, Anyong and Chen, Leshi},
+  booktitle={2022 IEEE 95th Vehicular Technology Conference:(VTC2022-Spring)},
+  pages={1--5},
+  year={2022},
+  organization={IEEE}
+}
+```

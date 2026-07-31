@@ -46,3 +46,25 @@ projects: []
 slides: ""
 ---
 
+## TL;DR
+
+**IntentScore** is a plan-aware reward model that scores candidate GUI actions *before* they are executed — catching the irreversible mistakes that computer-use agents would otherwise cascade through subsequent steps. Trained on **398K** offline GUI interaction steps across three operating systems.
+
+**Key contributions:**
+
+- A plan-aware architecture that embeds each candidate's **planning intent** in the action encoder, discriminating between candidates with similar actions but different rationales.
+- Two complementary training objectives — **contrastive alignment** for state-action relevance and **margin ranking** for action correctness — reaching **97.5%** pairwise discrimination accuracy.
+- Generalization to unseen agents and tasks: deployed as a re-ranker for Agent S3 on OSWorld (entirely unseen during training), improving task success rate by **6.9 points**.
+
+## BibTeX
+
+```bibtex
+@misc{chen2026intentscore,
+      title={IntentScore: Intent-Conditioned Action Evaluation for Computer-Use Agents},
+      author={Rongqian Chen and Yu Li and Zeyu Fang and Sizhe Tang and Weidong Cao and Tian Lan},
+      year={2026},
+      eprint={2604.05157},
+      archivePrefix={arXiv},
+      url={https://arxiv.org/abs/2604.05157},
+}
+```

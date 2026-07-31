@@ -47,16 +47,16 @@ featured: true
 #   url: http://example.org
 
 url_pdf: 'uploads/ICRA2025_HASTA_Robot.pdf'
-# links:
-# - name: Link
-#   url: https://ieeexplore.ieee.org/abstract/document/9860614
-url_code: ''
+links:
+  - name: arXiv
+    url: https://arxiv.org/abs/2508.02873
+url_code: 'https://github.com/WillChan9/kodlab_mjbots_sdk'
 url_dataset: ''
 url_poster: ''
-url_project: ''
+url_project: '/project/hopper-robot/'
 url_slides: ''
 url_source: ''
-url_video: ''
+url_video: 'https://www.youtube.com/watch?v=-FwuncAdoNc'
 
 # Featured image
 # To use, add an image named `featured.jpg/png` to your page's folder.
@@ -71,22 +71,44 @@ image:
 #   E.g. `internal-project` references `content/project/internal-project/index.md`.
 #   Otherwise, set `projects: []`.
 projects:
-  - example
+  - hopper-robot
 
 # Slides (optional).
 #   Associate this publication with Markdown slides.
 #   Simply enter your slide deck's filename without extension.
 #   E.g. `slides: "example"` references `content/slides/example/index.md`.
 #   Otherwise, set `slides: ""`.
-slides: example
+slides: ""
 ---
 
-<!-- {{% callout note %}}
-Click the _Cite_ button above to demo the feature to enable visitors to import publication metadata into their reference management software.
-{{% /callout %}}
+## TL;DR
 
-{{% callout note %}}
-Create your slides in Markdown - click the _Slides_ button to check out the example.
-{{% /callout %}} -->
+**HASTA** (Hopper with Adjustable Stiffness for Terrain Adaption) is a vertical hopping robot that tunes its leg stiffness in real time to hop as high as possible on different ground conditions — softer legs win on soft, damped ground; stiffer legs win on hard ground.
 
-<!-- Add the publication's **full text** or **supplementary notes** here. You can use rich formatting such as including [code, math, and images](https://docs.hugoblox.com/content/writing-markdown-latex/). -->
+**Key contributions:**
+
+- A monopedal hopper with **real-time tunable leg stiffness**, built on pneumatic tunable-stiffness bellows actuators driven by a central tendon.
+- A **ground emulator** that physically reproduces pairs of ground stiffness and damping conditions for repeatable locomotion experiments.
+- Experiments and simulations identifying the **optimal leg stiffness for each ground profile**, validating that tunable stiffness enhances energy-efficient locomotion in dynamic environments.
+
+## Demo
+
+{{< youtube -FwuncAdoNc >}}
+
+## Learn more
+
+Hardware design, fabrication details, and the electronic system architecture are documented on the [project page](/project/hopper-robot/).
+
+## BibTeX
+
+```bibtex
+@misc{chen2025tunablelegstiffnessmonopedal,
+  title={Tunable Leg Stiffness in a Monopedal Hopper for Energy-Efficient Vertical Hopping Across Varying Ground Profiles},
+  author={Rongqian Chen and Jun Kwon and Kefan Wu and Wei-Hsi Chen},
+  year={2025},
+  eprint={2508.02873},
+  archivePrefix={arXiv},
+  primaryClass={cs.RO},
+  url={https://arxiv.org/abs/2508.02873},
+}
+```

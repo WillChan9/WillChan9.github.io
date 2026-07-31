@@ -45,7 +45,7 @@ links:
 url_code: 
 url_dataset: ''
 url_poster: ''
-url_project: ''
+url_project: '/project/pulse-power/'
 url_slides: ''
 url_source: ''
 url_video: ''
@@ -62,22 +62,42 @@ image:
 #   Simply enter your project's folder or file name without extension.
 #   E.g. `internal-project` references `content/project/internal-project/index.md`.
 #   Otherwise, set `projects: []`.
-projects: []
+projects:
+  - pulse-power
 
 # Slides (optional).
 #   Associate this publication with Markdown slides.
 #   Simply enter your slide deck's filename without extension.
 #   E.g. `slides: "example"` references `content/slides/example/index.md`.
 #   Otherwise, set `slides: ""`.
-slides: example
+slides: ""
 ---
 
-<!-- {{% callout note %}}
-Click the *Cite* button above to demo the feature to enable visitors to import publication metadata into their reference management software.
-{{% /callout %}}
+## TL;DR
 
-{{% callout note %}}
-Create your slides in Markdown - click the *Slides* button to check out the example.
-{{% /callout %}}
+A **hysteresis current control (HCC)** scheme for dual-inductance active storage units that eliminates output current spikes and keeps the bus voltage smooth and stable in pulsed power supplies.
 
-Add the publication's **full text** or **supplementary notes** here. You can use rich formatting such as including [code, math, and images](https://docs.hugoblox.com/content/writing-markdown-latex/). -->
+**Key contributions:**
+
+- A **small-signal model** of the dual-inductance active storage unit under HCC, showing superior compensation performance over conventional current-mode control.
+- A **valley-voltage loop** that regulates the storage-capacitor voltage, reducing power loss at any pulse duty cycle.
+- Experimental prototype validation: current spikes effectively eliminated, stable bus voltage, and a significantly smaller output capacitor for the per-stage DC/DC converter.
+
+## Learn more
+
+Hardware details are documented on the [project page](/project/pulse-power/).
+
+## BibTeX
+
+```bibtex
+@article{yang2021stability,
+  title={Stability improvement of pulse power supply with dual-inductance active storage unit using hysteresis current control},
+  author={Yang, Ping and Chen, Xi and Chen, Rongqian and Peng, Yusheng and Wu, Songrong and Xu, Jianping},
+  journal={IEEE Journal on Emerging and Selected Topics in Circuits and Systems},
+  volume={11},
+  number={1},
+  pages={111--120},
+  year={2021},
+  publisher={IEEE}
+}
+```

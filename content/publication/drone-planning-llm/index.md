@@ -54,4 +54,25 @@ projects: []
 slides: ""
 ---
 
-This paper was accepted for the AAAI 2026 Spring Symposium. 
+## TL;DR
+
+Instead of handing over control when a drone runs into uncertainty, this work makes the drone **ask the right (minimal) questions**: the MINT tree structures its knowledge gaps, and an LLM turns them into optimal binary queries for the human operator.
+
+**Key contributions:**
+
+- **MINT (Minimal Information Neuro-Symbolic Tree)**: a reasoning mechanism that explicitly structures knowledge gaps about obstacles and goals into a queryable format.
+- LLM-formulated **optimal binary queries** that resolve specific ambiguities with minimal human interaction.
+- A complete workflow — VLM perception, voice interface, low-level UAV control — validated in **NVIDIA Isaac simulation and real-world deployments**, significantly improving search-and-rescue success rates while reducing human interaction frequency.
+
+## BibTeX
+
+```bibtex
+@misc{fang2026reasoning,
+      title={Reasoning Knowledge-Gap in Drone Planning via LLM-based Active Elicitation},
+      author={Zeyu Fang and Beomyeol Yu and Cheng Liu and Zeyuan Yang and Rongqian Chen and Yuxin Lin and Mahdi Imani and Tian Lan},
+      year={2026},
+      eprint={2603.07824},
+      archivePrefix={arXiv},
+      url={https://arxiv.org/abs/2603.07824},
+}
+```

@@ -11,41 +11,15 @@ image:
   caption: ''
 ---
 
-<p><strong>ICRA 2025 Accepted Paper:</strong> 
-  <a href="ICRA2025_HASTA_Robot.pdf" class="btn-link" target="_blank" rel="noopener noreferrer">PDF</a>
-</p>
-
-<p><strong>My Master Thesis:</strong> 
-  <a href="master_thesis.pdf" class="btn-link" target="_blank" rel="noopener noreferrer">PDF</a>
-</p>
-
-<p><strong>GitHub repo:</strong> 
-  <a href="https://github.com/WillChan9/kodlab_mjbots_sdk" class="btn-link" target="_blank" rel="noopener noreferrer">GitHub</a>
-</p>
+<div class="page-resource-links">
+  <a href="ICRA2025_HASTA_Robot.pdf" class="btn-link" target="_blank" rel="noopener noreferrer">ICRA 2025 Accepted Paper</a>
+  <a href="master_thesis.pdf" class="btn-link" target="_blank" rel="noopener noreferrer">My Master Thesis</a>
+  <a href="https://github.com/WillChan9/kodlab_mjbots_sdk" class="btn-link" target="_blank" rel="noopener noreferrer">GitHub repo</a>
+</div>
 
 **Demo video of HASTA project:**
 
 {{< youtube -FwuncAdoNc >}}
-
-<style>
-  .btn-link {
-    display: inline-block;
-    background-color: #4da6ff; /* Light blue */
-    color: white !important; /* Ensures white text */
-    font-size: 1em;
-    font-weight: bold;
-    padding: 8px 14px;
-    border-radius: 6px;
-    text-decoration: none;
-    transition: background-color 0.2s ease-in-out, text-decoration 0.2s ease-in-out;
-  }
-
-  .btn-link:hover {
-    background-color: #3399ff; /* Darker blue on hover */
-    color: white !important; /* Prevents green color */
-    text-decoration: underline;
-  }
-</style>
 
 Legged robots are inspired by natural creatures, which offers unique advantages over wheeled robots in complex environments. Some studies show that animals will adjust their leg behavior while in different environments. So in this research, we are aiming to find energy loss reduction strategies by studying how the leg makes contact with the ground.
 

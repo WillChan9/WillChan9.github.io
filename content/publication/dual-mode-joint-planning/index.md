@@ -47,3 +47,26 @@ url_video: ''
 projects: []
 slides: ""
 ---
+
+## TL;DR
+
+A human-robot joint planning system that tackles two sources of uncertainty at once: **task-relevant knowledge gaps** (resolved through two-way conversation) and **latent human intent** (inferred without any explicit communication).
+
+**Key contributions:**
+
+- **Uncertainty-mitigation mode**: LLM-assisted active elicitation with hypothesis-augmented A* search and a dynamic-programming querying policy — cutting interaction cost by **51.9%**.
+- **Intent-aware mode**: a probabilistic belief over the human's latent task intent from spatial and directional cues, enabling coordination-aware task selection — reducing task execution time by **25.4%**.
+- Validated in Gazebo simulation and **real-world UAV deployments** with a VLM-based 3D semantic perception pipeline.
+
+## BibTeX
+
+```bibtex
+@misc{fang2026uncertainty,
+      title={Uncertainty Mitigation and Intent Inference: A Dual-Mode Human-Machine Joint Planning System},
+      author={Zeyu Fang and Yuxin Lin and Cheng Liu and Beomyeol Yu and Zeyuan Yang and Rongqian Chen and Taeyoung Lee and Mahdi Imani and Tian Lan},
+      year={2026},
+      eprint={2603.07822},
+      archivePrefix={arXiv},
+      url={https://arxiv.org/abs/2603.07822},
+}
+```

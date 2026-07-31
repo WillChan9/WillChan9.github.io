@@ -82,5 +82,23 @@ projects: []
 slides: ""
 ---
 
-This work was accepted at the 2025 ACM International Symposium on Mobile Ad Hoc Networking and Computing Workshop (MobiHoc), October 2025.
+## TL;DR
 
+This workshop paper introduces the **perception graph** — a structured representation of what an AR user perceives — as the substrate for reasoning about *cognitive attacks* in Augmented Reality.
+
+**Key contributions:**
+
+- A structured, graph-based representation of AR perception that makes cognitive-attack reasoning tractable and interpretable.
+- Presented at the 2025 ACM MobiHoc workshop; this line of work is extended by our [CADAR neurosymbolic detection framework](/publication/mr-attack/).
+
+## BibTeX
+
+```bibtex
+@inproceedings{chen2025perception,
+  title={Perception Graph for Cognitive Attack Reasoning in Augmented Reality},
+  author={Chen, Rongqian and Hong, Shu and Islam, Rifatul and Imani, Mahdi and Tan, Gang and Lan, Tian},
+  booktitle={Proceedings of the Twenty-sixth International Symposium on Theory, Algorithmic Foundations, and Protocol Design for Mobile Networks and Mobile Computing},
+  pages={505--506},
+  year={2025}
+}
+```

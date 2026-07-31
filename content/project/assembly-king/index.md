@@ -11,37 +11,14 @@ image:
   caption: 'Assembly King demo on the class'
 ---
 
-<p><strong>Project report of Assembly King:</strong> 
-  <a href="assembly-king.pdf" class="btn-link" target="_blank" rel="noopener noreferrer">PDF</a>
-</p>
-
-<p><strong>GitHub repo:</strong> 
-  <a href="https://github.com/WillChan9/AssemblyKing_project" class="btn-link" target="_blank" rel="noopener noreferrer">GitHub</a>
-</p>
+<div class="page-resource-links">
+  <a href="assembly-king.pdf" class="btn-link" target="_blank" rel="noopener noreferrer">Project report of Assembly King</a>
+  <a href="https://github.com/WillChan9/AssemblyKing_project" class="btn-link" target="_blank" rel="noopener noreferrer">GitHub repo</a>
+</div>
 
 **Demo video of AssemblyKing:**
 
 {{< youtube e0zONt5E8Tk >}}
-
-<style>
-  .btn-link {
-    display: inline-block;
-    background-color: #4da6ff; /* Light blue */
-    color: white !important; /* Ensures white text */
-    font-size: 1em;
-    font-weight: bold;
-    padding: 8px 14px;
-    border-radius: 6px;
-    text-decoration: none;
-    transition: background-color 0.2s ease-in-out, text-decoration 0.2s ease-in-out;
-  }
-
-  .btn-link:hover {
-    background-color: #3399ff; /* Darker blue on hover */
-    color: white !important; /* Prevents green color */
-    text-decoration: underline;
-  }
-</style>
 
 ## Project Intro
 

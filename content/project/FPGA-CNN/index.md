@@ -10,36 +10,9 @@ image:
   caption: ''
 ---
 
-<style>
-  .btn-link {
-    display: inline-block;
-    background-color: #4da6ff; /* Light blue */
-    color: white !important; /* Ensures white text */
-    font-size: 1em;
-    font-weight: bold;
-    padding: 8px 14px;
-    border-radius: 6px;
-    text-decoration: none;
-    transition: background-color 0.2s ease-in-out, text-decoration 0.2s ease-in-out;
-  }
-
-  .btn-link:hover {
-    background-color: #3399ff; /* Darker blue on hover */
-    color: white !important; /* Prevents green color */
-    text-decoration: underline;
-  }
-
-  .center {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-</style>
-
-<p><strong>Project Final Report:</strong> 
-  <a href="ESE539.pdf" class="btn-link" target="_blank" rel="noopener noreferrer">PDF</a>
-</p>
+<div class="page-resource-links">
+  <a href="ESE539.pdf" class="btn-link" target="_blank" rel="noopener noreferrer">Project Final Report</a>
+</div>
 
 This project, completed as part of the ESE539 course at UPenn, explores the co-design of software and hardware for machine learning by applying the advantages of FPGAs over traditional CPUs. Given that matrix multiplication—the core operation in convolutional layers—is computationally intensive, FPGAs’ superior parallel processing and specialized architecture can drastically reduce computation time.
 

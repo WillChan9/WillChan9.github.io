@@ -1,0 +1,54 @@
+{{ $item := .item }}
+{{ $has_attachments := partial "functions/has_attachments" $item }}
+
+{{ $resource := partial "functions/get_featured_image.html" $item }}
+{{ $anchor := $item.Params.image.focal_point | default "Center" }}
+
+{{/* NOTE: the theme ships a precompiled stylesheet (dist/wc.min.css), so only
+     Tailwind classes already used by theme templates are available here. */}}
+<div class="group flex flex-col gap-4 md:flex-row">
+  {{ with $resource }}
+    {{ $image := .Fill (printf "480x270 %s" $anchor) }}
+    {{ if ne $image.MediaType.SubType "gif" }}{{ $image = $image.Process "webp" }}{{ end }}
+    {{/* align-self keeps the link box from stretching to the row height
+         (self-start isn't in the theme's precompiled CSS) */}}
+    <a href="{{ $item.RelPermalink }}" style="align-self:flex-start"
+       class="block w-full flex-none overflow-hidden rounded-md bg-gray-100 dark:bg-gray-800 md:w-48">
+      <img alt="{{ $item.Title | plainify }}"
+           class="aspect-video w-full object-cover transition-all duration-300 hover:scale-105"
+           decoding="async" loading="lazy"
+           src="{{ $image.RelPermalink }}" width="{{ $image.Width }}" height="{{ $image.Height }}" />
+    </a>
+  {{ else }}
+    <a href="{{ $item.RelPermalink }}" style="align-self:flex-start"
+       class="flex w-full flex-none items-center justify-center overflow-hidden rounded-md bg-gray-100 text-gray-400 dark:bg-gray-800 dark:text-gray-600 md:w-48 aspect-video">
+      {{ partial "functions/get_icon" (dict "name" "document-text" "attributes" "style=\"height: 2.5rem\" class=\"inline-block\"") }}
+    </a>
+  {{ end }}
+
+  <div class="min-w-0 grow">
+    <h3 class="text-base font-semibold leading-snug tracking-tight dark:text-white">
+      <a href="{{ $item.RelPermalink }}"
+         class="bg-gradient-to-r from-primary-200 to-primary-100 bg-[length:0px_10px] bg-left-bottom bg-no-repeat transition-[background-size] duration-500 group-hover:bg-[length:100%_10px] dark:from-primary-800 dark:to-primary-900">
+        {{- $item.Title -}}
+      </a>
+    </h3>
+
+    <div class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+      {{ partial "page_metadata_authors" $item }}
+    </div>
+
+    {{ $venue := $item.Params.publication_short | default $item.Params.publication }}
+    {{ with $venue }}
+      <div class="mt-1 text-sm italic text-primary-700 dark:text-primary-300">
+        {{- . | markdownify -}}
+      </div>
+    {{ end }}
+
+    {{ if $has_attachments }}
+      <div class="mt-2 flex flex-wrap gap-3">
+        {{ partial "page_links" (dict "page" $item "is_list" 1) }}
+      </div>
+    {{ end }}
+  </div>
+</div>

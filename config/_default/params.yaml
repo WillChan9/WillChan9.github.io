@@ -46,6 +46,10 @@ footer:
     enable: true
     title: ''
     mapmyvisitors_id: 'vYHThMNZOEQnuH3-AyqJaSnURJyqJVtoZLYp1BA91X0'
+    # hidden: true keeps the tracker loading invisibly — view stats at mapmyvisitors.com.
+    # Set hidden: false to show the map on the page at `width` px.
+    hidden: true
+    width: '200'
     custom_html: ''
   copyright:
     notice: '© {year} Me. This work is licensed under {license}'
