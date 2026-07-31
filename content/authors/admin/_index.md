@@ -170,4 +170,4 @@ I'm a PhD candidate at GWU started in Fall 2024, supervised by [Dr. Tian Lan](ht
 
 I have interdisciplinary research experience in Robotics, Agentic AI, Mixed Reality and Electrical Systems. My past works and publications span bio-inspired robotics design, agentic AI, human-robot teamming, mixed reality systems and so on.
 
-Looking ahead, I am interested in developing agentic AI systems that can automate computer tasks, generate immersive virtual experiences in VR, and enable robots to perceive, reason, and act in complex physical environments. I believe these techniques have the power to transform lives in profound ways. 
+Looking ahead, I am interested in developing intelligent systems that can perceive, reason, and act in complex physical environments and automate multiple challenging tasks. I believe these AI and robotics have the power to transform lives in profound ways. 
