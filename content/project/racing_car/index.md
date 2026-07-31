@@ -14,32 +14,6 @@ image:
   caption: ''
 ---
 
-<style>
-  .btn-link {
-    display: inline-block;
-    background-color: #4da6ff; /* Light blue */
-    color: white !important; /* Ensures white text */
-    font-size: 1em;
-    font-weight: bold;
-    padding: 8px 14px;
-    border-radius: 6px;
-    text-decoration: none;
-    transition: background-color 0.2s ease-in-out, text-decoration 0.2s ease-in-out;
-  }
-
-  .btn-link:hover {
-    background-color: #3399ff; /* Darker blue on hover */
-    color: white !important; /* Prevents green color */
-    text-decoration: underline;
-  }
-
-  .center {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-  }
-</style>
-
 ## Project Overview
 
 The National University Students Intelligent Car Race is one of the most prestigious robotics competitions in China, attracting hundreds of universities annually. This multidisciplinary competition challenges teams to design and build autonomous racing cars that can navigate complex tracks using various sensing and control technologies. The competition covers multiple domains including control theory, computer vision, machine learning, sensing technology, electronics, and mechanical engineering.

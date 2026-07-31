@@ -55,7 +55,7 @@ links:
 url_code: ''
 url_dataset: ''
 url_poster: ''
-url_project: ''
+url_project: '/project/coil-spring/'
 url_slides: ''
 url_source: ''
 url_video: ''
@@ -73,22 +73,39 @@ image:
 #   E.g. `internal-project` references `content/project/internal-project/index.md`.
 #   Otherwise, set `projects: []`.
 projects:
-  - example
+  - coil-spring
 
 # Slides (optional).
 #   Associate this publication with Markdown slides.
 #   Simply enter your slide deck's filename without extension.
 #   E.g. `slides: "example"` references `content/slides/example/index.md`.
 #   Otherwise, set `slides: ""`.
-slides: example
+slides: ""
 ---
 
-<!-- {{% callout note %}}
-Click the _Cite_ button above to demo the feature to enable visitors to import publication metadata into their reference management software.
-{{% /callout %}}
+## TL;DR
 
-{{% callout note %}}
-Create your slides in Markdown - click the _Slides_ button to check out the example.
-{{% /callout %}} -->
+A lightweight, compact actuator that changes stiffness by **up to 20×** using a coiled spring: changing the number of layers in the coil changes the bulk stiffness in a near-linear fashion.
 
-<!-- Add the publication's **full text** or **supplementary notes** here. You can use rich formatting such as including [code, math, and images](https://docs.hugoblox.com/content/writing-markdown-latex/). -->
+**Key contributions:**
+
+- An **elastica nested-rings model** of the actuator's deformation, empirically verified on the fabricated spring.
+- A physical prototype with design guidance on the achievable **stiffness range and resolution**.
+- A building block for soft robots that need fast, controllable, local stiffness change over a large range.
+
+## Learn more
+
+Design details and hardware are documented on the [project page](/project/coil-spring/).
+
+## BibTeX
+
+```bibtex
+@inproceedings{misra2023design,
+  title={Design and control of a tunable-stiffness coiled-spring actuator},
+  author={Misra, Shivangi and Mitchell, Mason and Chen, Rongqian and Sung, Cynthia},
+  booktitle={2023 IEEE International Conference on Robotics and Automation (ICRA)},
+  pages={634--640},
+  year={2023},
+  organization={IEEE}
+}
+```

@@ -55,7 +55,7 @@ links:
 url_code: ''
 url_dataset: ''
 url_poster: ''
-url_project: ''
+url_project: '/project/bellows/'
 url_slides: ''
 url_source: ''
 url_video: ''
@@ -73,22 +73,39 @@ image:
 #   E.g. `internal-project` references `content/project/internal-project/index.md`.
 #   Otherwise, set `projects: []`.
 projects:
-  - example
+  - bellows
 
 # Slides (optional).
 #   Associate this publication with Markdown slides.
 #   Simply enter your slide deck's filename without extension.
 #   E.g. `slides: "example"` references `content/slides/example/index.md`.
 #   Otherwise, set `slides: ""`.
-slides: example
+slides: ""
 ---
 
-<!-- {{% callout note %}}
-Click the _Cite_ button above to demo the feature to enable visitors to import publication metadata into their reference management software.
-{{% /callout %}}
+## TL;DR
 
-{{% callout note %}}
-Create your slides in Markdown - click the _Slides_ button to check out the example.
-{{% /callout %}} -->
+A **self-contained** pneumatic actuator that achieves a **1.43×** stiffness gain (1332 → 1913 N/m) with **no external air source or valves**: an air-chamber bellows and a spring bellows are connected and sealed, and compressing the air chamber modulates the stiffness.
 
-<!-- Add the publication's **full text** or **supplementary notes** here. You can use rich formatting such as including [code, math, and images](https://docs.hugoblox.com/content/writing-markdown-latex/). -->
+**Key contributions:**
+
+- Analytical models for the **volume, pressurized force, and stiffness** of a single bellows, composed to predict the stiffness change of the dual-bellows actuator.
+- Detailed **fabrication process** and model verification on the physical prototype.
+- A tunable-stiffness building block for robots demanding strength and adaptability — it later became the leg of our [HASTA hopping robot](/publication/hopper-robot/).
+
+## Learn more
+
+Design and fabrication details are documented on the [project page](/project/bellows/).
+
+## BibTeX
+
+```bibtex
+@inproceedings{chen2024design,
+  title={Design and Characterization of a Pneumatic Tunable-Stiffness Bellows Actuator},
+  author={Chen, Rongqian and Kwon, Jun and Chen, Wei-Hsi and Sung, Cynthia},
+  booktitle={2024 IEEE 7th International Conference on Soft Robotics (RoboSoft)},
+  pages={997--1003},
+  year={2024},
+  organization={IEEE}
+}
+```

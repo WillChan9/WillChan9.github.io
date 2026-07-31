@@ -82,7 +82,23 @@ projects: []
 slides: ""
 ---
 
-**Award:** XR Security Best Poster Award
+## TL;DR
 
-This work was accepted at the 2025 ACM International Symposium on Mobile Ad Hoc Networking and Computing Workshop (MobiHoc), October 2025.
+A **time-aware LSTM** that keeps gaze prediction in Mixed Reality accurate when latency perturbations disturb the input stream. 🏆 **XR Security Best Poster Award** at MobiHoc 2025.
 
+**Key contributions:**
+
+- Explicitly incorporates timing information into the LSTM gaze predictor, making it robust to irregular sampling caused by latency perturbations.
+- Presented at the 2025 ACM MobiHoc workshop, winning the **XR Security Best Poster Award**.
+
+## BibTeX
+
+```bibtex
+@inproceedings{hong2025poster,
+  title={Poster: Time-Aware LSTM for Gaze Prediction in Mixed Reality Under Latency Perturbations},
+  author={Hong, Shu and Chen, Rongqian and Islam, Rifatul and Imani, Mahdi and Tan, Gang and Lan, Tian},
+  booktitle={Proceedings of the Twenty-sixth International Symposium on Theory, Algorithmic Foundations, and Protocol Design for Mobile Networks and Mobile Computing},
+  pages={514--515},
+  year={2025}
+}
+```

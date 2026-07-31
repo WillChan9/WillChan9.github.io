@@ -86,12 +86,23 @@ projects: []
 slides: ""
 ---
 
-<!-- {{% callout note %}}
-Click the _Cite_ button above to demo the feature to enable visitors to import publication metadata into their reference management software.
-{{% /callout %}}
+## TL;DR
 
-{{% callout note %}}
-Create your slides in Markdown - click the _Slides_ button to check out the example.
-{{% /callout %}} -->
+**ACDZero** masters automated cyber defense by pairing Monte Carlo Tree Search with graph-neural-network embeddings of the network state — a planning-centric alternative to deep RL that achieves better defense reward, robustness, and sample efficiency.
 
-<!-- Add the publication's **full text** or **supplementary notes** here. You can use rich formatting such as including [code, math, and images](https://docs.hugoblox.com/content/writing-markdown-latex/). -->
+**Key contributions:**
+
+- Frames automated cyber defense as a POMDP and solves it with **MCTS guided by learned graph embeddings**, balancing exploration and exploitation.
+- **GNN-based, permutation-invariant reasoning** over hosts and their relationships as attributed graphs.
+- **Policy distillation with look-ahead planning**, yielding improved defense reward and robustness over state-of-the-art RL baselines across **CAGE Challenge 4** scenarios.
+
+## BibTeX
+
+```bibtex
+@article{li2026acdzero,
+  title={ACDZero: Graph-Embedding-Based Tree Search for Mastering Automated Cyber Defense},
+  author={Li, Yu and Tang, Sizhe and Chen, Rongqian and Yu, Fei Xu and Jiang, Guangyu and Imani, Mahdi and Bastian, Nathaniel D and Lan, Tian},
+  journal={arXiv preprint arXiv:2601.02196},
+  year={2026}
+}
+```

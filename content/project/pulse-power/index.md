@@ -10,36 +10,9 @@ image:
   caption: ''
 ---
 
-<style>
-  .btn-link {
-    display: inline-block;
-    background-color: #4da6ff; /* Light blue */
-    color: white !important; /* Ensures white text */
-    font-size: 1em;
-    font-weight: bold;
-    padding: 8px 14px;
-    border-radius: 6px;
-    text-decoration: none;
-    transition: background-color 0.2s ease-in-out, text-decoration 0.2s ease-in-out;
-  }
-
-  .btn-link:hover {
-    background-color: #3399ff; /* Darker blue on hover */
-    color: white !important; /* Prevents green color */
-    text-decoration: underline;
-  }
-
-  .center {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-</style>
-
-<p><strong>IEEE JETCAS Paper:</strong> 
-  <a href="Stability_Improvement_of_Pulse_Power_Supply_With_Dual-Inductance_Active_Storage_Unit_Using_Hysteresis_Current_Control.pdf" class="btn-link" target="_blank" rel="noopener noreferrer">PDF</a>
-</p>
+<div class="page-resource-links">
+  <a href="Stability_Improvement_of_Pulse_Power_Supply_With_Dual-Inductance_Active_Storage_Unit_Using_Hysteresis_Current_Control.pdf" class="btn-link" target="_blank" rel="noopener noreferrer">IEEE JETCAS Paper</a>
+</div>
 
 The Pulse Power Supply (PPS) delivers periodic high-power pulses, widely used in industrial and military applications. However, the conversion from DC power to high pulse power often leads to stability issues, particularly voltage fluctuations and current spikes. Our research focused on enhancing stability by implementing a **Dual-Inductance Active Storage Unit (ASU)** combined with **Hysteresis Current Control (HCC)** to regulate compensating currents effectively.
 

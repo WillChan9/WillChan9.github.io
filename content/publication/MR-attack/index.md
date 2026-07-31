@@ -88,12 +88,26 @@ projects: []
 slides: ""
 ---
 
-<!-- {{% callout note %}}
-Click the _Cite_ button above to demo the feature to enable visitors to import publication metadata into their reference management software.
-{{% /callout %}}
+## TL;DR
 
-{{% callout note %}}
-Create your slides in Markdown - click the _Slides_ button to check out the example.
-{{% /callout %}} -->
+**CADAR** is a neurosymbolic framework for detecting *cognitive attacks* in Augmented Reality — attacks that alter AR content to manipulate what users perceive. It fuses neural vision-language perception with particle-filter-based statistical reasoning, inheriting the adaptability of pre-trained VLMs **and** the interpretability of Bayesian filtering.
 
-<!-- Add the publication's **full text** or **supplementary notes** here. You can use rich formatting such as including [code, math, and images](https://docs.hugoblox.com/content/writing-markdown-latex/). --> 
+**Key contributions:**
+
+- A symbolic **perception-graph representation** fused from multimodal vision-language inputs, incorporating prior knowledge, salience weighting, and temporal correlations.
+- **Particle-filter based statistical reasoning** (sequential Monte Carlo) over the perception graph for interpretable, rigorous attack detection.
+- Accuracy improvements of up to **10.7%** over strong baselines on an extended AR cognitive-attack dataset.
+
+## BibTeX
+
+```bibtex
+@misc{chen2025neurosymbolicframeworkinterpretablecognitive,
+      title={A Neurosymbolic Framework for Interpretable Cognitive Attack Detection in Augmented Reality}, 
+      author={Rongqian Chen and Allison Andreyev and Yanming Xiu and Mahdi Imani and Bin Li and Maria Gorlatova and Gang Tan and Tian Lan},
+      year={2025},
+      eprint={2508.09185},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2508.09185}, 
+}
+```

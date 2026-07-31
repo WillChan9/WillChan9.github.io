@@ -11,39 +11,10 @@ image:
   caption: ''
 ---
 
-<style>
-  .btn-link {
-    display: inline-block;
-    background-color: #4da6ff; /* Light blue */
-    color: white !important; /* Ensures white text */
-    font-size: 1em;
-    font-weight: bold;
-    padding: 8px 14px;
-    border-radius: 6px;
-    text-decoration: none;
-    transition: background-color 0.2s ease-in-out, text-decoration 0.2s ease-in-out;
-  }
-
-  .btn-link:hover {
-    background-color: #3399ff; /* Darker blue on hover */
-    color: white !important; /* Prevents green color */
-    text-decoration: underline;
-  }
-
-  .center {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-</style>
-
-<p><strong>VTC 2022 Paper:</strong> 
-  <a href="mmwave_paper.pdf" class="btn-link" target="_blank" rel="noopener noreferrer">PDF</a>
-</p>
-<p><strong>My Undergraduate Theis (本科毕业论文):</strong> 
-  <a href="undergrad_thesis.pdf" class="btn-link" target="_blank" rel="noopener noreferrer">PDF</a>
-</p>
+<div class="page-resource-links">
+  <a href="mmwave_paper.pdf" class="btn-link" target="_blank" rel="noopener noreferrer">VTC 2022 Paper</a>
+  <a href="undergrad_thesis.pdf" class="btn-link" target="_blank" rel="noopener noreferrer">My Undergraduate Theis (本科毕业论文)</a>
+</div>
 
 As part of my undergraduate thesis project, I developed a target tracking algorithm for automotive millimeter-wave (mmWave) radar, specifically utilizing Texas Instruments’ AWR1642 sensor. Due to the low resolution of radar images, classifying objects remains challenging. To improve target distinguishability, I implemented a clustering-based approach that groups individual radar detection points into meaningful clusters, allowing for the extraction of richer features such as shape, area, and density.
 

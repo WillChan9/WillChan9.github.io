@@ -11,36 +11,9 @@ image:
   caption: ''
 ---
 
-<style>
-  .btn-link {
-    display: inline-block;
-    background-color: #4da6ff; /* Light blue */
-    color: white !important; /* Ensures white text */
-    font-size: 1em;
-    font-weight: bold;
-    padding: 8px 14px;
-    border-radius: 6px;
-    text-decoration: none;
-    transition: background-color 0.2s ease-in-out, text-decoration 0.2s ease-in-out;
-  }
-
-  .btn-link:hover {
-    background-color: #3399ff; /* Darker blue on hover */
-    color: white !important; /* Prevents green color */
-    text-decoration: underline;
-  }
-
-  .center {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-</style>
-
-<p><strong>ICRA 2023 Paper:</strong> 
-  <a href="Design_and_Control_of_a_Tunable-Stiffness_Coiled-Spring_Actuator.pdf" class="btn-link" target="_blank" rel="noopener noreferrer">PDF</a>
-</p>
+<div class="page-resource-links">
+  <a href="Design_and_Control_of_a_Tunable-Stiffness_Coiled-Spring_Actuator.pdf" class="btn-link" target="_blank" rel="noopener noreferrer">ICRA 2023 Paper</a>
+</div>
 
 **Demo video of Coil Spring:**
 
