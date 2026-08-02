@@ -1,6 +1,6 @@
 ---
-title: 🤖 I joined Daxo Robotics as a Full Stack Robot Engineer Intern
-summary: I am developing and controlling a **120-DoF** dexterous robotic hand.
+title: 🤖 I started my internship at Daxo Robotics, building a 120-DoF dexterous robotic hand!
+summary: I work across hardware, software, and AI/ML for the hand — watch the demo on LinkedIn.
 date: 2026-05-15
 authors:
   - admin
