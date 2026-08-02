@@ -52,6 +52,11 @@ slides: ""
 
 A human-robot joint planning system that tackles two sources of uncertainty at once: **task-relevant knowledge gaps** (resolved through two-way conversation) and **latent human intent** (inferred without any explicit communication).
 
+<figure>
+  <img src="overview.png" alt="Dual-mode joint planning system overview" />
+  <figcaption>Overview of the dual-mode human-machine joint planning system</figcaption>
+</figure>
+
 **Key contributions:**
 
 - **Uncertainty-mitigation mode**: LLM-assisted active elicitation with hypothesis-augmented A* search and a dynamic-programming querying policy — cutting interaction cost by **51.9%**.
