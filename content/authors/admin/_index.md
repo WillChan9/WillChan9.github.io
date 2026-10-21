@@ -48,7 +48,7 @@ profiles:
 
 interests:
   - Agentic AI
-  - Reinforcement Learning
+  - Machine Learning
   - Robotics
   - Extended Reality
 
@@ -168,6 +168,6 @@ languages:
 
 I'm a PhD candidate at GWU started in Fall 2024, supervised by [Dr. Tian Lan](https://www2.seas.gwu.edu/~tlan/). My research directions include AI, robotics and AR/VR technology.
 
-I have interdisciplinary research experience in Robotics, Agentic AI, Mixed Reality and Electrical Systems. My past works and publications span bio-inspired robotics design, agentic AI, human-robot teamming, mixed reality systems and so on.
+I have interdisciplinary research experience in Robotics, Agentic AI, Extended Reality and Electrical Systems. My past works and publications span robot learning, perception, bio-inspired robotics design, agentic AI, human-robot teamming, and so on.
 
-Looking ahead, I am interested in developing intelligent systems that can perceive, reason, and act in complex physical environments and automate multiple challenging tasks. I believe these AI and robotics have the power to transform lives in profound ways. 
+Looking ahead, I am interested in developing intelligent systems that can perceive, reason, and act in complex physical environments and automate multiple challenging tasks. I believe AI and robotics have the power to change our world in profound ways. 
