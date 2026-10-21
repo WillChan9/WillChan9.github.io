@@ -17,10 +17,10 @@ hide_date: true
 
 publishDate: '2026-03-01T00:00:00Z'
 
-publication_types: ['paper-preprint']
+publication_types: ['paper-conference']
 
-publication: "**arXiv preprint**"
-publication_short: "**arXiv preprint**"
+publication: "**2026 Conference on Neural Information Processing Systems (NeurIPS) Workshop on Mathematical Reasoning and AI (MATH-AI) (Accepted)**"
+publication_short: "**2026 Conference on Neural Information Processing Systems (NeurIPS) Workshop on Mathematical Reasoning and AI (MATH-AI) (Accepted)**"
 
 abstract: 'Large Language Models struggle with ill-posed problems that involve inconsistent conditions, conflicting statements, or mutually incompatible requirements. We propose FlowEdit, a framework that leverages information-theoretic principles to quantify and regulate the internal reasoning flows of LLMs, generating the full set of alternative responses under valid hypotheses. FlowEdit makes hidden conflicts explicit and maintains competing hypotheses via multiple reasoning branches, optimizing dual objectives: maximizing information flow from hypotheses to outcomes (flow sufficiency) while minimizing overlap across branches (flow separation). The mechanism operates through redistribution of next-token entropy within the model''s token stream. Extensive experiments demonstrate that FlowEdit outperforms leading proprietary models, improving exact-set-match accuracy by 68% while boosting overall response informativeness by 24%.'
 
@@ -61,9 +61,10 @@ slides: ""
 ## BibTeX
 
 ```bibtex
-@misc{tang2026flowedit,
+@inproceedings{tang2026flowedit,
   title={FlowEdit: Information-Theoretic Control of LLM Reasoning Flows for Ill-posed Problems Involving Conflicts},
   author={Sizhe Tang and Guangyu Jiang and Yu Li and Rongqian Chen and Ioannis G. Kevrekidis and Tian Lan},
+  booktitle={NeurIPS 2026 Workshop on Mathematical Reasoning and AI (MATH-AI)},
   year={2026},
   eprint={2607.20500},
   archivePrefix={arXiv},
