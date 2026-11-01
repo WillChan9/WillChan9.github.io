@@ -1,0 +1,138 @@
+<svg id="visual" viewBox="0 0 960 540" width="960" height="540" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
+  <!-- DC Sky gradient -->
+  <defs>
+    <linearGradient id="sky-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e3a8a;stop-opacity:1" />
+      <stop offset="30%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="70%" style="stop-color:#60a5fa;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#93c5fd;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="building-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1f2937;stop-opacity:0.9" />
+      <stop offset="100%" style="stop-color:#374151;stop-opacity:0.9" />
+    </linearGradient>
+    <linearGradient id="monument-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f3f4f6;stop-opacity:0.9" />
+      <stop offset="100%" style="stop-color:#d1d5db;stop-opacity:0.9" />
+    </linearGradient>
+    <linearGradient id="capitol-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#fef3c7;stop-opacity:0.9" />
+      <stop offset="100%" style="stop-color:#fde68a;stop-opacity:0.9" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Sky background -->
+  <rect width="960" height="540" fill="url(#sky-gradient)"/>
+  
+  <!-- Stars (subtle) -->
+  <g opacity="0.3">
+    <circle cx="100" cy="80" r="1" fill="white"/>
+    <circle cx="200" cy="60" r="1" fill="white"/>
+    <circle cx="300" cy="90" r="1" fill="white"/>
+    <circle cx="400" cy="70" r="1" fill="white"/>
+    <circle cx="500" cy="85" r="1" fill="white"/>
+    <circle cx="600" cy="65" r="1" fill="white"/>
+    <circle cx="700" cy="95" r="1" fill="white"/>
+    <circle cx="800" cy="75" r="1" fill="white"/>
+    <circle cx="900" cy="88" r="1" fill="white"/>
+  </g>
+  
+  <!-- Washington Monument (center) -->
+  <g opacity="0.8">
+    <!-- Monument base -->
+    <rect x="455" y="400" width="50" height="140" fill="url(#monument-gradient)"/>
+    <!-- Monument shaft -->
+    <rect x="465" y="300" width="30" height="100" fill="url(#monument-gradient)"/>
+    <!-- Monument top -->
+    <rect x="470" y="280" width="20" height="20" fill="url(#monument-gradient)"/>
+    <!-- Pyramid top -->
+    <polygon points="480,260 470,280 490,280" fill="url(#monument-gradient)"/>
+  </g>
+  
+  <!-- Capitol Building (left side) -->
+  <g opacity="0.9">
+    <!-- Main building -->
+    <rect x="50" y="350" width="200" height="190" fill="url(#capitol-gradient)"/>
+    <!-- Central dome -->
+    <ellipse cx="150" cy="280" rx="60" ry="40" fill="url(#capitol-gradient)"/>
+    <!-- Dome top -->
+    <ellipse cx="150" cy="240" rx="40" ry="25" fill="url(#capitol-gradient)"/>
+    <!-- Columns -->
+    <rect x="60" y="350" width="8" height="190" fill="url(#building-gradient)"/>
+    <rect x="80" y="350" width="8" height="190" fill="url(#building-gradient)"/>
+    <rect x="100" y="350" width="8" height="190" fill="url(#building-gradient)"/>
+    <rect x="120" y="350" width="8" height="190" fill="url(#building-gradient)"/>
+    <rect x="140" y="350" width="8" height="190" fill="url(#building-gradient)"/>
+    <rect x="160" y="350" width="8" height="190" fill="url(#building-gradient)"/>
+    <rect x="180" y="350" width="8" height="190" fill="url(#building-gradient)"/>
+    <rect x="200" y="350" width="8" height="190" fill="url(#building-gradient)"/>
+  </g>
+  
+  <!-- Lincoln Memorial (right side) -->
+  <g opacity="0.8">
+    <!-- Main structure -->
+    <rect x="750" y="380" width="160" height="160" fill="url(#monument-gradient)"/>
+    <!-- Columns -->
+    <rect x="760" y="380" width="8" height="160" fill="url(#building-gradient)"/>
+    <rect x="780" y="380" width="8" height="160" fill="url(#building-gradient)"/>
+    <rect x="800" y="380" width="8" height="160" fill="url(#building-gradient)"/>
+    <rect x="820" y="380" width="8" height="160" fill="url(#building-gradient)"/>
+    <rect x="840" y="380" width="8" height="160" fill="url(#building-gradient)"/>
+    <rect x="860" y="380" width="8" height="160" fill="url(#building-gradient)"/>
+    <rect x="880" y="380" width="8" height="160" fill="url(#building-gradient)"/>
+    <rect x="900" y="380" width="8" height="160" fill="url(#building-gradient)"/>
+    <!-- Roof -->
+    <rect x="750" y="360" width="160" height="20" fill="url(#monument-gradient)"/>
+  </g>
+  
+  <!-- City buildings (background) -->
+  <g opacity="0.6">
+    <!-- Left side buildings -->
+    <rect x="20" y="420" width="30" height="120" fill="url(#building-gradient)"/>
+    <rect x="60" y="400" width="25" height="140" fill="url(#building-gradient)"/>
+    <rect x="95" y="430" width="35" height="110" fill="url(#building-gradient)"/>
+    
+    <!-- Right side buildings -->
+    <rect x="850" y="410" width="40" height="130" fill="url(#building-gradient)"/>
+    <rect x="900" y="420" width="30" height="120" fill="url(#building-gradient)"/>
+    <rect x="930" y="400" width="30" height="140" fill="url(#building-gradient)"/>
+    
+    <!-- Center buildings -->
+    <rect x="300" y="430" width="50" height="110" fill="url(#building-gradient)"/>
+    <rect x="360" y="410" width="40" height="130" fill="url(#building-gradient)"/>
+    <rect x="410" y="420" width="35" height="120" fill="url(#building-gradient)"/>
+    <rect x="550" y="430" width="45" height="110" fill="url(#building-gradient)"/>
+    <rect x="605" y="415" width="40" height="125" fill="url(#building-gradient)"/>
+    <rect x="655" y="425" width="35" height="115" fill="url(#building-gradient)"/>
+  </g>
+  
+  <!-- Reflecting pool (bottom) -->
+  <g opacity="0.4">
+    <rect x="400" y="520" width="160" height="20" fill="#3b82f6"/>
+    <rect x="420" y="525" width="120" height="10" fill="#60a5fa"/>
+  </g>
+  
+  <!-- Cherry blossoms (subtle) -->
+  <g opacity="0.3">
+    <circle cx="150" cy="500" r="3" fill="#fbbf24"/>
+    <circle cx="160" cy="495" r="2" fill="#fbbf24"/>
+    <circle cx="140" cy="505" r="2" fill="#fbbf24"/>
+    <circle cx="800" cy="510" r="3" fill="#fbbf24"/>
+    <circle cx="810" cy="505" r="2" fill="#fbbf24"/>
+    <circle cx="790" cy="515" r="2" fill="#fbbf24"/>
+  </g>
+  
+  <!-- American flag (subtle) -->
+  <g opacity="0.2">
+    <rect x="480" y="200" width="40" height="25" fill="#dc2626"/>
+    <rect x="480" y="225" width="40" height="25" fill="white"/>
+    <rect x="480" y="250" width="40" height="25" fill="#dc2626"/>
+    <rect x="480" y="275" width="40" height="25" fill="white"/>
+    <rect x="480" y="300" width="40" height="25" fill="#dc2626"/>
+    <rect x="480" y="325" width="40" height="25" fill="white"/>
+    <rect x="480" y="350" width="40" height="25" fill="#dc2626"/>
+    <rect x="480" y="375" width="40" height="25" fill="white"/>
+    <!-- Flag pole -->
+    <rect x="475" y="200" width="5" height="200" fill="#6b7280"/>
+  </g>
+</svg> 

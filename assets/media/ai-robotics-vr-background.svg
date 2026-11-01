@@ -1,0 +1,134 @@
+<svg id="visual" viewBox="0 0 960 540" width="960" height="540" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
+  <!-- Dark gradient background -->
+  <defs>
+    <linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a0a;stop-opacity:1" />
+      <stop offset="30%" style="stop-color:#1a1a2e;stop-opacity:1" />
+      <stop offset="70%" style="stop-color:#16213e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0f3460;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="neural-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4da6ff;stop-opacity:0.4" />
+      <stop offset="50%" style="stop-color:#3399ff;stop-opacity:0.2" />
+      <stop offset="100%" style="stop-color:#00d4ff;stop-opacity:0.3" />
+    </linearGradient>
+    <linearGradient id="vr-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff6b6b;stop-opacity:0.2" />
+      <stop offset="100%" style="stop-color:#ff8e8e;stop-opacity:0.1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="960" height="540" fill="url(#bg-gradient)"/>
+  
+  <!-- Neural Network Nodes -->
+  <g opacity="0.3">
+    <!-- Input layer -->
+    <circle cx="100" cy="150" r="8" fill="url(#neural-gradient)"/>
+    <circle cx="100" cy="200" r="8" fill="url(#neural-gradient)"/>
+    <circle cx="100" cy="250" r="8" fill="url(#neural-gradient)"/>
+    <circle cx="100" cy="300" r="8" fill="url(#neural-gradient)"/>
+    
+    <!-- Hidden layer 1 -->
+    <circle cx="250" cy="120" r="8" fill="url(#neural-gradient)"/>
+    <circle cx="250" cy="170" r="8" fill="url(#neural-gradient)"/>
+    <circle cx="250" cy="220" r="8" fill="url(#neural-gradient)"/>
+    <circle cx="250" cy="270" r="8" fill="url(#neural-gradient)"/>
+    <circle cx="250" cy="320" r="8" fill="url(#neural-gradient)"/>
+    
+    <!-- Hidden layer 2 -->
+    <circle cx="400" cy="140" r="8" fill="url(#neural-gradient)"/>
+    <circle cx="400" cy="190" r="8" fill="url(#neural-gradient)"/>
+    <circle cx="400" cy="240" r="8" fill="url(#neural-gradient)"/>
+    <circle cx="400" cy="290" r="8" fill="url(#neural-gradient)"/>
+    
+    <!-- Output layer -->
+    <circle cx="550" cy="180" r="8" fill="url(#neural-gradient)"/>
+    <circle cx="550" cy="230" r="8" fill="url(#neural-gradient)"/>
+    <circle cx="550" cy="280" r="8" fill="url(#neural-gradient)"/>
+  </g>
+  
+  <!-- Neural Network Connections -->
+  <g opacity="0.2" stroke="#4da6ff" stroke-width="1">
+    <!-- Input to Hidden 1 -->
+    <line x1="108" y1="150" x2="242" y2="120"/>
+    <line x1="108" y1="150" x2="242" y2="170"/>
+    <line x1="108" y1="200" x2="242" y2="170"/>
+    <line x1="108" y1="200" x2="242" y2="220"/>
+    <line x1="108" y1="250" x2="242" y2="220"/>
+    <line x1="108" y1="250" x2="242" y2="270"/>
+    <line x1="108" y1="300" x2="242" y2="270"/>
+    <line x1="108" y1="300" x2="242" y2="320"/>
+    
+    <!-- Hidden 1 to Hidden 2 -->
+    <line x1="258" y1="120" x2="392" y2="140"/>
+    <line x1="258" y1="170" x2="392" y2="140"/>
+    <line x1="258" y1="170" x2="392" y2="190"/>
+    <line x1="258" y1="220" x2="392" y2="190"/>
+    <line x1="258" y1="220" x2="392" y2="240"/>
+    <line x1="258" y1="270" x2="392" y2="240"/>
+    <line x1="258" y1="270" x2="392" y2="290"/>
+    <line x1="258" y1="320" x2="392" y2="290"/>
+    
+    <!-- Hidden 2 to Output -->
+    <line x1="408" y1="140" x2="542" y2="180"/>
+    <line x1="408" y1="190" x2="542" y2="180"/>
+    <line x1="408" y1="190" x2="542" y2="230"/>
+    <line x1="408" y1="240" x2="542" y2="230"/>
+    <line x1="408" y1="240" x2="542" y2="280"/>
+    <line x1="408" y1="290" x2="542" y2="280"/>
+  </g>
+  
+  <!-- VR/AR Elements -->
+  <g opacity="0.25">
+    <!-- VR Headset outline -->
+    <ellipse cx="750" cy="200" rx="80" ry="60" fill="none" stroke="#ff6b6b" stroke-width="2"/>
+    <ellipse cx="750" cy="200" rx="60" ry="45" fill="none" stroke="#ff6b6b" stroke-width="1"/>
+    
+    <!-- AR Glasses -->
+    <rect x="650" y="350" width="120" height="40" rx="20" fill="none" stroke="#ff8e8e" stroke-width="2"/>
+    <circle cx="680" cy="370" r="15" fill="none" stroke="#ff8e8e" stroke-width="1"/>
+    <circle cx="740" cy="370" r="15" fill="none" stroke="#ff8e8e" stroke-width="1"/>
+  </g>
+  
+  <!-- Robot/AI Elements -->
+  <g opacity="0.3">
+    <!-- Circuit board pattern -->
+    <rect x="50" y="400" width="200" height="100" fill="none" stroke="#4da6ff" stroke-width="1"/>
+    <line x1="50" y1="430" x2="250" y2="430" stroke="#4da6ff" stroke-width="1"/>
+    <line x1="50" y1="460" x2="250" y2="460" stroke="#4da6ff" stroke-width="1"/>
+    <line x1="50" y1="490" x2="250" y2="490" stroke="#4da6ff" stroke-width="1"/>
+    
+    <!-- Circuit components -->
+    <rect x="70" y="410" width="20" height="15" fill="url(#neural-gradient)"/>
+    <rect x="120" y="410" width="20" height="15" fill="url(#neural-gradient)"/>
+    <rect x="170" y="410" width="20" height="15" fill="url(#neural-gradient)"/>
+    <rect x="70" y="440" width="20" height="15" fill="url(#neural-gradient)"/>
+    <rect x="120" y="440" width="20" height="15" fill="url(#neural-gradient)"/>
+    <rect x="170" y="440" width="20" height="15" fill="url(#neural-gradient)"/>
+    
+    <!-- Robot arm -->
+    <line x1="800" y1="400" x2="850" y2="380" stroke="#4da6ff" stroke-width="3"/>
+    <line x1="850" y1="380" x2="900" y2="360" stroke="#4da6ff" stroke-width="3"/>
+    <circle cx="800" cy="400" r="8" fill="url(#neural-gradient)"/>
+    <circle cx="850" cy="380" r="8" fill="url(#neural-gradient)"/>
+    <circle cx="900" cy="360" r="8" fill="url(#neural-gradient)"/>
+  </g>
+  
+  <!-- Data flow lines -->
+  <g opacity="0.2">
+    <path d="M600 100 Q700 80 800 100 T1000 120" stroke="#00d4ff" stroke-width="2" fill="none"/>
+    <path d="M600 120 Q700 100 800 120 T1000 140" stroke="#00d4ff" stroke-width="2" fill="none"/>
+    <path d="M600 140 Q700 120 800 140 T1000 160" stroke="#00d4ff" stroke-width="2" fill="none"/>
+  </g>
+  
+  <!-- Floating data particles -->
+  <g opacity="0.4">
+    <circle cx="650" cy="80" r="2" fill="#00d4ff"/>
+    <circle cx="700" cy="90" r="2" fill="#00d4ff"/>
+    <circle cx="750" cy="85" r="2" fill="#00d4ff"/>
+    <circle cx="800" cy="95" r="2" fill="#00d4ff"/>
+    <circle cx="850" cy="88" r="2" fill="#00d4ff"/>
+    <circle cx="900" cy="92" r="2" fill="#00d4ff"/>
+  </g>
+</svg> 
